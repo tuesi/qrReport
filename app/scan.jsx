@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, Button, Linking, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Button, Linking, StyleSheet, TextInput } from "react-native";
 import { Camera, CameraView, useCameraPermissions, CameraType } from "expo-camera/next";
+import { useRealm } from '@realm/react';
+import { Report } from '../schemas/report';
 
 const Create = () => {
 
     const [permission, requestPermission] = useCameraPermissions();
     const [scanned, setScanned] = useState(false);
+    const [formData, setFormData] = useState(new FormDataModel());
+
+    const realm = useRealm();
 
 
     const handleCameraPermission = () => {
@@ -16,12 +21,22 @@ const Create = () => {
         }
     }
 
-    const handleBarCodeScanned = ({ data }) => {
-        setScanned(true);
-        console.log(scanned);
-        console.log('scan');
-        console.log(data);
+    const handleAddReport = () => {
+        realm.write(() => {
+            realm.create('Report', Report.generate(formData.id, formData.name, formData.value, false));
+        });
     };
+
+    const handleBarCodeScanned = ({ data }) => {
+        const parsedData = JSON.parse(data);
+        setFormData(parsedData);
+        setScanned(true);
+        console.log(formData);
+    };
+
+    const saveReport = () => {
+        console.log("data saved");
+    }
 
     if (permission && !permission.granted) {
         return (
@@ -47,8 +62,30 @@ const Create = () => {
             </View>
         )
     } else {
-        return <View>
-            <Text>data scanned</Text>
+        return <View style={styles.container}>
+            <TextInput
+                style={styles.input}
+                placeholder="ID"
+                value={formData.id}
+                keyboardType="numeric"
+                editable={false}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={formData.name}
+                editable={false}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Value"
+                value={formData.value}
+                editable={false}
+            />
+            <Button
+                title="Report"
+                onPress={() => handleAddReport()}
+            />
             <Button
                 title="Scan again"
                 onPress={() => setScanned(false)}
@@ -74,6 +111,27 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'white', // White border
     },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    input: {
+        width: '80%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+    },
 });
+
+export class FormDataModel {
+    constructor(id, name, value) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+    }
+}
 
 export default Create;

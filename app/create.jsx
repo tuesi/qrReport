@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
-import { View, Text, Button, StyleSheet, TextInput, Alert, Linking } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Alert, Linking, TouchableWithoutFeedback, Keyboard } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
+import { Realm } from '@realm/react';
 
 const Create = () => {
 
@@ -16,15 +17,16 @@ const Create = () => {
     const [qrData, setQRData] = useState('');
 
     const handleCameraPermission = async () => {
-        console.log(permissionResponse);
-        console.log(permissionResponse.canAskAgain);
         if (permissionResponse && !permissionResponse.canAskAgain) {
-            console.log('hello');
             Linking.openSettings();
         } else {
             requestPermission();
         }
     }
+
+    const handlePressOutside = () => {
+        Keyboard.dismiss();
+    };
 
     const generateQRCode = () => {
         if (!id || !name || !value) {
@@ -42,14 +44,12 @@ const Create = () => {
     };
 
     const saveQRCode = async () => {
-        console.log('saveqr');
         if (!qrData) {
             Alert.alert('Error', 'No QR code to save');
             return;
         }
 
         try {
-            console.log('usetry');
             await handleCameraPermission();
             this.svg.toDataURL(async (dataURL) => {
                 const fileName = 'qrcode.png'; // Set desired file name
@@ -68,33 +68,36 @@ const Create = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="ID"
-                value={id}
-                onChangeText={text => setId(text)}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={name}
-                onChangeText={text => setName(text)}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Value"
-                value={value}
-                onChangeText={text => setValue(text)}
-            />
-            <Button title="Generate QR Code" onPress={generateQRCode} />
-            {qrData ? (
-                <>
-                    <QRCode value={qrData} size={200} logo={logoFromFile} getRef={(c) => (this.svg = c)} />
-                    <Button title="Save QR Code" onPress={saveQRCode} />
-                </>
-            ) : null}
-        </View>
+        <TouchableWithoutFeedback onPress={handlePressOutside}>
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="ID"
+                    value={id}
+                    onChangeText={text => setId(text)}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Name"
+                    value={name}
+                    onChangeText={text => setName(text)}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Value"
+                    value={value}
+                    onChangeText={text => setValue(text)}
+                />
+                <Button title="Generate QR Code" onPress={generateQRCode} />
+                {qrData ? (
+                    <>
+                        <QRCode value={qrData} size={200} logo={logoFromFile} getRef={(c) => (this.svg = c)} />
+                        <Button title="Save QR Code" onPress={saveQRCode} />
+                    </>
+                ) : null}
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -113,5 +116,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
 });
+
+class Report extends Realm.Object {
+    static schema = {
+        name: 'Report',
+        properties: {
+            id: { type: 'int', indexed: true },
+            name: 'string',
+            value: 'string'
+        },
+    };
+}
 
 export default Create;
