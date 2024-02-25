@@ -3,7 +3,6 @@ import { View, Text, Button, StyleSheet, TextInput, Alert, Linking, TouchableWit
 import QRCode from "react-native-qrcode-svg";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
-import { Realm } from '@realm/react';
 
 const Create = () => {
 
@@ -116,16 +115,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
 });
-
-class Report extends Realm.Object {
-    static schema = {
-        name: 'Report',
-        properties: {
-            id: { type: 'int', indexed: true },
-            name: 'string',
-            value: 'string'
-        },
-    };
-}
 
 export default Create;

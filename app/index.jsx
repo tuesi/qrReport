@@ -1,37 +1,21 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import { Stack, useRouter, Link } from 'expo-router';
-import { realmAppId } from '../realmConfig';
-import { useQuery } from '@realm/react';
-import { Report } from '../schemas/report';
-
-const app = new Realm.App({ id: realmAppId });
 
 const Home = () => {
 
-    const reports = useQuery(Report);
-
-    useEffect(() => {
-        const authenticate = async () => {
-            try {
-                // Log in anonymously
-                const user = await app.logIn(Realm.Credentials.anonymous());
-                console.log("Successfully logged in as an anonymous user!", user.id);
-                // You can now open a Realm, read and write data, etc.
-            } catch (err) {
-                console.error("Failed to log in anonymously:", err);
-            }
-        };
-
-        authenticate();
-    }, []);
+    const data = [
+        { id: 1, name: 'Item 1', value: 'Value 1' },
+        { id: 2, name: 'Item 2', value: 'Value 2' },
+        { id: 3, name: 'Item 3', value: 'Value 3' },
+        // Add more items as needed
+    ];
 
     const renderItem = ({ item }) => (
         <View style={{ padding: 16 }}>
-            <Text>ID: {item.deviceId}</Text>
+            <Text>ID: {item.id}</Text>
             <Text>Name: {item.name}</Text>
-            <Text>Is Completed: {item.isComplete ? 'Yes' : 'No'}</Text>
-            <Text>Value: {item.description}</Text>
+            <Text>Value: {item.value}</Text>
         </View>
     );
 
@@ -51,9 +35,9 @@ const Home = () => {
             }}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={reports}
+                    data={data}
                     renderItem={renderItem}
-                    keyExtractor={item => item._id.toHexString()}
+                    keyExtractor={item => item.id.toString()}
                 />
             </View>
         </SafeAreaView>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Button, Linking, StyleSheet, TextInput } from "react-native";
 import { Camera, CameraView, useCameraPermissions, CameraType } from "expo-camera/next";
-import { useRealm } from '@realm/react';
-import { Report } from '../schemas/report';
+import { FIRESTORE_DB } from '../firebaseConfig';
+import { addDoc, collection } from 'firebase/firestore';
 
 const Create = () => {
 
@@ -10,7 +10,6 @@ const Create = () => {
     const [scanned, setScanned] = useState(false);
     const [formData, setFormData] = useState(new FormDataModel());
 
-    const realm = useRealm();
 
 
     const handleCameraPermission = () => {
@@ -21,22 +20,29 @@ const Create = () => {
         }
     }
 
-    const handleAddReport = () => {
-        realm.write(() => {
-            realm.create('Report', Report.generate(formData.id, formData.name, formData.value, false));
-        });
+    const handleAddReport = async () => {
+        try {
+            console.log(formData);
+            console.log(formData.toFirestore());
+            const docRef = await addDoc(collection(FIRESTORE_DB, "reports"), formData.toFirestore());
+            console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
     };
 
     const handleBarCodeScanned = ({ data }) => {
-        const parsedData = JSON.parse(data);
-        setFormData(parsedData);
-        setScanned(true);
-        console.log(formData);
+        try {
+            const parsedData = JSON.parse(data);
+            const formDataInstance = new FormDataModel(parsedData.id, parsedData.name, parsedData.value);
+            setFormData(formDataInstance);
+            console.log(formData);
+            setScanned(true);
+        } catch (error) {
+            console.log('error parsing');
+            setScanned(true);
+        }
     };
-
-    const saveReport = () => {
-        console.log("data saved");
-    }
 
     if (permission && !permission.granted) {
         return (
@@ -131,6 +137,14 @@ export class FormDataModel {
         this.id = id;
         this.name = name;
         this.value = value;
+    }
+
+    toFirestore() {
+        return {
+            id: this.id,
+            name: this.name,
+            value: this.value
+        };
     }
 }
 

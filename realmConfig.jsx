@@ -1,1 +1,0 @@
-export const realmAppId = "qrapp-xlfva";
