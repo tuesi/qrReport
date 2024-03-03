@@ -1,23 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import { Stack, useRouter, Link } from 'expo-router';
+import { collection, getDocs, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { FIRESTORE_DB } from '../firebaseConfig';
 
 const Home = () => {
 
-    const data = [
-        { id: 1, name: 'Item 1', value: 'Value 1' },
-        { id: 2, name: 'Item 2', value: 'Value 2' },
-        { id: 3, name: 'Item 3', value: 'Value 3' },
-        // Add more items as needed
-    ];
+    const [data, setData] = useState([]);
 
-    const renderItem = ({ item }) => (
-        <View style={{ padding: 16 }}>
-            <Text>ID: {item.id}</Text>
-            <Text>Name: {item.name}</Text>
-            <Text>Value: {item.value}</Text>
-        </View>
-    );
+    useEffect(() => {
+        fetchDataFromFirestore();
+    }, [])
+
+    const fetchDataFromFirestore = async () => {
+        const reportRef = query(collection(FIRESTORE_DB, "reports"), orderBy("dateCreated", "desc"));
+        const subscribe = onSnapshot(reportRef, (querySnapshot) => {
+            const items = querySnapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+            setData(items);
+        })
+        return () => subscribe();
+    };
+
+    const renderItem = ({ item }) => {
+        const dateCreated = item.dateCreated?.toDate();
+
+        // Format the date as a string for rendering
+        // You can adjust the formatting according to your needs
+        const dateString = dateCreated?.toLocaleDateString("en-US", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+
+        return (
+            <View style={{ padding: 16 }}>
+                <Text>Date: {dateString}</Text>
+                <Text>ID: {item.deviceId}</Text>
+                <Text>Name: {item.name}</Text>
+                <Text>Notes: {item.notes}</Text>
+                <Text>Message: {item.message}</Text>
+            </View>
+        );
+    }
 
     const router = useRouter();
 

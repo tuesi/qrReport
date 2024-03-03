@@ -3,16 +3,22 @@ import { View, Text, Button, StyleSheet, TextInput, Alert, Linking, TouchableWit
 import QRCode from "react-native-qrcode-svg";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
+import Styles from '../styles/styles';
+import { FIRESTORE_DB } from '../firebaseConfig';
+import { addDoc, collection } from 'firebase/firestore';
 
 const Create = () => {
+
+    const [fileUri, setFileUri] = useState('');
 
     let logoFromFile = require('../assets/aug.png');
 
     const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
-    const [id, setId] = useState('');
+    const [deviceId, setDeviceId] = useState('');
     const [name, setName] = useState('');
-    const [value, setValue] = useState('');
+    const [notes, setNotes] = useState('');
     const [qrData, setQRData] = useState('');
 
     const handleCameraPermission = async () => {
@@ -27,19 +33,53 @@ const Create = () => {
         Keyboard.dismiss();
     };
 
-    const generateQRCode = () => {
-        if (!id || !name || !value) {
+    const shareCode = async () => {
+        if (!(await Sharing.isAvailableAsync())) {
+            Alert.alert('Error', 'Sharing is not available on this device');
+            return;
+        }
+
+        if (fileUri) {
+            await Sharing.shareAsync(fileUri);
+            return;
+        }
+
+        this.svg.toDataURL(async (dataURL) => {
+            const fileName = 'qrcode.png';
+            const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+            await FileSystem.writeAsStringAsync(fileUri, dataURL, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+            setFileUri(fileUri);
+            await Sharing.shareAsync(fileUri);
+        });
+    }
+
+    const generateQRCode = async () => {
+        if (!name || !notes) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
 
-        const data = {
-            id: id,
-            name: name,
-            value: value
-        };
-        const jsonData = JSON.stringify(data);
-        setQRData(jsonData);
+        try {
+            const data = {
+                name: name,
+                notes: notes
+            };
+
+            const docRef = await addDoc(collection(FIRESTORE_DB, "devices"), data);
+
+            const qrData = {
+                tag: "GenijausTadoUAB",
+                deviceId: docRef.id
+            };
+            const jsonData = JSON.stringify(qrData);
+            setQRData(jsonData);
+
+        } catch (e) {
+            console.log(e);
+            Alert.alert('Error', 'Error saving data');
+        }
     };
 
     const saveQRCode = async () => {
@@ -51,7 +91,7 @@ const Create = () => {
         try {
             await handleCameraPermission();
             this.svg.toDataURL(async (dataURL) => {
-                const fileName = 'qrcode.png'; // Set desired file name
+                const fileName = 'qrcode.png';
                 const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
                 await FileSystem.writeAsStringAsync(fileUri, dataURL, {
                     encoding: FileSystem.EncodingType.Base64,
@@ -68,52 +108,30 @@ const Create = () => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <View style={styles.container}>
+            <View style={Styles.container}>
                 <TextInput
-                    style={styles.input}
-                    placeholder="ID"
-                    value={id}
-                    onChangeText={text => setId(text)}
-                    keyboardType="numeric"
-                />
-                <TextInput
-                    style={styles.input}
+                    style={Styles.input}
                     placeholder="Name"
                     value={name}
                     onChangeText={text => setName(text)}
                 />
                 <TextInput
-                    style={styles.input}
-                    placeholder="Value"
-                    value={value}
-                    onChangeText={text => setValue(text)}
+                    style={Styles.input}
+                    placeholder="Notes"
+                    value={notes}
+                    onChangeText={text => setNotes(text)}
                 />
                 <Button title="Generate QR Code" onPress={generateQRCode} />
                 {qrData ? (
                     <>
                         <QRCode value={qrData} size={200} logo={logoFromFile} getRef={(c) => (this.svg = c)} />
                         <Button title="Save QR Code" onPress={saveQRCode} />
+                        <Button title="Share QR Code" onPress={shareCode} />
                     </>
                 ) : null}
             </View>
         </TouchableWithoutFeedback>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        marginBottom: 10,
-        paddingHorizontal: 10,
-    },
-});
 
 export default Create;

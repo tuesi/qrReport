@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, Button, Linking, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, Linking, StyleSheet, TextInput, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Camera, CameraView, useCameraPermissions, CameraType } from "expo-camera/next";
 import { FIRESTORE_DB } from '../firebaseConfig';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
+import Styles from '../styles/styles';
 
 const Create = () => {
 
@@ -10,7 +12,11 @@ const Create = () => {
     const [scanned, setScanned] = useState(false);
     const [formData, setFormData] = useState(new FormDataModel());
 
+    const navigation = useNavigation();
 
+    const handlePressOutside = () => {
+        Keyboard.dismiss();
+    };
 
     const handleCameraPermission = () => {
         if (!permission.canAskAgain) {
@@ -23,21 +29,37 @@ const Create = () => {
     const handleAddReport = async () => {
         try {
             console.log(formData);
-            console.log(formData.toFirestore());
-            const docRef = await addDoc(collection(FIRESTORE_DB, "reports"), formData.toFirestore());
+            console.log(formData);
+            const docRef = await addDoc(collection(FIRESTORE_DB, "reports"), formData);
             console.log("Document written with ID: ", docRef.id);
+            setScanned(false);
+            Alert.alert('Success', 'Report has beeen issued!');
+            setFormData(new FormDataModel());
+            navigation.navigate('index')
         } catch (e) {
             console.error("Error adding document: ", e);
         }
     };
 
-    const handleBarCodeScanned = ({ data }) => {
+    const handleBarCodeScanned = async ({ data }) => {
         try {
-            const parsedData = JSON.parse(data);
-            const formDataInstance = new FormDataModel(parsedData.id, parsedData.name, parsedData.value);
-            setFormData(formDataInstance);
-            console.log(formData);
             setScanned(true);
+            const parsedData = JSON.parse(data);
+
+            console.log(parsedData.deviceId);
+
+            const deviceDocRef = doc(FIRESTORE_DB, "devices", parsedData.deviceId);
+            const docSnapshot = await getDoc(deviceDocRef);
+
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                console.log("snaphot", docSnapshot.data());
+                const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
+                setFormData(formDataInstance);
+                console.log(formData);
+            } else {
+                Alert.alert('Error', 'Scanned QR code does not contain a valid device');
+            }
         } catch (error) {
             console.log('error parsing');
             setScanned(true);
@@ -58,8 +80,8 @@ const Create = () => {
 
     if (!scanned) {
         return (
-            <View style={styles.cameraViewContainer}>
-                <CameraView style={styles.cameraView}
+            <View style={Styles.cameraViewContainer}>
+                <CameraView style={Styles.cameraView}
                     facing='back'
                     onBarcodeScanned={handleBarCodeScanned}
                     barCodeScannerSettings={{
@@ -68,83 +90,49 @@ const Create = () => {
             </View>
         )
     } else {
-        return <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="ID"
-                value={formData.id}
-                keyboardType="numeric"
-                editable={false}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={formData.name}
-                editable={false}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Value"
-                value={formData.value}
-                editable={false}
-            />
-            <Button
-                title="Report"
-                onPress={() => handleAddReport()}
-            />
-            <Button
-                title="Scan again"
-                onPress={() => setScanned(false)}
-            />
-        </View>
+        return (
+            <TouchableWithoutFeedback onPress={handlePressOutside}>
+                <View style={Styles.container}>
+                    <TextInput
+                        style={Styles.input}
+                        placeholder="Name"
+                        value={formData.name}
+                        editable={false}
+                    />
+                    <TextInput
+                        style={Styles.input}
+                        placeholder="Notes"
+                        value={formData.notes}
+                        editable={false}
+                    />
+                    <TextInput
+                        style={Styles.input_large}
+                        placeholder="Message"
+                        value={formData.message}
+                        onChangeText={(text) => setFormData({ ...formData, message: text })}
+                        multiline={true}
+                    />
+                    <Button
+                        title="Report"
+                        onPress={() => handleAddReport()}
+                    />
+                    <Button
+                        title="Scan again"
+                        onPress={() => setScanned(false)}
+                    />
+                </View>
+            </TouchableWithoutFeedback>)
     }
 }
 
-const styles = StyleSheet.create({
-    cameraViewContainer: {
-        flex: 1,
-        justifyContent: 'start',
-        alignItems: 'center',
-    },
-    cameraView: {
-        height: '100%',
-        width: '100%',
-    },
-    overlay: {
-        position: 'absolute',
-        top: '10%', // Position the overlay at the vertical center of the screen
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black color
-        borderWidth: 1,
-        borderColor: 'white', // White border
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        marginBottom: 10,
-        paddingHorizontal: 10,
-    },
-});
-
 export class FormDataModel {
-    constructor(id, name, value) {
-        this.id = id;
+    constructor(deviceId, name, notes, message = '') {
+        this.deviceId = deviceId;
         this.name = name;
-        this.value = value;
-    }
-
-    toFirestore() {
-        return {
-            id: this.id,
-            name: this.name,
-            value: this.value
-        };
+        this.notes = notes;
+        this.message = message;
+        this.dateCreated = new Date();
+        this.dateCompleted = null;
     }
 }
 
