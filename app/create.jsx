@@ -43,16 +43,6 @@ const Create = () => {
             await Sharing.shareAsync(fileUri);
             return;
         }
-
-        this.svg.toDataURL(async (dataURL) => {
-            const fileName = 'qrcode.png';
-            const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
-            await FileSystem.writeAsStringAsync(fileUri, dataURL, {
-                encoding: FileSystem.EncodingType.Base64,
-            });
-            setFileUri(fileUri);
-            await Sharing.shareAsync(fileUri);
-        });
     }
 
     const generateQRCode = async () => {
@@ -75,6 +65,15 @@ const Create = () => {
             };
             const jsonData = JSON.stringify(qrData);
             setQRData(jsonData);
+
+            this.svg.toDataURL(async (dataURL) => {
+                const fileName = 'qrcode.png';
+                const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+                await FileSystem.writeAsStringAsync(fileUri, dataURL, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+                setFileUri(fileUri);
+            });
 
         } catch (e) {
             console.log(e);
