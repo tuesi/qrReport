@@ -1,10 +1,10 @@
 import { FIRESTORE_DB } from '../../firebaseConfig';
 import { collection, onSnapshot, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter } from 'firebase/firestore';
 
-export const FetchDataFromFirestore = async ({ setData, pageSize, startAfterItem }) => {
+export const FetchDataFromFirestore = async ({ setData, pageSize, startAfterDate, setLoading }) => {
     let reportRef = query(collection(FIRESTORE_DB, "reports"), orderBy("dateCreated", "desc"), limit(pageSize));
-    if (startAfterItem) {
-        reportRef = query(collection(FIRESTORE_DB, "reports"), orderBy("dateCreated", "desc"), startAfter(startAfterItem), limit(pageSize));
+    if (startAfterDate) {
+        reportRef = query(reportRef, startAfter(startAfterDate));
     }
     const subscribe = onSnapshot(reportRef, (querySnapshot) => {
         const items = querySnapshot.docs.map(doc => ({
@@ -12,6 +12,7 @@ export const FetchDataFromFirestore = async ({ setData, pageSize, startAfterItem
             id: doc.id,
         }));
         setData(prevData => [...prevData, ...items]);
+        setLoading(false);
     });
     return subscribe;
 };

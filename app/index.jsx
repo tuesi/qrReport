@@ -6,24 +6,20 @@ import List from '../components/index/list';
 const Home = () => {
 
     const [data, setData] = useState([]);
-    const [startAfterItem, setStartAfter] = useState(null);
-
-    const isMounted = useRef(true);
-    const unsubscribe = useRef(null);
+    const [startAfterDate, setStartAfter] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const signInAndFetchData = async () => {
         await Auth();
-        if (isMounted.current) {
-            unsubscribe.current = await FetchDataFromFirestore(({ setData, pageSize: 10, startAfterItem }));
-        }
+        await FetchDataFromFirestore(({ setData, pageSize: 10, startAfterDate, setLoading }));
     };
 
     useEffect(() => {
         signInAndFetchData();
-    }, [startAfterItem])
+    }, [startAfterDate])
 
     return (
-        <List data={data} setStartAfter={setStartAfter}></List>
+        <List data={data} setStartAfter={setStartAfter} loading={loading} setLoading={setLoading}></List>
     )
 }
 
