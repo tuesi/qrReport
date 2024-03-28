@@ -5,7 +5,8 @@ import { collection, getDocs, onSnapshot, query, orderBy } from 'firebase/firest
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../firebaseConfig';
 import { signInAnonymously } from 'firebase/auth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Edit from '../components/Edit/edit';
+import Edit from '../components/modals/edit';
+import RenderItem from '../components/index/listItem';
 
 const Home = () => {
 
@@ -30,52 +31,6 @@ const Home = () => {
         return () => subscribe();
     };
 
-    const renderItem = ({ item }) => {
-        const dateCreated = item.dateCreated?.toDate();
-        const dateCompleted = item.dateCompleted?.toDate();
-
-        // Format the date as a string for rendering
-        // You can adjust the formatting according to your needs
-        const dateString = dateCreated?.toLocaleDateString("en-US", {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-
-        const dateStringCompleted = dateCompleted?.toLocaleDateString("en-US", {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-
-        return (
-
-            <TouchableOpacity onPress={() => {
-                setSelectedItem(item);
-                setModalVisible(true);
-            }}>
-                <View style={{ padding: 16 }}>
-                    {dateStringCompleted && (
-                        <Text>DateCompleted: {dateStringCompleted}</Text>
-                    )}
-                    <Text>Date: {dateString}</Text>
-                    <Text>ID: {item.deviceId}</Text>
-                    <Text>Name: {item.name}</Text>
-                    <Text>Notes: {item.notes}</Text>
-                    <Text>Message: {item.message}</Text>
-                </View>
-            </TouchableOpacity>
-        );
-    }
-
-    const router = useRouter();
-
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1, backgroundColor: "#91a8bd" }}>
@@ -92,7 +47,7 @@ const Home = () => {
                     <FlatList
                         showsVerticalScrollIndicator={false}
                         data={data}
-                        renderItem={renderItem}
+                        renderItem={RenderItem}
                         keyExtractor={item => item.id.toString()}
                     />
                     {modalVisible && (
