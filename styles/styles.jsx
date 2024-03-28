@@ -13,7 +13,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
+    },
+    createInputContainer: {
+        width: '80%',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     input: {
         width: '80%',
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
     textStyle: {
         color: 'white',
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
     },
 });
 
