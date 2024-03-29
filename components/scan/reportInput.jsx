@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Button, Keyboard } from "react-native";
 import Styles from '../../styles/styles';
+import * as Colors from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
 import { useNavigation } from '@react-navigation/native';
 import { AddNewReport } from '../firebase/data';
@@ -27,10 +28,10 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: "#91a8bd" }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.BACKGROUND_COLOR }}>
                 <Stack.Screen
                     options={{
-                        headerStyle: { backgroundColor: "#91a8bd" },
+                        headerStyle: { backgroundColor: Colors.BACKGROUND_COLOR },
                         headerShadowVisible: false,
                         headerTitle: ''
                     }}

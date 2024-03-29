@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Edit from '../modals/edit';
 import RenderItem from './RenderListItem';
 import Styles from '../../styles/styles';
+import * as Colors from '../../styles/colors';
 
 const List = ({ data, setStartAfter, loading, setLoading }) => {
 
@@ -22,18 +23,21 @@ const List = ({ data, setStartAfter, loading, setLoading }) => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: "#1e232e" }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.BACKGROUND_COLOR }}>
                 <Stack.Screen
                     options={{
-                        headerStyle: { backgroundColor: "#1e232e" },
+                        headerStyle: { backgroundColor: Colors.BACKGROUND_COLOR },
                         headerShadowVisible: false,
-                        headerTitle: ''
+                        headerTitle: '',
+                        headerBackVisible: false,
+                        headerTransparent: true
                     }}
                 />
                 <View style={Styles.container}>
                     <FlatList
                         showsVerticalScrollIndicator={false}
                         data={data}
+                        horizontal={false}
                         renderItem={({ item }) => RenderItem({ item, setSelectedItem, setModalVisible })}
                         keyExtractor={item => item.id.toString()}
                         onEndReached={fetchData}

@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { View, SafeAreaView, Alert } from "react-native";
 import Styles from '../../styles/styles';
+import * as Colors from '../../styles/colors';
 import { CameraView } from "expo-camera/next";
 import { FormDataModel } from './FormDataModel';
 import { GetDeviceInfo } from '../firebase/data';
@@ -27,10 +28,10 @@ const Scanner = ({ setScanned, setFormData }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#91a8bd" }}>
+        <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND_COLOR, bottom: 100 }}>
             <Stack.Screen
                 options={{
-                    headerStyle: { backgroundColor: "#91a8bd" },
+                    headerStyle: { backgroundColor: 'black', opacity: 0.0 },
                     headerShadowVisible: false,
                     headerTitle: ''
                 }}
@@ -43,7 +44,7 @@ const Scanner = ({ setScanned, setFormData }) => {
                         barCodeTypes: ["qr"]
                     }} />
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 

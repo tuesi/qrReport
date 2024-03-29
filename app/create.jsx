@@ -3,6 +3,7 @@ import { View, Linking, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 
 import { Stack } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
 import Styles from '../styles/styles';
+import * as Colors from '../styles/colors';
 import QR from "../components/create/QR";
 import CreateInput from "../components/create/createInput";
 
@@ -26,10 +27,10 @@ const Create = () => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: "#91a8bd" }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.BACKGROUND_COLOR }}>
                 <Stack.Screen
                     options={{
-                        headerStyle: { backgroundColor: "#91a8bd" },
+                        headerStyle: { backgroundColor: Colors.BACKGROUND_COLOR },
                         headerShadowVisible: false,
                         headerTitle: ''
                     }}

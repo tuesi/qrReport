@@ -1,19 +1,20 @@
 import { StyleSheet } from "react-native";
+import * as Color from "./colors";
 
 const styles = StyleSheet.create({
     cameraViewContainer: {
-        flex: 1,
-        justifyContent: 'start',
-        alignItems: 'center',
+        height: '100%',
+        width: '100%'
     },
     cameraView: {
-        height: '100%',
+        height: '105%',
         width: '100%',
     },
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 30
     },
     createInputContainer: {
         width: '80%',
@@ -59,9 +60,30 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        color: 'white',
+        fontSize: 15,
+        color: Color.PRIMARY_TEXT_COLOR,
         fontWeight: 'bold',
         textAlign: 'left',
+    },
+    listItemContainer: {
+        flex: 1,
+        padding: 16,
+        borderRadius: 20,
+        marginBottom: 15,
+        height: '20%',
+        width: '100%',
+        justifyContent: 'start',
+        borderWidth: 1.5
+    },
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 25,
+    },
+    labelStyle: {
+        fontSize: 15,
+        fontWeight: 'bold'
     },
 });
 
