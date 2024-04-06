@@ -23,18 +23,10 @@ const List = ({ data, setStartAfter, loading, setLoading }) => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.BACKGROUND_COLOR }}>
-                <Stack.Screen
-                    options={{
-                        headerStyle: { backgroundColor: Colors.BACKGROUND_COLOR },
-                        headerShadowVisible: false,
-                        headerTitle: '',
-                        headerBackVisible: false,
-                        headerTransparent: true
-                    }}
-                />
+            <SafeAreaView style={Styles.safeAreaStyle}>
                 <View style={Styles.container}>
                     <FlatList
+                        style={{ width: "90%" }}
                         showsVerticalScrollIndicator={false}
                         data={data}
                         horizontal={false}

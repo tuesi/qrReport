@@ -12,31 +12,152 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 30
-    },
-    createInputContainer: {
-        width: '80%',
+        width: "100%",
+        height: "100%",
         alignItems: 'center',
         justifyContent: 'center'
     },
-    input: {
+    createMainContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    createInputContainer: {
+        flex: 1,
         width: '80%',
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'start'
+    },
+    createQRContainer: {
+        flex: 2.5,
+        width: '80%',
+        alignItems: 'center',
+        justifyContent: 'start'
+    },
+    showQrContainer: {
+        flex: 1,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'start',
+        marginTop: '10%'
+    },
+    scanInputContainer: {
+        flex: 1,
+        width: '80%',
+        alignItems: 'center',
+        justifyContent: 'start'
+    },
+    input: {
+        width: '100%',
+        height: 50,
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: "bold",
         paddingHorizontal: 10,
+        borderRadius: 15,
+        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5
+    },
+    date_input: {
+        alignItems: 'start',
+        justifyContent: 'center',
+        width: '100%',
+        height: 50,
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: "bold",
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5
     },
     input_large: {
-        width: '80%',
+        width: '100%',
         height: 100,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        textAlignVertical: 'top',
+        paddingTop: 10,
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: "bold",
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5,
+        textAlignVertical: 'top'
+    },
+    input_disabled: {
+        width: '100%',
+        height: 50,
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Color.TEXT_DISABLED_COLOR,
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        backgroundColor: Color.TEXT_DISABLED_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5
+    },
+    input_disabled_large: {
+        width: '100%',
+        height: 100,
+        paddingTop: 10,
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Color.TEXT_DISABLED_COLOR,
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        backgroundColor: Color.TEXT_DISABLED_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5,
+        textAlignVertical: 'top'
+    },
+    buttonStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '80%',
+        height: 50,
+        marginBottom: 10,
+        fontSize: 16,
+        fontWeight: "bold",
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        borderColor: Color.BUTTON_BORDER_COLOR,
+        borderWidth: 3,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5
+    },
+    topGap: {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        paddingTop: '10%'
+    },
+    buttonText: {
+        color: Color.BUTTON_TEXT_COLOR,
+        fontWeight: 'bold',
+        fontSize: 16
     },
     centeredView: {
         flex: 1,
@@ -60,7 +181,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        fontSize: 15,
+        fontSize: 18,
         color: Color.PRIMARY_TEXT_COLOR,
         fontWeight: 'bold',
         textAlign: 'left',
@@ -70,10 +191,14 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 20,
         marginBottom: 15,
-        height: '20%',
         width: '100%',
         justifyContent: 'start',
-        borderWidth: 1.5
+        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.15,
+        shadowRadius: 2,
+        elevation: 5
     },
     rowContainer: {
         flexDirection: 'row',
@@ -85,6 +210,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold'
     },
+    safeAreaStyle: {
+        marginTop: 100,
+        flex: 1,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default styles;

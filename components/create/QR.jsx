@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
 import * as Sharing from 'expo-sharing';
-import { View, Button, Alert } from "react-native";
+import { View, Alert, TouchableOpacity, Text, Keyboard } from "react-native";
 import Styles from '../../styles/styles';
 import QRCode from "react-native-qrcode-svg";
 import { AddNewDevice } from "../firebase/data";
 import { DeviceDataModel } from "./deviceDataModel";
 import { QrDataModel } from "./qrDataMode";
 import SaveTemporaryFile from "./saveTemporaryFile";
+import * as Color from '../../styles/colors';
+import Button from "../common/button";
 
 const QR = ({ name, notes }) => {
 
@@ -36,6 +38,7 @@ const QR = ({ name, notes }) => {
         }
 
         try {
+            Keyboard.dismiss();
             const deviceData = new DeviceDataModel(name, notes).toPlainObject();
             const docRef = await AddNewDevice(deviceData);
 
@@ -52,12 +55,14 @@ const QR = ({ name, notes }) => {
     };
 
     return (
-        <View>
-            <Button title="Generate QR Code" onPress={generateQRCode} />
+        <View style={Styles.createQRContainer}>
+            <Button text={'Generate QR Code'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
-                <View>
+                <View style={Styles.showQrContainer}>
                     <QRCode value={qrData} size={200} logo={logoFromFile} getRef={svgRef} />
-                    <Button title="Save QR Code" onPress={shareCode} />
+                    <View style={Styles.topGap}>
+                        <Button text={'Save QR Code'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                    </View>
                 </View>
             )}
         </View>

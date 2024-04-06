@@ -6,22 +6,28 @@ const Layout = () => {
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: Colors.BOTTOM_TAB_SELECT_COLOR,
-            tabBarInactiveTintColor: Colors.BACKGROUND_COLOR,
+            tabBarInactiveTintColor: 'black',
             tabBarStyle: {
                 backgroundColor: Colors.BOTTOM_TAB_BACKGROUND_COLOR,
                 borderTopLeftRadius: 40,
                 borderTopRightRadius: 40,
-                overflow: "hidden",
+                overflow: "visible",
                 position: 'absolute',
                 height: 100,
                 padding: 15,
-                borderTopWidth: 0
+                borderTopWidth: 0,
+                shadowColor: Colors.TEXT_INPUT_SHADOW_COLOR,
+                shadowOffset: { width: 0, height: -2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 5,
+                elevation: 5
             }
         }}>
             <Tabs.Screen
                 name="index"
                 options={{
                     title: 'Home',
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="home-outline" size={size} color={color} />
                     }
@@ -31,6 +37,7 @@ const Layout = () => {
                 name="scan"
                 options={{
                     title: 'Scan',
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="qr-code-outline" size={size} color={color} />
                     }
@@ -40,6 +47,7 @@ const Layout = () => {
                 name="create"
                 options={{
                     title: 'Create',
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="create-outline" size={size} color={color} />
                     }
