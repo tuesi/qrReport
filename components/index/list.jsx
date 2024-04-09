@@ -24,7 +24,7 @@ const List = ({ data, setStartAfter, loading, setLoading }) => {
             <SafeAreaView style={Styles.safeAreaStyle}>
                 <View style={Styles.container}>
                     <FlatList
-                        style={{ width: "90%" }}
+                        style={{ width: "90%", marginBottom: '20%', borderRadius: 20 }}
                         showsVerticalScrollIndicator={false}
                         data={data}
                         horizontal={false}

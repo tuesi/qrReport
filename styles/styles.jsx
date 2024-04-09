@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     dateTextStyle: {
-        fontSize: 14,
+        fontSize: 10,
         color: Color.PRIMARY_TEXT_COLOR,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -198,6 +198,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
     },
+    listItemInfoText: {
+        fontSize: 16,
+        color: Color.PRIMARY_TEXT_COLOR,
+        fontWeight: 'bold',
+        textAlign: 'left',
+    },
+    listItemLocationText: {
+        fontSize: 14,
+        color: Color.TEXT_DISABLED_COLOR,
+        fontWeight: 'bold',
+        textAlign: 'left',
+    },
     listItemContainer: {
         flex: 1,
         padding: 16,
@@ -205,39 +217,40 @@ const styles = StyleSheet.create({
         minHeight: 200,
         width: '100%',
         marginBottom: '5%',
-        justifyContent: 'start',
+        justifyContent: 'center',
         backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
         shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.15,
         shadowRadius: 2,
         elevation: 5,
-        position: 'relative'
+        position: 'relative',
     },
     listItemHeader: {
-
+        flex: 2,
     },
     listItemInfo: {
-
+        flex: 1,
     },
     listItemLocation: {
-
+        flex: 1,
+        justifyContent: 'flex-end'
     },
     backgroundCircleGreen: {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#CBE0A8',
         borderRadius: 50,
-        height: 30,
-        width: 90
+        height: 25,
+        width: 80
     },
     backgroundCircleGray: {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#BEBEBE',
         borderRadius: 50,
-        height: 30,
-        width: 90
+        height: 25,
+        width: 80
     },
     rowContainer: {
         flexDirection: 'row',
@@ -251,7 +264,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     labelStyle: {
-        fontSize: 15,
+        fontSize: 12,
         fontWeight: 'bold',
         color: Color.TEXT_SECONDARY_COLOR
     },
