@@ -26,7 +26,7 @@ const Layout = () => {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: 'Home',
+                    title: 'Pagrindinis',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="home-outline" size={size} color={color} />
@@ -36,7 +36,7 @@ const Layout = () => {
             <Tabs.Screen
                 name="scan"
                 options={{
-                    title: 'Scan',
+                    title: 'Skenuoti',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="qr-code-outline" size={size} color={color} />
@@ -46,7 +46,7 @@ const Layout = () => {
             <Tabs.Screen
                 name="create"
                 options={{
-                    title: 'Create',
+                    title: 'Sukurti',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="create-outline" size={size} color={color} />

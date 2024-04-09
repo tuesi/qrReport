@@ -13,23 +13,36 @@ const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
             setModalVisible(true);
         }}>
             <View style={Styles.listItemContainer}>
-                {dateCompleted && (
-                    <View style={Styles.rowContainer}>
-                        <Text style={Styles.labelStyle}>DateCompleted</Text>
-                        <Text style={Styles.textStyle}>{dateCompleted}</Text>
+                <View style={{ flex: 1 }}>
+                    <View style={Styles.listItemHeader}>
+                        <Text style={Styles.listItemHeaderText}>{item.name}</Text>
                     </View>
-                )}
-                <View style={Styles.rowContainer}>
-                    <Text style={Styles.labelStyle}>Date</Text>
-                    <Text style={Styles.textStyle}>{dateCreated}</Text>
+                    <View style={Styles.listItemInfo}>
+                        <Text style={Styles.textStyle}>{item.message}</Text>
+                    </View>
+                    <View style={Styles.listItemLocation}>
+                        <Text style={Styles.textStyle}>{item.location}</Text>
+                    </View>
                 </View>
-                <View style={Styles.rowContainer}>
-                    <Text style={Styles.labelStyle}>Device</Text>
-                    <Text style={Styles.textStyle}>{item.name}</Text>
-                </View>
-                <View style={Styles.rowContainer}>
-                    <Text style={Styles.labelStyle}>Info</Text>
-                    <Text style={Styles.textStyle}>{item.message}</Text>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                    {dateCompleted && (
+                        <View style={[Styles.dateRowContainer, { marginBottom: 5 }]}>
+                            <Text style={Styles.labelStyle}>Ivykdymo data</Text>
+                            <View style={Styles.backgroundCircleGreen}>
+                                <Text style={Styles.dateTextStyle}>{dateCompleted}</Text>
+                            </View>
+                        </View>
+                    )}
+                    <View style={Styles.dateRowContainer}>
+                        <Text style={Styles.labelStyle}>Gedimo Data</Text>
+                        <View style={Styles.backgroundCircleGray}>
+                            <Text style={Styles.dateTextStyle}>{dateCreated}</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity >

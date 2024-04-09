@@ -56,12 +56,12 @@ const QR = ({ name, notes }) => {
 
     return (
         <View style={Styles.createQRContainer}>
-            <Button text={'Generate QR Code'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
+            <Button text={'GENERUOTI QR KODĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
                 <View style={Styles.showQrContainer}>
                     <QRCode value={qrData} size={200} logo={logoFromFile} getRef={svgRef} />
                     <View style={Styles.topGap}>
-                        <Button text={'Save QR Code'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                        <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
                     </View>
                 </View>
             )}

@@ -186,19 +186,58 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
     },
+    dateTextStyle: {
+        fontSize: 14,
+        color: Color.PRIMARY_TEXT_COLOR,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    listItemHeaderText: {
+        fontSize: 24,
+        color: Color.PRIMARY_TEXT_COLOR,
+        fontWeight: 'bold',
+        textAlign: 'left',
+    },
     listItemContainer: {
         flex: 1,
         padding: 16,
         borderRadius: 20,
-        marginBottom: 15,
+        minHeight: 200,
         width: '100%',
+        marginBottom: '5%',
         justifyContent: 'start',
         backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
         shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.15,
         shadowRadius: 2,
-        elevation: 5
+        elevation: 5,
+        position: 'relative'
+    },
+    listItemHeader: {
+
+    },
+    listItemInfo: {
+
+    },
+    listItemLocation: {
+
+    },
+    backgroundCircleGreen: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#CBE0A8',
+        borderRadius: 50,
+        height: 30,
+        width: 90
+    },
+    backgroundCircleGray: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#BEBEBE',
+        borderRadius: 50,
+        height: 30,
+        width: 90
     },
     rowContainer: {
         flexDirection: 'row',
@@ -206,9 +245,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 25,
     },
+    dateRowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     labelStyle: {
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: Color.TEXT_SECONDARY_COLOR
     },
     safeAreaStyle: {
         marginTop: 100,

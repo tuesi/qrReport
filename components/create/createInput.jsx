@@ -8,14 +8,14 @@ const CreateInput = ({ name, notes, setName, setNotes }) => {
             <TextInput
                 style={Styles.input}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                placeholder="Name"
+                placeholder="Įrangos pavadinimas"
                 value={name}
                 onChangeText={text => setName(text)}
             />
             <TextInput
                 style={Styles.input_large}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                placeholder="Notes"
+                placeholder="Papildoma informacija"
                 value={notes}
                 multiline={true}
                 textAlignVertical='top'

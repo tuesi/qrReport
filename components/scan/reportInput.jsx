@@ -19,6 +19,7 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
 
     const onChange = (date) => {
         setDate(date);
+        setFormData({ ...formData, dateCreated: new Date(date) })
         setShow(false);
     };
 
@@ -44,20 +45,20 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                 <View style={Styles.scanInputContainer}>
                     <TextInput
                         style={Styles.input_disabled}
-                        placeholder="Name"
+                        placeholder="Įrangos pavadinimas"
                         value={formData.name}
                         editable={false}
                     />
                     <TextInput
                         style={Styles.input_disabled_large}
-                        placeholder="Notes"
+                        placeholder="Papildoma informacija"
                         value={formData.notes}
                         editable={false}
                         multiline={true}
                         textAlignVertical='top'
                     />
                     <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
-                        <Text style={Styles.textStyle}>Reported on: {DateStringParser(date)}</Text>
+                        <Text style={Styles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
                     </TouchableOpacity>
                     <DateTimePickerModal
                         isVisible={show}
@@ -69,22 +70,22 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                     />
                     <TextInput
                         style={Styles.input_large}
-                        placeholder="Device location"
+                        placeholder="Įrangos lokacija"
                         value={formData.message}
-                        onChangeText={(text) => setFormData({ ...formData, message: text })}
+                        onChangeText={(text) => setFormData({ ...formData, location: text })}
                         multiline={true}
                         textAlignVertical='top'
                     />
                     <TextInput
                         style={Styles.input_large}
-                        placeholder="Damage info"
+                        placeholder="Gedimo informacija"
                         value={formData.message}
                         onChangeText={(text) => setFormData({ ...formData, message: text })}
                         multiline={true}
                         textAlignVertical='top'
                     />
-                    <Button text={'Report'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => handleAddReport()} />
-                    <Button text={'Scan again'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
+                    <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => handleAddReport()} />
+                    <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
                 </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>

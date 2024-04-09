@@ -1,10 +1,11 @@
 export class FormDataModel {
-    constructor(deviceId, name, notes, message = '') {
+    constructor(deviceId, name, notes, message = '', location = '', dateCreated) {
         this.deviceId = deviceId;
         this.name = name;
         this.notes = notes;
         this.message = message;
-        this.dateCreated = new Date();
+        this.location = location;
+        this.dateCreated = dateCreated;
         this.dateCompleted = null;
     }
 }

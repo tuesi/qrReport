@@ -9,12 +9,14 @@ const Home = () => {
     const [startAfterDate, setStartAfter] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const signInAndFetchData = async () => {
-        await Auth();
-        await FetchDataFromFirestore(({ setData, pageSize: 10, startAfterDate, setLoading }));
-    };
-
     useEffect(() => {
+        let fetchUnsubscribe;
+
+        const signInAndFetchData = async () => {
+            await Auth();
+            fetchUnsubscribe = await FetchDataFromFirestore(({ setData, pageSize: 10, startAfterDate, setLoading }));
+        };
+
         signInAndFetchData();
     }, [startAfterDate])
 

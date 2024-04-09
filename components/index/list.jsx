@@ -14,11 +14,9 @@ const List = ({ data, setStartAfter, loading, setLoading }) => {
     const [previousLastItem, setPreviousLastItem] = useState(null);
 
     const fetchData = () => {
-        if (!previousLastItem && previousLastItem != data[data.length - 1]) {
-            setStartAfter(data[data.length - 1].dateCreated);
-            setLoading(true);
-            setPreviousLastItem(data[data.length - 1]);
-        }
+        setStartAfter(data[data.length - 1].dateCreated);
+        setLoading(true);
+        setPreviousLastItem(data[data.length - 1]);
     }
 
     return (

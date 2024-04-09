@@ -11,9 +11,13 @@ export const FetchDataFromFirestore = async ({ setData, pageSize, startAfterDate
             ...doc.data(),
             id: doc.id,
         }));
-        setData(prevData => [...prevData, ...items]);
-        setLoading(false);
+        if (startAfterDate) {
+            setData(prevData => [...prevData, ...items]);
+        } else {
+            setData(items);
+        }
     });
+    setLoading(false);
     return subscribe;
 };
 
