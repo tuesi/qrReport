@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { useState } from 'react';
-import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView } from "react-native";
+import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
@@ -40,55 +40,62 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <SafeAreaView style={Styles.safeAreaStyle}>
-                <View style={Styles.scanInputContainer}>
-                    <TextInput
-                        style={Styles.input_disabled}
-                        placeholder="Įrangos pavadinimas"
-                        value={formData.name}
-                        editable={false}
-                    />
-                    <TextInput
-                        style={Styles.input_disabled_large}
-                        placeholder="Papildoma informacija"
-                        value={formData.notes}
-                        editable={false}
-                        multiline={true}
-                        textAlignVertical='top'
-                    />
-                    <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
-                        <Text style={Styles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
-                    </TouchableOpacity>
-                    <DateTimePickerModal
-                        isVisible={show}
-                        mode="date"
-                        onConfirm={onChange}
-                        date={new Date()}
-                        onCancel={() => setShow(false)}
-                        themeVariant="light"
-                    />
-                    <TextInput
-                        style={Styles.input_large}
-                        placeholder="Įrangos vieta"
-                        value={formData.location}
-                        onChangeText={(text) => setFormData({ ...formData, location: text })}
-                        multiline={true}
-                        textAlignVertical='top'
-                    />
-                    <TextInput
-                        style={Styles.input_large}
-                        placeholder="Gedimo informacija"
-                        value={formData.message}
-                        onChangeText={(text) => setFormData({ ...formData, message: text })}
-                        multiline={true}
-                        textAlignVertical='top'
-                    />
-                    <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => handleAddReport()} />
-                    <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
-                </View>
-            </SafeAreaView>
-        </TouchableWithoutFeedback>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+            style={{ flex: 1 }}>
+            <TouchableWithoutFeedback onPress={handlePressOutside}>
+                <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
+                    <SafeAreaView style={Styles.safeAreaStyle}>
+                        <View style={Styles.scanInputContainer}>
+                            <TextInput
+                                style={Styles.input_disabled}
+                                placeholder="Įrangos pavadinimas"
+                                value={formData.name}
+                                editable={false}
+                            />
+                            <TextInput
+                                style={Styles.input_disabled_large}
+                                placeholder="Papildoma informacija"
+                                value={formData.notes}
+                                editable={false}
+                                multiline={true}
+                                textAlignVertical='top'
+                            />
+                            <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
+                                <Text style={Styles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
+                            </TouchableOpacity>
+                            <DateTimePickerModal
+                                isVisible={show}
+                                mode="date"
+                                onConfirm={onChange}
+                                date={new Date()}
+                                onCancel={() => setShow(false)}
+                                themeVariant="light"
+                            />
+                            <TextInput
+                                style={Styles.input_large}
+                                placeholder="Įrangos vieta"
+                                value={formData.location}
+                                onChangeText={(text) => setFormData({ ...formData, location: text })}
+                                multiline={true}
+                                textAlignVertical='top'
+                            />
+                            <TextInput
+                                style={Styles.input_large}
+                                placeholder="Gedimo informacija"
+                                value={formData.message}
+                                onChangeText={(text) => setFormData({ ...formData, message: text })}
+                                multiline={true}
+                                textAlignVertical='top'
+                            />
+                            <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => handleAddReport()} />
+                            <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
+                        </View>
+                    </SafeAreaView>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 
