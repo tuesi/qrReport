@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { useState } from 'react';
-import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text } from "react-native";
+import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView } from "react-native";
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
@@ -70,8 +70,8 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                     />
                     <TextInput
                         style={Styles.input_large}
-                        placeholder="Įrangos lokacija"
-                        value={formData.message}
+                        placeholder="Įrangos vieta"
+                        value={formData.location}
                         onChangeText={(text) => setFormData({ ...formData, location: text })}
                         multiline={true}
                         textAlignVertical='top'

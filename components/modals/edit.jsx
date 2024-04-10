@@ -1,10 +1,11 @@
 import Styles from '../../styles/styles';
-import { Text, Button, View } from 'react-native';
+import { Text, View } from 'react-native';
 import React, { useMemo, useRef, useEffect } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import DateStringParser from '../../utils/dateStringParser';
 import { UpdateReport } from '../firebase/data';
 import * as Color from '../../styles/colors';
+import Button from "../common/button";
 
 const Edit = ({ setModalVisible, selectedItem }) => {
 
@@ -43,20 +44,43 @@ const Edit = ({ setModalVisible, selectedItem }) => {
             )}
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
-            <BottomSheetView style={{ flex: 1, alignItems: 'center', backgroundColor: Color.SECONDARY_BUTTON_COLOR }}>
+            <BottomSheetView style={Styles.editModalContainer}>
+                <View style={Styles.deviceNameModalContainer}>
+                    <Text style={{ ...Styles.listItemHeaderText, fontSize: 28 }}>{selectedItem?.name}</Text>
+                </View>
+                <View style={Styles.deviceInfoModalContainer}>
+                    <Text style={{ ...Styles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
+                </View>
+
+                <View style={Styles.reportInfoContainer}>
+                    <Text style={{ ...Styles.listItemHeaderText, fontSize: 20 }}>Gedimo informacija</Text>
+                    <Text style={Styles.secondaryText}>{selectedItem?.message}</Text>
+                </View>
+
+                <View style={Styles.deviceLocationContainer}>
+                    <Text style={{ ...Styles.listItemHeaderText, fontSize: 18 }}>Įrangos vieta</Text>
+                    <Text style={Styles.secondaryText}>{selectedItem?.location}</Text>
+                </View>
+
+                <View style={{ ...Styles.dateRowContainer, width: '70%', marginBottom: '5%' }}>
+                    <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Gedimo Data</Text>
+                    <Text style={{ ...Styles.dateTextStyle, fontSize: 16 }}>{dateCreated}</Text>
+                </View>
                 {dateCompleted && (
-                    <Text>DateCompleted: {dateCompleted}</Text>
+                    <View style={{ ...Styles.dateRowContainer, width: '70%' }}>
+                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Įvykdymo data</Text>
+                        <Text style={{ ...Styles.dateTextStyle, fontSize: 16 }}>{dateCompleted}</Text>
+                    </View>
                 )}
-                <Text>Date: {dateCreated}</Text>
-                <Text>ID: {selectedItem?.deviceId}</Text>
-                <Text>Name: {selectedItem?.name}</Text>
-                <Text>Notes: {selectedItem?.notes}</Text>
-                <Text>Message: {selectedItem?.message}</Text>
-                {!selectedItem.dateCompleted && (<Button
-                    onPress={onPressHandler}
-                    title="Pazymeti atlikta"
-                    color="#841584" // Optional: Customize the button color
-                />)}
+                {!selectedItem.dateCompleted && (
+                    <View style={Styles.editModalButtonContainer}>
+                        <Button
+                            onPress={onPressHandler}
+                            text="Pažymėti atlikta"
+                            color={Color.BUTTON_GREEN_BACKGROUND_COLOR}
+                        />
+                    </View>
+                )}
             </BottomSheetView>
         </BottomSheet >
     )

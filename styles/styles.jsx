@@ -210,6 +210,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
     },
+    secondaryText: {
+        fontWeight: 'bold',
+        color: Color.TEXT_SECONDARY_COLOR,
+        fontSize: 16
+    },
     listItemContainer: {
         flex: 1,
         padding: 16,
@@ -228,13 +233,16 @@ const styles = StyleSheet.create({
     },
     listItemHeader: {
         flex: 2,
+        marginBottom: '5%'
     },
     listItemInfo: {
         flex: 1,
+        marginBottom: '5%'
     },
     listItemLocation: {
         flex: 1,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        marginBottom: '5%'
     },
     backgroundCircleGreen: {
         alignItems: 'center',
@@ -262,11 +270,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: '100%'
     },
     labelStyle: {
         fontSize: 12,
         fontWeight: 'bold',
-        color: Color.TEXT_SECONDARY_COLOR
+        color: Color.TEXT_SECONDARY_LABEL_COLOR
     },
     safeAreaStyle: {
         marginTop: 100,
@@ -274,6 +283,42 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    editModalContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        padding: 16
+    },
+    notesTextColor: {
+        fontSize: 12,
+        color: Color.TEXT_SECONDARY_LABEL_COLOR
+    },
+    deviceLocationContainer: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '100%',
+        marginBottom: '10%'
+    },
+    reportInfoContainer: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '100%',
+        marginBottom: '10%'
+    },
+    deviceNameModalContainer: {
+        justifyContent: 'flex-start',
+        width: '100%'
+    },
+    deviceInfoModalContainer: {
+        justifyContent: 'flex-start',
+        width: '100%',
+        marginBottom: '10%'
+    },
+    editModalButtonContainer: {
+        width: '100%',
+        alignItems: 'center',
+        marginTop: '5%'
     }
 });
 
