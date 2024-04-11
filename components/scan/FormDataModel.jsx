@@ -7,5 +7,6 @@ export class FormDataModel {
         this.location = location;
         this.dateCreated = dateCreated;
         this.dateCompleted = null;
+        this.completed = false;
     }
 }

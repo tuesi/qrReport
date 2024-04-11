@@ -45,7 +45,7 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
             style={{ flex: 1 }}>
             <TouchableWithoutFeedback onPress={handlePressOutside}>
-                <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
                         <View style={Styles.scanInputContainer}>
                             <TextInput

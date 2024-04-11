@@ -7,16 +7,17 @@ import RenderItem from './RenderListItem';
 import Styles from '../../styles/styles';
 import * as Colors from '../../styles/colors';
 
-const List = ({ data, setStartAfter, loading, setLoading }) => {
+const List = ({ data, loading, setLoading }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [previousLastItem, setPreviousLastItem] = useState(null);
 
     const fetchData = () => {
-        setStartAfter(data[data.length - 1].dateCreated);
-        setLoading(true);
-        setPreviousLastItem(data[data.length - 1]);
+        if (data[data.length - 1] == null || previousLastItem !== data[data.length - 1]) {
+            setLoading(true);
+            setPreviousLastItem(data[data.length - 1]);
+        }
     }
 
     return (

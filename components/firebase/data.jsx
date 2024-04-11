@@ -1,23 +1,39 @@
+import { useState } from 'react';
 import { FIRESTORE_DB } from '../../firebaseConfig';
-import { collection, onSnapshot, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter } from 'firebase/firestore';
+import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot } from 'firebase/firestore';
 
-export const FetchDataFromFirestore = async ({ setData, pageSize, startAfterDate, setLoading }) => {
-    let reportRef = query(collection(FIRESTORE_DB, "reports"), orderBy("dateCreated", "desc"), limit(pageSize));
-    if (startAfterDate) {
-        reportRef = query(reportRef, startAfter(startAfterDate));
+export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
+
+    let reportQuery = query(
+        collection(FIRESTORE_DB, "reports"),
+        orderBy("completed", "asc"),
+        orderBy("dateCreated", "desc"),
+        limit(pageSize)
+    );
+
+    if (lastQuerySnapShot) {
+        reportQuery = query(reportQuery, startAfter(lastQuerySnapShot));
     }
-    const subscribe = onSnapshot(reportRef, (querySnapshot) => {
+
+    const subscribe = onSnapshot(reportQuery, (querySnapshot) => {
         const items = querySnapshot.docs.map(doc => ({
             ...doc.data(),
             id: doc.id,
         }));
-        if (startAfterDate) {
+
+        if (lastQuerySnapShot) {
             setData(prevData => [...prevData, ...items]);
         } else {
             setData(items);
         }
+
+        console.log(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        if (querySnapshot.docs[querySnapshot.docs.length - 1] && lastQuerySnapShot !== querySnapshot.docs[querySnapshot.docs.length - 1]) {
+            setLastQuerySnapshot(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        }
+
+        setLoading(false);
     });
-    setLoading(false);
     return subscribe;
 };
 
@@ -34,11 +50,12 @@ export const GetDeviceInfo = async (deviceId) => {
     return await getDoc(deviceDocRef);
 };
 
-export const UpdateReport = async (reportId) => {
+export const CompleteReport = async (reportId) => {
     const itemRef = doc(FIRESTORE_DB, 'reports', reportId);
     try {
         await updateDoc(itemRef, {
-            dateCompleted: new Date() // Set 'completed' to current date and time
+            dateCompleted: new Date(), // Set 'completed' to current date and time
+            completed: true
         });
     } catch (error) {
         console.error("Error updating document: ", error);

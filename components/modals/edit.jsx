@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import React, { useMemo, useRef, useEffect } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import DateStringParser from '../../utils/dateStringParser';
-import { UpdateReport } from '../firebase/data';
+import { CompleteReport } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 
@@ -19,7 +19,7 @@ const Edit = ({ setModalVisible, selectedItem }) => {
     };
 
     const onPressHandler = async () => {
-        await UpdateReport(selectedItem.id);
+        await CompleteReport(selectedItem.id);
         bottomSheetRef.current.close()
     }
 
