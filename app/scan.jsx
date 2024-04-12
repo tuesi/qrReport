@@ -31,7 +31,7 @@ const Create = () => {
         );
     }
 
-    if (!scanned) {
+    if (scanned) {
         return (
             <Scanner setScanned={setScanned} setFormData={setFormData}></Scanner>
         )

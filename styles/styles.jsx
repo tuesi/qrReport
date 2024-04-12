@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '80%',
         alignItems: 'center',
-        justifyContent: 'start'
+        justifyContent: 'center',
+        marginBottom: 100
     },
     input: {
         width: '100%',
