@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { View, SafeAreaView, FlatList, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Edit from '../modals/edit';
-import RenderItem from './RenderListItem';
+import DeviceInfo from '../modals/deviceInfo';
+import DeviceRenderItem from './DeviceRenderListItem';
 import Styles from '../../styles/styles';
-import * as Colors from '../../styles/colors';
 
-const List = ({ data, loading, setLoading }) => {
+const DeviceList = ({ data, loading, setLoading }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -28,17 +27,17 @@ const List = ({ data, loading, setLoading }) => {
                         showsVerticalScrollIndicator={false}
                         data={data}
                         horizontal={false}
-                        renderItem={({ item }) => RenderItem({ item, setSelectedItem, setModalVisible })}
+                        renderItem={({ item }) => DeviceRenderItem({ item, setSelectedItem, setModalVisible })}
                         keyExtractor={item => item.id.toString()}
                         onEndReached={fetchData}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={loading && <Text style={Styles.textStyle}>Loading...</Text>}
                     />
                     {modalVisible && (
-                        <Edit
+                        <DeviceInfo
                             setModalVisible={setModalVisible}
                             selectedItem={selectedItem}
-                        ></Edit>
+                        ></DeviceInfo>
                     )}
                 </View>
             </SafeAreaView>
@@ -46,4 +45,4 @@ const List = ({ data, loading, setLoading }) => {
     )
 }
 
-export default List;
+export default DeviceList;

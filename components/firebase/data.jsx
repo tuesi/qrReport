@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { FIRESTORE_DB } from '../../firebaseConfig';
-import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot } from 'firebase/firestore';
+import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot, deleteDoc } from 'firebase/firestore';
 
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
 
@@ -27,7 +26,39 @@ export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapS
             setData(items);
         }
 
-        console.log(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        if (querySnapshot.docs[querySnapshot.docs.length - 1] && lastQuerySnapShot !== querySnapshot.docs[querySnapshot.docs.length - 1]) {
+            setLastQuerySnapshot(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        }
+
+        setLoading(false);
+    });
+    return subscribe;
+};
+
+export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
+
+    let reportQuery = query(
+        collection(FIRESTORE_DB, "devices"),
+        orderBy("created", "desc"),
+        limit(pageSize)
+    );
+
+    if (lastQuerySnapShot) {
+        reportQuery = query(reportQuery, startAfter(lastQuerySnapShot));
+    }
+
+    const subscribe = onSnapshot(reportQuery, (querySnapshot) => {
+        const items = querySnapshot.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+
+        if (lastQuerySnapShot) {
+            setData(prevData => [...prevData, ...items]);
+        } else {
+            setData(items);
+        }
+
         if (querySnapshot.docs[querySnapshot.docs.length - 1] && lastQuerySnapShot !== querySnapshot.docs[querySnapshot.docs.length - 1]) {
             setLastQuerySnapshot(querySnapshot.docs[querySnapshot.docs.length - 1]);
         }
@@ -49,6 +80,23 @@ export const GetDeviceInfo = async (deviceId) => {
     const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
     return await getDoc(deviceDocRef);
 };
+
+export const UpdateDeviceInfo = async (deviceId, deviceInfo) => {
+    const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
+    try {
+        await updateDoc(deviceDocRef, {
+            name: deviceInfo.name,
+            notes: deviceInfo.notes
+        });
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+}
+
+export const DeleteDevice = async (deviceId) => {
+    const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
+    await deleteDoc(deviceDocRef);
+}
 
 export const CompleteReport = async (reportId) => {
     const itemRef = doc(FIRESTORE_DB, 'reports', reportId);

@@ -6,6 +6,7 @@ import DateStringParser from '../../utils/dateStringParser';
 import { CompleteReport } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
+import { ConfirmAction } from '../common/confirmAction';
 
 const Edit = ({ setModalVisible, selectedItem }) => {
 
@@ -75,7 +76,7 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                 {!selectedItem.dateCompleted && (
                     <View style={Styles.editModalButtonContainer}>
                         <Button
-                            onPress={onPressHandler}
+                            onPress={() => { ConfirmAction("Ar tikrai norite pažymėti atlikta?", onPressHandler) }}
                             text="Pažymėti atlikta"
                             color={Color.BUTTON_GREEN_BACKGROUND_COLOR}
                         />

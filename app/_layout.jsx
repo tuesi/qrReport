@@ -53,6 +53,16 @@ const Layout = () => {
                     }
                 }}
             />
+            <Tabs.Screen
+                name="devices"
+                options={{
+                    title: 'Įranga',
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => {
+                        return <Ionicons name="construct-outline" size={size} color={color} />
+                    }
+                }}
+            />
         </Tabs>
     );
 }

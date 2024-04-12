@@ -1,8 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
 import Styles from '../../styles/styles';
-import * as Color from '../../styles/colors';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
     const dateCreated = DateStringParser(item.dateCreated);

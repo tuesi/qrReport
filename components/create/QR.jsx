@@ -5,7 +5,7 @@ import Styles from '../../styles/styles';
 import QRCode from "react-native-qrcode-svg";
 import { AddNewDevice } from "../firebase/data";
 import { DeviceDataModel } from "./deviceDataModel";
-import { QrDataModel } from "./qrDataMode";
+import { QrDataModel } from "./qrDataModel";
 import SaveTemporaryFile from "./saveTemporaryFile";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";

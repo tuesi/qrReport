@@ -89,7 +89,7 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                                 multiline={true}
                                 textAlignVertical='top'
                             />
-                            <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => handleAddReport()} />
+                            <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => { ConfirmAction("Ar tikrai norite registruoti gedimą?", handleAddReport) }} />
                             <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
                         </View>
                     </SafeAreaView>
