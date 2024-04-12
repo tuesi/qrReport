@@ -48,11 +48,13 @@ const ShowDeviceQr = ({ deviceId }) => {
     }
 
     return (
-        <View>
+        <View style={Styles.deviceInfoQrContainer}>
             {qrData && (
-                <View>
+                <View style={Styles.deviceInfoQrContainer}>
                     <QRCode value={qrData} size={80} logo={logoFromFile} getRef={setSvg} />
-                    <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                    <View style={{ marginTop: "5%", marginBottom: "5%" }}>
+                        <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                    </View>
                 </View>
             )}
         </View>

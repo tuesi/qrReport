@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
 import Styles from '../../styles/styles';
+import ReportDate from '../common/reportDate';
+import * as Color from '../../styles/colors';
 
 const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
     const dateCreated = DateStringParser(item.dateCreated);
@@ -30,16 +32,12 @@ const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
                     {dateCompleted && (
                         <View style={[Styles.dateRowContainer, { marginBottom: 5 }]}>
                             <Text style={Styles.labelStyle}>Įvykdymo data</Text>
-                            <View style={Styles.backgroundCircleGreen}>
-                                <Text style={Styles.dateTextStyle}>{dateCompleted}</Text>
-                            </View>
+                            <ReportDate date={dateCreated} color={Color.REPORT_DATE_COMPLETE_COLOR}></ReportDate>
                         </View>
                     )}
                     <View style={Styles.dateRowContainer}>
                         <Text style={Styles.labelStyle}>Gedimo Data</Text>
-                        <View style={Styles.backgroundCircleGray}>
-                            <Text style={Styles.dateTextStyle}>{dateCreated}</Text>
-                        </View>
+                        <ReportDate date={dateCreated} color={Color.REPORT_DATE_NEW_COLOR} completed={!!dateCompleted} maxLateDays={5}></ReportDate>
                     </View>
                 </View>
             </View>

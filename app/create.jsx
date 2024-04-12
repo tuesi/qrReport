@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { View, Linking, TouchableWithoutFeedback, Keyboard, SafeAreaView } from "react-native";
-import { Stack } from 'expo-router';
+import { ScrollView, Linking, TouchableWithoutFeedback, Keyboard, SafeAreaView } from "react-native";
 import * as MediaLibrary from 'expo-media-library';
 import Styles from '../styles/styles';
-import * as Colors from '../styles/colors';
 import QR from "../components/create/QR";
 import CreateInput from "../components/create/createInput";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -34,10 +32,12 @@ const Create = () => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={Styles.safeAreaStyle}>
-                    <CreateInput name={name} notes={notes} setName={setName} setNotes={setNotes}></CreateInput>
-                    <QR name={name} notes={notes}></QR>
-                </SafeAreaView>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
+                    <SafeAreaView style={Styles.safeAreaStyle}>
+                        <CreateInput name={name} notes={notes} setName={setName} setNotes={setNotes}></CreateInput>
+                        <QR name={name} notes={notes} setName={setName} setNotes={setNotes}></QR>
+                    </SafeAreaView>
+                </ScrollView>
             </LinearGradient>
         </TouchableWithoutFeedback>
     )

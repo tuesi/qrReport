@@ -1,0 +1,1 @@
+export const QRKEY = "GenijausTadoUAB";

@@ -5,25 +5,35 @@ import * as Colors from '../../styles/colors';
 import { CameraView } from "expo-camera/next";
 import { FormDataModel } from './FormDataModel';
 import { GetDeviceInfo } from '../firebase/data';
+import { QRKEY } from '../../constants';
 
 const Scanner = ({ setScanned, setFormData }) => {
 
     const handleBarCodeScanned = async ({ data }) => {
+        setScanned(true);
         try {
-            setScanned(true);
             const parsedData = JSON.parse(data);
-            const docSnapshot = await GetDeviceInfo(parsedData.deviceId);
+            if (parsedData.tag === QRKEY && parsedData.deviceId) {
+                const docSnapshot = await GetDeviceInfo(parsedData.deviceId);
 
-            if (docSnapshot.exists()) {
-                const data = docSnapshot.data();
-                const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
-                setFormData(formDataInstance);
+                if (docSnapshot.exists()) {
+                    const data = docSnapshot.data();
+                    const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
+                    setFormData(formDataInstance);
+                } else {
+                    Alert.alert('Error', 'Scanned QR code does not contain a valid device', [
+                        { text: 'OK', onPress: () => setScanned(false) }
+                    ]);
+                }
             } else {
-                Alert.alert('Error', 'Scanned QR code does not contain a valid device');
+                Alert.alert('Error', 'Scanned QR code is not recognised', [
+                    { text: 'OK', onPress: () => setScanned(false) }
+                ]);
             }
         } catch (error) {
-            console.log('error parsing');
-            setScanned(true);
+            Alert.alert('Error', 'Error scanning code', [
+                { text: 'OK', onPress: () => setScanned(false) }
+            ]);
         }
     };
 

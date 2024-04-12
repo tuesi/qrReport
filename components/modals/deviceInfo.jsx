@@ -1,5 +1,5 @@
 import Styles from '../../styles/styles';
-import { Text, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { UpdateDeviceInfo, DeleteDevice } from '../firebase/data';
@@ -61,41 +61,46 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
-                <BottomSheetView style={Styles.editModalContainer}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
+                    <BottomSheetView style={Styles.editModalContainer}>
 
-                    <TextInput
-                        style={Styles.input}
-                        placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Įrangos pavadinimas"
-                        value={deviceData?.name}
-                        onChangeText={(text) => setDeviceData({ ...deviceData, name: text })}
-                    />
-                    <TextInput
-                        style={Styles.input_large}
-                        placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Papildoma informacija"
-                        value={deviceData?.notes}
-                        multiline={true}
-                        textAlignVertical='top'
-                        onChangeText={(text) => setDeviceData({ ...deviceData, notes: text })}
-                    />
-                    <View style={Styles.deviceInfoModalButtonContainer}>
-                        {showQr && (
-                            <ShowDeviceQr deviceId={selectedItem?.id}></ShowDeviceQr>
-                        )}
-                        <Button
-                            onPress={() => { ConfirmAction("Ar tikrai norite išsaugoti pakeitimus?", onUpdate) }}
-                            text="Issaugoti"
-                            color={Color.BUTTON_GREEN_BACKGROUND_COLOR}
+                        <TextInput
+                            style={Styles.input}
+                            placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
+                            placeholder="Įrangos pavadinimas"
+                            value={deviceData?.name}
+                            onChangeText={(text) => setDeviceData({ ...deviceData, name: text })}
                         />
-
-                        <Button
-                            onPress={() => { ConfirmAction("Ar tikrai norite ištrinti įrangos duomenis?", deleteDevice) }}
-                            text="Istrinti"
-                            color={Color.BUTTON_GREEN_BACKGROUND_COLOR}
+                        <TextInput
+                            style={Styles.input_large}
+                            placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
+                            placeholder="Papildoma informacija"
+                            value={deviceData?.notes}
+                            multiline={true}
+                            textAlignVertical='top'
+                            onChangeText={(text) => setDeviceData({ ...deviceData, notes: text })}
                         />
-                    </View>
-                </BottomSheetView>
+                        <View style={Styles.deviceInfoModalButtonContainer}>
+                            {showQr && (
+                                <ShowDeviceQr deviceId={selectedItem?.id}></ShowDeviceQr>
+                            )}
+                            <View style={Styles.deviceButtonsContainer}>
+                                <Button
+                                    onPress={() => { ConfirmAction("Ar tikrai norite išsaugoti pakeitimus?", onUpdate) }}
+                                    text="IŠSAUGOTI"
+                                    color={Color.BUTTON_GREEN_BACKGROUND_COLOR}
+                                />
+                                <View style={{ alignItems: 'center', width: "50%" }}>
+                                    <Button
+                                        onPress={() => { ConfirmAction("Ar tikrai norite ištrinti įrangos duomenis?", deleteDevice) }}
+                                        text="IŠTRINTI"
+                                        color={Color.BUTTON_RED_BACKGROUND_COLOR}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </BottomSheetView>
+                </ScrollView>
             </TouchableWithoutFeedback>
         </BottomSheet >
     )

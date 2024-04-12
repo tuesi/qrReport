@@ -151,9 +151,9 @@ const styles = StyleSheet.create({
     },
     topGap: {
         width: '100%',
-        height: '100%',
         alignItems: 'center',
-        paddingTop: '10%'
+        paddingTop: '5%',
+        marginBottom: '5%'
     },
     buttonText: {
         color: Color.BUTTON_TEXT_COLOR,
@@ -253,10 +253,9 @@ const styles = StyleSheet.create({
         height: 25,
         width: 80
     },
-    backgroundCircleGray: {
+    backgroundCircle: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#BEBEBE',
         borderRadius: 50,
         height: 25,
         width: 80
@@ -322,9 +321,23 @@ const styles = StyleSheet.create({
         marginTop: '5%'
     },
     deviceInfoModalButtonContainer: {
+        flex: 1,
         width: '100%',
         alignItems: 'center'
-    }
+    },
+    deviceButtonsContainer: {
+        flex: 2,
+        width: '80%',
+        alignItems: 'center',
+        justifyContent: 'start'
+    },
+    deviceInfoQrContainer: {
+        flex: 1,
+        width: '80%',
+        minHeight: "10%",
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 });
 
 export default styles;
