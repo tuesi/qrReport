@@ -26,19 +26,12 @@ const Create = () => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <LinearGradient
-                style={{ flex: 1 }}
-                colors={['#F8F8F8', '#EFEFEF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-            >
-                <ScrollView contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
-                    <SafeAreaView style={Styles.safeAreaStyle}>
-                        <CreateInput name={name} notes={notes} setName={setName} setNotes={setNotes}></CreateInput>
-                        <QR name={name} notes={notes} setName={setName} setNotes={setNotes}></QR>
-                    </SafeAreaView>
-                </ScrollView>
-            </LinearGradient>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
+                <SafeAreaView style={Styles.safeAreaStyle}>
+                    <CreateInput name={name} notes={notes} setName={setName} setNotes={setNotes}></CreateInput>
+                    <QR name={name} notes={notes} setName={setName} setNotes={setNotes}></QR>
+                </SafeAreaView>
+            </ScrollView>
         </TouchableWithoutFeedback>
     )
 }

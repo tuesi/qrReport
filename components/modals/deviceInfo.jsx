@@ -37,8 +37,8 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
 
     const deleteDevice = async () => {
         setShowQr(false);
-        await DeleteDevice(selectedItem.id);
         bottomSheetRef.current.close()
+        await DeleteDevice(selectedItem.id);
         setModalVisible(false);
     }
 
@@ -61,7 +61,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1, height: '100%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <BottomSheetView style={Styles.editModalContainer}>
 
                         <TextInput

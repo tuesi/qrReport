@@ -21,7 +21,11 @@ const Layout = () => {
                 shadowOpacity: 0.25,
                 shadowRadius: 5,
                 elevation: 5
-            }
+            },
+            tabBarLabelStyle: {
+                fontSize: 12,
+                fontWeight: 'bold',
+            },
         }}>
             <Tabs.Screen
                 name="index"

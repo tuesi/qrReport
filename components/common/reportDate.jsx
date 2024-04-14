@@ -11,9 +11,7 @@ const ReportDate = ({ date, color, completed, maxLateDays }) => {
     useEffect(() => {
         if (completed) {
             setNewColor(Color.REPORT_DATE_AFTER_COMPLETE_COLOR);
-        }
-
-        if (maxLateDays) {
+        } else if (maxLateDays) {
             let checkDate = new Date(currentDate);
             checkDate.setDate(currentDate.getDate() - maxLateDays);
             if (checkDate > new Date(date)) {

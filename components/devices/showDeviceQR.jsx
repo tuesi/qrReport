@@ -7,6 +7,8 @@ import SaveTemporaryFile from "../create/saveTemporaryFile";
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { QrDataModel } from "../create/qrDataModel";
+import HiddenQr from "../common/hiddenQr";
+import { QRKEY } from '../../constants';
 
 const ShowDeviceQr = ({ deviceId }) => {
 
@@ -17,13 +19,13 @@ const ShowDeviceQr = ({ deviceId }) => {
     const svgRef = useRef();
 
     const setQR = () => {
-        let newQrData = new QrDataModel("GenijausTadoUAB", deviceId);
+        let newQrData = new QrDataModel(QRKEY, deviceId);
         const jsonData = JSON.stringify(newQrData);
         setQRData(jsonData);
     }
 
     const setSvg = (ref) => {
-        if (ref) {
+        if (ref && ref !== svgRef) {
             svgRef.current = ref;
             setTimeout(() => {
                 SaveTemporaryFile({ svgRef, setFileUri });
@@ -51,10 +53,11 @@ const ShowDeviceQr = ({ deviceId }) => {
         <View style={Styles.deviceInfoQrContainer}>
             {qrData && (
                 <View style={Styles.deviceInfoQrContainer}>
-                    <QRCode value={qrData} size={80} logo={logoFromFile} getRef={setSvg} />
+                    <QRCode value={qrData} size={100} logo={logoFromFile} />
                     <View style={{ marginTop: "5%", marginBottom: "5%" }}>
                         <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
                     </View>
+                    <HiddenQr qrData={qrData} svgRef={setSvg}></HiddenQr>
                 </View>
             )}
         </View>

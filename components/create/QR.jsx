@@ -10,6 +10,7 @@ import SaveTemporaryFile from "./saveTemporaryFile";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import { QRKEY } from '../../constants';
+import HiddenQr from "../common/hiddenQr";
 
 const QR = ({ name, notes, setName, setNotes }) => {
 
@@ -76,11 +77,16 @@ const QR = ({ name, notes, setName, setNotes }) => {
             <Button text={qrData ? editText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
                 <View style={Styles.showQrContainer}>
-                    <QRCode value={qrData} size={150} logo={logoFromFile} getRef={svgRef} />
+                    <QRCode value={qrData} size={150} logo={logoFromFile} />
+                    {fileUri && (
+                        <View style={Styles.topGap}>
+                            <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                        </View>
+                    )}
                     <View style={Styles.topGap}>
-                        <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                        <Button text={'KURTI NAUJĄ'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={clear} />
                     </View>
-                    <Button text={'KURTI NAUJĄ'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={clear} />
+                    <HiddenQr qrData={qrData} svgRef={svgRef}></HiddenQr>
                 </View>
             )}
         </View>

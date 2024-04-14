@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'start'
     },
     createQRContainer: {
-        flex: 2.5,
+        flex: 1,
         width: '80%',
         alignItems: 'center',
         justifyContent: 'start'
@@ -323,7 +323,8 @@ const styles = StyleSheet.create({
     deviceInfoModalButtonContainer: {
         flex: 1,
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: "5%"
     },
     deviceButtonsContainer: {
         flex: 2,
@@ -337,7 +338,7 @@ const styles = StyleSheet.create({
         minHeight: "10%",
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }
 });
 
 export default styles;
