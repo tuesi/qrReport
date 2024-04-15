@@ -64,7 +64,7 @@ const QR = ({ name, notes, setName, setNotes }) => {
                 const jsonData = JSON.stringify(newQrData);
                 setQRData(jsonData);
 
-                SaveTemporaryFile({ svgRef, setFileUri });
+                SaveTemporaryFile({ svgRef, setFileUri, name });
 
             } catch (e) {
                 console.log(e);

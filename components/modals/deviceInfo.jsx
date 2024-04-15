@@ -82,7 +82,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                         />
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
-                                <ShowDeviceQr deviceId={selectedItem?.id}></ShowDeviceQr>
+                                <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name}></ShowDeviceQr>
                             )}
                             <View style={deviceStyles.deviceButtonsContainer}>
                                 <Button

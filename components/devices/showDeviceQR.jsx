@@ -10,7 +10,7 @@ import { QrDataModel } from "../create/qrDataModel";
 import HiddenQr from "../common/hiddenQr";
 import { QRKEY } from '../../constants';
 
-const ShowDeviceQr = ({ deviceId }) => {
+const ShowDeviceQr = ({ deviceId, deviceName }) => {
 
     let logoFromFile = require('../../assets/aug.png');
 
@@ -28,7 +28,7 @@ const ShowDeviceQr = ({ deviceId }) => {
         if (ref && ref !== svgRef) {
             svgRef.current = ref;
             setTimeout(() => {
-                SaveTemporaryFile({ svgRef, setFileUri });
+                SaveTemporaryFile({ svgRef, setFileUri, name: deviceName });
             }, 500)
         }
     }
@@ -54,9 +54,11 @@ const ShowDeviceQr = ({ deviceId }) => {
             {qrData && (
                 <View style={deviceStyles.deviceInfoQrContainer}>
                     <QRCode value={qrData} size={100} logo={logoFromFile} />
-                    <View style={{ marginTop: "5%", marginBottom: "5%" }}>
-                        <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
-                    </View>
+                    {svgRef.current && (
+                        <View style={{ marginTop: "5%", marginBottom: "5%" }}>
+                            <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
+                        </View>
+                    )}
                     <HiddenQr qrData={qrData} svgRef={setSvg}></HiddenQr>
                 </View>
             )}
