@@ -2,14 +2,6 @@ import { StyleSheet } from "react-native";
 import * as Color from "./colors";
 
 const styles = StyleSheet.create({
-    cameraViewContainer: {
-        height: '100%',
-        width: '100%'
-    },
-    cameraView: {
-        height: '105%',
-        width: '100%',
-    },
     container: {
         flex: 1,
         width: "100%",
@@ -21,32 +13,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    createInputContainer: {
-        flex: 1,
-        width: '80%',
-        alignItems: 'center',
-        justifyContent: 'start'
-    },
-    createQRContainer: {
-        flex: 1,
-        width: '80%',
-        alignItems: 'center',
-        justifyContent: 'start'
-    },
-    showQrContainer: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'start',
-        marginTop: '10%'
-    },
-    scanInputContainer: {
-        flex: 1,
-        width: '80%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 100
     },
     input: {
         width: '100%',
@@ -148,12 +114,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3,
         elevation: 5
-    },
-    topGap: {
-        width: '100%',
-        alignItems: 'center',
-        paddingTop: '5%',
-        marginBottom: '5%'
     },
     buttonText: {
         color: Color.BUTTON_TEXT_COLOR,
@@ -284,7 +244,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    editModalContainer: {
+    modalContainer: {
         flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -310,34 +270,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: '100%'
     },
-    deviceInfoModalContainer: {
-        justifyContent: 'flex-start',
-        width: '100%',
-        marginBottom: '10%'
-    },
     editModalButtonContainer: {
         width: '100%',
         alignItems: 'center',
         marginTop: '5%'
-    },
-    deviceInfoModalButtonContainer: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        marginTop: "5%"
-    },
-    deviceButtonsContainer: {
-        flex: 2,
-        width: '80%',
-        alignItems: 'center',
-        justifyContent: 'start'
-    },
-    deviceInfoQrContainer: {
-        flex: 1,
-        width: '80%',
-        minHeight: "10%",
-        alignItems: 'center',
-        justifyContent: 'center'
     }
 });
 

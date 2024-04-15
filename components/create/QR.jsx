@@ -2,11 +2,12 @@ import React, { useState, useRef } from "react";
 import * as Sharing from 'expo-sharing';
 import { View, Alert, TouchableOpacity, Text, Keyboard } from "react-native";
 import Styles from '../../styles/styles';
+import createStyles from "./createStyles";
 import QRCode from "react-native-qrcode-svg";
 import { AddNewDevice, UpdateDeviceInfo } from "../firebase/data";
 import { DeviceDataModel } from "./deviceDataModel";
 import { QrDataModel } from "./qrDataModel";
-import SaveTemporaryFile from "./saveTemporaryFile";
+import SaveTemporaryFile from "../../utils/saveTemporaryFile";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import { QRKEY } from '../../constants';
@@ -73,17 +74,17 @@ const QR = ({ name, notes, setName, setNotes }) => {
     };
 
     return (
-        <View style={Styles.createQRContainer}>
+        <View style={createStyles.createQRContainer}>
             <Button text={qrData ? editText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
-                <View style={Styles.showQrContainer}>
+                <View style={createStyles.showQrContainer}>
                     <QRCode value={qrData} size={150} logo={logoFromFile} />
                     {fileUri && (
-                        <View style={Styles.topGap}>
+                        <View style={createStyles.topGap}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
                         </View>
                     )}
-                    <View style={Styles.topGap}>
+                    <View style={createStyles.topGap}>
                         <Button text={'KURTI NAUJĄ'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={clear} />
                     </View>
                     <HiddenQr qrData={qrData} svgRef={svgRef}></HiddenQr>

@@ -46,7 +46,7 @@ const Edit = ({ setModalVisible, selectedItem }) => {
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                <BottomSheetView style={Styles.editModalContainer}>
+                <BottomSheetView style={Styles.modalContainer}>
                     <View style={Styles.deviceNameModalContainer}>
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 28 }}>{selectedItem?.name}</Text>
                     </View>

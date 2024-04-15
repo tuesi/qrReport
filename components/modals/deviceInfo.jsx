@@ -1,4 +1,5 @@
 import Styles from '../../styles/styles';
+import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
@@ -62,8 +63,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    <BottomSheetView style={Styles.editModalContainer}>
-
+                    <BottomSheetView style={Styles.modalContainer}>
                         <TextInput
                             style={Styles.input}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
@@ -80,11 +80,11 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                             textAlignVertical='top'
                             onChangeText={(text) => setDeviceData({ ...deviceData, notes: text })}
                         />
-                        <View style={Styles.deviceInfoModalButtonContainer}>
+                        <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
                                 <ShowDeviceQr deviceId={selectedItem?.id}></ShowDeviceQr>
                             )}
-                            <View style={Styles.deviceButtonsContainer}>
+                            <View style={deviceStyles.deviceButtonsContainer}>
                                 <Button
                                     onPress={() => { ConfirmAction("Ar tikrai norite išsaugoti pakeitimus?", onUpdate) }}
                                     text="IŠSAUGOTI"

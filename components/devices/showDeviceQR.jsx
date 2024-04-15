@@ -3,8 +3,8 @@ import * as Sharing from 'expo-sharing';
 import { View } from "react-native"
 import QRCode from "react-native-qrcode-svg";
 import Button from "../common/button";
-import SaveTemporaryFile from "../create/saveTemporaryFile";
-import Styles from '../../styles/styles';
+import SaveTemporaryFile from "../../utils/saveTemporaryFile";
+import deviceStyles from "./deviceStyles";
 import * as Color from '../../styles/colors';
 import { QrDataModel } from "../create/qrDataModel";
 import HiddenQr from "../common/hiddenQr";
@@ -50,9 +50,9 @@ const ShowDeviceQr = ({ deviceId }) => {
     }
 
     return (
-        <View style={Styles.deviceInfoQrContainer}>
+        <View style={deviceStyles.deviceInfoQrContainer}>
             {qrData && (
-                <View style={Styles.deviceInfoQrContainer}>
+                <View style={deviceStyles.deviceInfoQrContainer}>
                     <QRCode value={qrData} size={100} logo={logoFromFile} />
                     <View style={{ marginTop: "5%", marginBottom: "5%" }}>
                         <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />

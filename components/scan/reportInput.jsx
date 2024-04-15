@@ -1,7 +1,7 @@
-import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import Styles from '../../styles/styles';
+import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
 import { useNavigation } from '@react-navigation/native';
@@ -31,7 +31,7 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
         try {
             await AddNewReport(formData);
             setScanned(false);
-            Alert.alert('Success', 'Report has beeen issued!');
+            Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!');
             setFormData(new FormDataModel());
             navigation.navigate('index')
         } catch (e) {
@@ -47,7 +47,7 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
-                        <View style={Styles.scanInputContainer}>
+                        <View style={scanStyles.scanInputContainer}>
                             <TextInput
                                 style={Styles.input_disabled}
                                 placeholder="Įrangos pavadinimas"

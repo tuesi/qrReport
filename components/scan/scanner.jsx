@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
-import { View, SafeAreaView, Alert } from "react-native";
-import Styles from '../../styles/styles';
+import { View, Alert } from "react-native";
+import scanStyles from './scanStyles';
 import * as Colors from '../../styles/colors';
 import { CameraView } from "expo-camera/next";
 import { FormDataModel } from './FormDataModel';
@@ -46,8 +46,8 @@ const Scanner = ({ setScanned, setFormData }) => {
                     headerTitle: ''
                 }}
             />
-            <View style={Styles.cameraViewContainer}>
-                <CameraView style={Styles.cameraView}
+            <View style={scanStyles.cameraViewContainer}>
+                <CameraView style={scanStyles.cameraView}
                     facing='back'
                     onBarcodeScanned={handleBarCodeScanned}
                     barCodeScannerSettings={{

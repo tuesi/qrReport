@@ -1,10 +1,11 @@
 import { View, TextInput } from "react-native";
 import Styles from '../../styles/styles';
+import createStyles from "./createStyles";
 import * as Color from '../../styles/colors';
 
 const CreateInput = ({ name, notes, setName, setNotes }) => {
     return (
-        <View style={Styles.createInputContainer}>
+        <View style={createStyles.createInputContainer}>
             <TextInput
                 style={Styles.input}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
