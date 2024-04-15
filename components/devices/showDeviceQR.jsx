@@ -26,6 +26,7 @@ const ShowDeviceQr = ({ deviceId, deviceName }) => {
 
     const setSvg = (ref) => {
         if (ref && ref !== svgRef) {
+            console.log(svgRef.current);
             svgRef.current = ref;
             setTimeout(() => {
                 SaveTemporaryFile({ svgRef, setFileUri, name: deviceName });
