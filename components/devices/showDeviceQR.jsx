@@ -8,11 +8,9 @@ import deviceStyles from "./deviceStyles";
 import * as Color from '../../styles/colors';
 import { QrDataModel } from "../create/qrDataModel";
 import HiddenQr from "../common/hiddenQr";
-import { QRKEY } from '../../constants';
+import { QRKEY, LOGO_NAME } from '../../constants';
 
 const ShowDeviceQr = ({ deviceId, deviceName }) => {
-
-    let logoFromFile = require('../../assets/sanobiotec_logo.png');
 
     const [qrData, setQRData] = useState('');
     const [fileUri, setFileUri] = useState('');
@@ -53,7 +51,7 @@ const ShowDeviceQr = ({ deviceId, deviceName }) => {
         <View style={deviceStyles.deviceInfoQrContainer}>
             {qrData && (
                 <View style={deviceStyles.deviceInfoQrContainer}>
-                    <QRCode value={qrData} size={100} logoSize={25} logo={logoFromFile} />
+                    <QRCode value={qrData} size={100} logoSize={25} logo={LOGO_NAME} />
                     {fileUri && (
                         <View style={{ marginTop: "5%", marginBottom: "5%" }}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />

@@ -15,7 +15,6 @@ import HiddenQr from "../common/hiddenQr";
 
 const QR = ({ name, notes, setName, setNotes }) => {
 
-    const logoFromFile = require('../../assets/sanobiotec_logo.png');
     const createText = 'KURTI ĮRENGINĮ';
     const editText = 'SAUGOTI PAKEITIMUS';
 
@@ -78,7 +77,7 @@ const QR = ({ name, notes, setName, setNotes }) => {
             <Button text={qrData ? editText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
                 <View style={createStyles.showQrContainer}>
-                    <QRCode value={qrData} size={150} logoSize={35} logo={logoFromFile} />
+                    <QRCode value={qrData} size={150} logoSize={35} logo={LOGO_NAME} />
                     {fileUri && (
                         <View style={createStyles.topGap}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
