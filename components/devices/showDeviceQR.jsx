@@ -12,7 +12,7 @@ import { QRKEY } from '../../constants';
 
 const ShowDeviceQr = ({ deviceId, deviceName }) => {
 
-    let logoFromFile = require('../../assets/aug.png');
+    let logoFromFile = require('../../assets/sanobiotec_logo.png');
 
     const [qrData, setQRData] = useState('');
     const [fileUri, setFileUri] = useState('');
@@ -26,7 +26,6 @@ const ShowDeviceQr = ({ deviceId, deviceName }) => {
 
     const setSvg = (ref) => {
         if (ref && ref !== svgRef) {
-            console.log(svgRef.current);
             svgRef.current = ref;
             setTimeout(() => {
                 SaveTemporaryFile({ svgRef, setFileUri, name: deviceName });
@@ -54,7 +53,7 @@ const ShowDeviceQr = ({ deviceId, deviceName }) => {
         <View style={deviceStyles.deviceInfoQrContainer}>
             {qrData && (
                 <View style={deviceStyles.deviceInfoQrContainer}>
-                    <QRCode value={qrData} size={100} logo={logoFromFile} />
+                    <QRCode value={qrData} size={100} logoSize={25} logo={logoFromFile} />
                     {fileUri && (
                         <View style={{ marginTop: "5%", marginBottom: "5%" }}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />

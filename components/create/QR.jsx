@@ -10,12 +10,12 @@ import { QrDataModel } from "./qrDataModel";
 import SaveTemporaryFile from "../../utils/saveTemporaryFile";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
-import { QRKEY } from '../../constants';
+import { QRKEY, LOGO_NAME } from '../../constants';
 import HiddenQr from "../common/hiddenQr";
 
 const QR = ({ name, notes, setName, setNotes }) => {
 
-    const logoFromFile = require('../../assets/aug.png');
+    const logoFromFile = require('../../assets/sanobiotec_logo.png');
     const createText = 'KURTI ĮRENGINĮ';
     const editText = 'SAUGOTI PAKEITIMUS';
 
@@ -78,7 +78,7 @@ const QR = ({ name, notes, setName, setNotes }) => {
             <Button text={qrData ? editText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={generateQRCode} />
             {qrData && (
                 <View style={createStyles.showQrContainer}>
-                    <QRCode value={qrData} size={150} logo={logoFromFile} />
+                    <QRCode value={qrData} size={150} logoSize={35} logo={logoFromFile} />
                     {fileUri && (
                         <View style={createStyles.topGap}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
