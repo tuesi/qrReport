@@ -6,8 +6,9 @@ import { CameraView } from "expo-camera/next";
 import { FormDataModel } from './FormDataModel';
 import { GetDeviceInfo } from '../firebase/data';
 import { QRKEY } from '../../constants';
+import { GetImageFromStorage } from '../firebase/storage';
 
-const Scanner = ({ setScanned, setFormData }) => {
+const Scanner = ({ setScanned, setFormData, setDeviceImageUrl }) => {
 
     const handleBarCodeScanned = async ({ data }) => {
         setScanned(true);
@@ -19,6 +20,9 @@ const Scanner = ({ setScanned, setFormData }) => {
                 if (docSnapshot.exists()) {
                     const data = docSnapshot.data();
                     const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
+                    formDataInstance.deviceImageName = data.imageName;
+                    const deviceImageUrl = await GetImageFromStorage(data.imageName);
+                    setDeviceImageUrl(deviceImageUrl);
                     setFormData(formDataInstance);
                 } else {
                     Alert.alert('Error', 'Scanned QR code does not contain a valid device', [

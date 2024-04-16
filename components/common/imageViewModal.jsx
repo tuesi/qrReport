@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
-const ImageViewModal = ({ uri }) => {
+const ImageViewModal = ({ uri, size }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -14,10 +14,12 @@ const ImageViewModal = ({ uri }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Image
-                    source={{ uri }}
-                    style={styles.image}
-                />
+                {uri && (
+                    <Image
+                        source={{ uri }}
+                        style={[styles.image, size ? { width: size, height: size } : {}]}
+                    />
+                )}
             </TouchableOpacity>
 
             <Modal
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     image: {
         width: 150,

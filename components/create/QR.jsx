@@ -12,8 +12,9 @@ import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import { QRKEY, LOGO_NAME } from '../../constants';
 import HiddenQr from "../common/hiddenQr";
+import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 
-const QR = ({ name, notes, setName, setNotes }) => {
+const QR = ({ name, notes, setName, setNotes, image }) => {
 
     const createText = 'KURTI ĮRENGINĮ';
     const editText = 'SAUGOTI PAKEITIMUS';
@@ -45,7 +46,8 @@ const QR = ({ name, notes, setName, setNotes }) => {
     const generateQRCode = async () => {
         //if qr code is shown and item is created EDIT the result instead of creating another one on generateQR pressed
         if (qrData && fileUri) {
-            const deviceData = new DeviceDataModel(name, notes).toPlainObject();
+            const fileName = ImageFileNameGetter(image);
+            const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
             const jsonData = JSON.parse(qrData);
             await UpdateDeviceInfo(jsonData.deviceId, deviceData);
             Alert.alert('Success', 'Sėkmaingai atnaujinta');
@@ -56,7 +58,8 @@ const QR = ({ name, notes, setName, setNotes }) => {
             }
             try {
                 Keyboard.dismiss();
-                const deviceData = new DeviceDataModel(name, notes).toPlainObject();
+                const fileName = ImageFileNameGetter(image);
+                const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
                 const docRef = await AddNewDevice(deviceData);
 
                 let newQrData = new QrDataModel(QRKEY, docRef.id);

@@ -3,7 +3,6 @@ import * as Color from "../../styles/colors";
 
 const createStyles = StyleSheet.create({
     createInputContainer: {
-        flex: 1,
         width: '80%',
         alignItems: 'center',
         justifyContent: 'start'

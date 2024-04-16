@@ -11,8 +11,12 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DateStringParser from '../../utils/dateStringParser';
 import { ConfirmAction } from '../common/confirmAction';
 import * as ImagePicker from 'expo-image-picker';
+import GenerateSubString from '../../utils/generateSubString';
+import SetImage from '../common/setImage';
+import ImageViewModal from '../common/imageViewModal';
+import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 
-const ReportInput = ({ setScanned, formData, setFormData }) => {
+const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
@@ -30,25 +34,12 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
         Keyboard.dismiss();
     };
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
     const handleAddReport = async () => {
         try {
-            await AddNewReport(formData);
+            const nameSubString = GenerateSubString(formData.name);
+            const fileName = ImageFileNameGetter(image);
+            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName };
+            await AddNewReport(updatedFormData);
             setScanned(false);
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!');
             setFormData(new FormDataModel());
@@ -67,20 +58,27 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
-                            <TextInput
-                                style={Styles.input_disabled}
-                                placeholder="Įrangos pavadinimas"
-                                value={formData.name}
-                                editable={false}
-                            />
-                            <TextInput
-                                style={Styles.input_disabled_large}
-                                placeholder="Papildoma informacija"
-                                value={formData.notes}
-                                editable={false}
-                                multiline={true}
-                                textAlignVertical='top'
-                            />
+                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                                <View style={{ width: '70%', alignItems: 'center' }}>
+                                    <TextInput
+                                        style={Styles.input_disabled}
+                                        placeholder="Įrangos pavadinimas"
+                                        value={formData.name}
+                                        editable={false}
+                                    />
+                                    <TextInput
+                                        style={Styles.input_disabled_large}
+                                        placeholder="Papildoma informacija"
+                                        value={formData.notes}
+                                        editable={false}
+                                        multiline={true}
+                                        textAlignVertical='top'
+                                    />
+                                </View>
+                                <View style={{ marginLeft: '5%' }}>
+                                    <ImageViewModal uri={deviceImageUrl} size={150} />
+                                </View>
+                            </View>
                             <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
                                 <Text style={Styles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
                             </TouchableOpacity>
@@ -108,8 +106,12 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                                 multiline={true}
                                 textAlignVertical='top'
                             />
-                            <Button text={'Pridėti nuotrauką'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={pickImage}></Button>
-                            {image && <Image source={{ uri: image }} style={Styles.image} />}
+                            <View style={{ height: image ? "25%" : 0 }}>
+                                <ImageViewModal uri={image} />
+                            </View>
+                            <View style={{ flex: 1, width: '50%' }}>
+                                <SetImage image={image} setImage={setImage}></SetImage>
+                            </View>
                             <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => { ConfirmAction("Ar tikrai norite registruoti gedimą?", handleAddReport) }} />
                             <View>
                                 <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={() => setScanned(false)} />

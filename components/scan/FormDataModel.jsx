@@ -1,5 +1,5 @@
 export class FormDataModel {
-    constructor(deviceId, name, notes, message = '', location = '', dateCreated = new Date()) {
+    constructor(deviceId, name, notes, message = '', location = '', dateCreated = new Date(), imageName = '', deviceImageName = '', subString = []) {
         this.deviceId = deviceId;
         this.name = name;
         this.notes = notes;
@@ -8,5 +8,8 @@ export class FormDataModel {
         this.dateCreated = dateCreated;
         this.dateCompleted = null;
         this.completed = false;
+        this.subString = subString;
+        this.imageName = imageName;
+        this.deviceImageName = deviceImageName;
     }
 }

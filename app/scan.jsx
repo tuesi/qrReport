@@ -10,6 +10,7 @@ const Create = () => {
     const [permission, requestPermission] = useCameraPermissions();
     const [scanned, setScanned] = useState(false);
     const [formData, setFormData] = useState(new FormDataModel());
+    const [deviceImageUrl, setDeviceImageUrl] = useState(null);
 
     const handleCameraPermission = () => {
         if (!permission.canAskAgain) {
@@ -33,11 +34,11 @@ const Create = () => {
 
     if (!scanned) {
         return (
-            <Scanner setScanned={setScanned} setFormData={setFormData}></Scanner>
+            <Scanner setScanned={setScanned} setFormData={setFormData} setDeviceImageUrl={setDeviceImageUrl}></Scanner>
         )
     } else {
         return (
-            <ReportInput setScanned={setScanned} formData={formData} setFormData={setFormData}></ReportInput>
+            <ReportInput setScanned={setScanned} formData={formData} setFormData={setFormData} deviceImageUrl={deviceImageUrl}></ReportInput>
         )
     }
 }

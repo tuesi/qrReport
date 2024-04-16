@@ -1,17 +1,37 @@
 import Styles from '../../styles/styles';
 import { Text, View, ScrollView } from 'react-native';
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import DateStringParser from '../../utils/dateStringParser';
 import { CompleteReport } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import { ConfirmAction } from '../common/confirmAction';
+import ImageViewModal from '../common/imageViewModal';
+import { GetImageFromStorage } from '../firebase/storage';
 
 const Edit = ({ setModalVisible, selectedItem }) => {
 
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ['80%'], []);
+    const snapPoints = useMemo(() => ['90%'], []);
+    const [deviceImage, setDeviceImage] = useState(null);
+    const [reportImage, setReportImage] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const deviceImageUrl = await GetImageFromStorage(selectedItem.deviceImageName);
+                setDeviceImage(deviceImageUrl);
+                const reportImageUrl = await GetImageFromStorage(selectedItem.imageName);
+                setReportImage(reportImageUrl);
+            } catch (error) {
+                // Handle error
+                console.error('Error fetching image:', error);
+            }
+        };
+
+        fetchData();
+    }, [])
 
     const handleSheetChanges = (index) => {
         if (index === -1) {
@@ -53,10 +73,16 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                     <View style={Styles.deviceInfoModalContainer}>
                         <Text style={{ ...Styles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
                     </View>
+                    <View style={{ height: deviceImage ? "1%" : 0, zIndex: 10 }}>
+                        <ImageViewModal uri={deviceImage} />
+                    </View>
 
                     <View style={Styles.reportInfoContainer}>
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 20 }}>Gedimo informacija</Text>
                         <Text style={Styles.secondaryText}>{selectedItem?.message}</Text>
+                    </View>
+                    <View style={{ height: reportImage ? "1%" : 0, zIndex: 10 }}>
+                        <ImageViewModal uri={reportImage} />
                     </View>
 
                     <View style={Styles.deviceLocationContainer}>

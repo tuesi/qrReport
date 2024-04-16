@@ -5,8 +5,9 @@ import Edit from '../modals/edit';
 import RenderItem from './RenderListItem';
 import Styles from '../../styles/styles';
 import * as Colors from '../../styles/colors';
+import SearchBar from '../common/searchBar';
 
-const List = ({ data, loading, setLoading }) => {
+const List = ({ data, loading, setLoading, setSearchText }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -21,10 +22,13 @@ const List = ({ data, loading, setLoading }) => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={Styles.safeAreaStyle}>
+            <SafeAreaView style={[Styles.safeAreaStyle, { marginTop: 60 }]}>
+                <View style={{ width: "90%", alignItems: 'flex-end', justifyContent: 'center', marginBottom: '2%' }}>
+                    <SearchBar setSearchText={setSearchText} />
+                </View>
                 <View style={Styles.container}>
                     <FlatList
-                        style={{ width: "90%", marginBottom: '20%', borderRadius: 20 }}
+                        style={{ width: "90%", marginBottom: '10%', borderRadius: 20 }}
                         showsVerticalScrollIndicator={false}
                         data={data}
                         horizontal={false}
@@ -33,6 +37,8 @@ const List = ({ data, loading, setLoading }) => {
                         onEndReached={fetchData}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={loading && <Text style={Styles.textStyle}>Loading...</Text>}
+                        initialNumToRender={5}
+                        maxToRenderPerBatch={5}
                     />
                     {modalVisible && (
                         <Edit

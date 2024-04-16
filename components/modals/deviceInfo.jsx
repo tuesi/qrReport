@@ -1,7 +1,7 @@
 import Styles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { UpdateDeviceInfo, DeleteDevice } from '../firebase/data';
 import * as Color from '../../styles/colors';
@@ -9,10 +9,27 @@ import Button from "../common/button";
 import ShowDeviceQr from "../devices/showDeviceQR";
 import { DeviceDataModel } from "../create/deviceDataModel";
 import { ConfirmAction } from '../common/confirmAction';
+import ImageViewModal from '../common/imageViewModal';
+import { GetImageFromStorage } from '../firebase/storage';
 
 const DeviceInfo = ({ setModalVisible, selectedItem }) => {
 
-    const [deviceData, setDeviceData] = useState(new DeviceDataModel(selectedItem.name, selectedItem.notes));
+    const [deviceData, setDeviceData] = useState(new DeviceDataModel(selectedItem.name, selectedItem.notes, selectedItem.imageName));
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const imageUrl = await GetImageFromStorage(selectedItem.imageName);
+                setImage(imageUrl);
+            } catch (error) {
+                // Handle error
+                console.error('Error fetching image:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const [showQr, setShowQr] = useState(true);
     const bottomSheetRef = useRef(null);
@@ -80,6 +97,9 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                             textAlignVertical='top'
                             onChangeText={(text) => setDeviceData({ ...deviceData, notes: text })}
                         />
+                        <View style={{ height: image ? "1%" : 0, zIndex: 10 }}>
+                            <ImageViewModal uri={image} />
+                        </View>
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
                                 <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name}></ShowDeviceQr>
