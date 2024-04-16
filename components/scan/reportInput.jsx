@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView, Image } from "react-native";
 import Styles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
@@ -9,11 +9,14 @@ import { AddNewReport } from '../firebase/data';
 import Button from '../common/button';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DateStringParser from '../../utils/dateStringParser';
+import { ConfirmAction } from '../common/confirmAction';
+import * as ImagePicker from 'expo-image-picker';
 
 const ReportInput = ({ setScanned, formData, setFormData }) => {
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
+    const [image, setImage] = useState(null);
 
     const navigation = useNavigation();
 
@@ -25,6 +28,22 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
 
     const handlePressOutside = () => {
         Keyboard.dismiss();
+    };
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
     };
 
     const handleAddReport = async () => {
@@ -89,6 +108,8 @@ const ReportInput = ({ setScanned, formData, setFormData }) => {
                                 multiline={true}
                                 textAlignVertical='top'
                             />
+                            <Button text={'Pridėti nuotrauką'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={pickImage}></Button>
+                            {image && <Image source={{ uri: image }} style={Styles.image} />}
                             <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => { ConfirmAction("Ar tikrai norite registruoti gedimą?", handleAddReport) }} />
                             <View>
                                 <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={() => setScanned(false)} />

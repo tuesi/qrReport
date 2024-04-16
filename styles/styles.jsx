@@ -274,6 +274,10 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginTop: '5%'
+    },
+    image: {
+        width: 150,
+        height: 150,
     }
 });
 
