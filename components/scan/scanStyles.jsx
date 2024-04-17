@@ -17,6 +17,18 @@ const scanStyles = StyleSheet.create({
         height: '105%',
         width: '100%',
     },
+    reportContainerSmall: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20
+    },
+    reportContainerLarge: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        marginBottom: 20
+    }
 })
 
 export default scanStyles;

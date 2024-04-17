@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { FetchDeviceDataFromFirestore } from '../components/firebase/data'
-import DeviceList from '../components/devices/deviceList';
+import { FetchDeviceDataFromFirestore } from '../../components/firebase/data'
+import DeviceList from '../../components/devices/deviceList';
+import { View } from 'react-native';
 
 const Devices = () => {
 

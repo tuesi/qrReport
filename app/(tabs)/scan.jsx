@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, Button, Linking } from "react-native";
 import { useCameraPermissions } from "expo-camera/next";
-import Scanner from "../components/scan/scanner";
-import ReportInput from "../components/scan/reportInput";
-import { FormDataModel } from '../components/scan/FormDataModel';
+import Scanner from "../../components/scan/scanner";
+import ReportInput from "../../components/scan/reportInput";
+import { FormDataModel } from '../../components/scan/FormDataModel';
 
 const Create = () => {
 

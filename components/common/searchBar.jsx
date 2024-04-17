@@ -1,12 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Animated, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Color from '../../styles/colors';
 
 const SearchBar = ({ setSearchText }) => {
     const [localSearchText, setLocalSearchText] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(true);
     const animateWidth = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        toggleSearch();
+    }, [])
 
     const handlePressOutside = () => {
         Keyboard.dismiss();
@@ -72,6 +76,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         fontSize: 18,
         fontWeight: "bold",
+        zIndex: 10
     },
     input_hidden: {
         borderWidth: 0,

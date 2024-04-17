@@ -97,8 +97,8 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                             textAlignVertical='top'
                             onChangeText={(text) => setDeviceData({ ...deviceData, notes: text })}
                         />
-                        <View style={{ height: image ? "1%" : 0, zIndex: 10 }}>
-                            <ImageViewModal uri={image} />
+                        <View style={{ height: 0, zIndex: 10 }}>
+                            <ImageViewModal uri={image} size={100} />
                         </View>
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (

@@ -3,7 +3,7 @@ import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, star
 
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
 
-    if (searchText) {
+    if (searchText !== '') {
         let items = await findBySearch(searchText);
         setData(items);
         setLastQuerySnapshot(null);
@@ -132,4 +132,12 @@ export const CompleteReport = async (reportId) => {
     } catch (error) {
         console.error("Error updating document: ", error);
     }
+};
+
+export const AddNewUser = async (userData) => {
+    return await addDoc(collection(FIRESTORE_DB, "users"), userData);
+};
+
+export const getUsers = async () => {
+    return await getDocs(collection(FIRESTORE_DB, "users"));
 };

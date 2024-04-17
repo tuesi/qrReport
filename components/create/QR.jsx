@@ -13,6 +13,7 @@ import Button from "../common/button";
 import { QRKEY, LOGO_NAME } from '../../constants';
 import HiddenQr from "../common/hiddenQr";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
+import SaveImage from "../../utils/saveImage";
 
 const QR = ({ name, notes, setName, setNotes, image }) => {
 
@@ -50,6 +51,7 @@ const QR = ({ name, notes, setName, setNotes, image }) => {
             const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
             const jsonData = JSON.parse(qrData);
             await UpdateDeviceInfo(jsonData.deviceId, deviceData);
+            await SaveImage(image);
             Alert.alert('Success', 'Sėkmaingai atnaujinta');
         } else {
             if (!name || !notes) {
@@ -61,6 +63,7 @@ const QR = ({ name, notes, setName, setNotes, image }) => {
                 const fileName = ImageFileNameGetter(image);
                 const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
                 const docRef = await AddNewDevice(deviceData);
+                await SaveImage(image);
 
                 let newQrData = new QrDataModel(QRKEY, docRef.id);
                 const jsonData = JSON.stringify(newQrData);

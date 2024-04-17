@@ -1,25 +1,48 @@
-import { useState, useEffect, useRef } from 'react';
-import { FetchDataFromFirestore } from '../components/firebase/data'
-import List from '../components/index/list';
+import { View, TextInput } from "react-native";
+import styles from "../styles/styles";
+import { useState, useEffect } from "react";
+import Button from "../components/common/button";
+import { useNavigation } from '@react-navigation/native';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = () => {
+const Login = () => {
 
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
-    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
+
+    const [name, setName] = useState('');
 
     useEffect(() => {
-        const signInAndFetchData = async () => {
-            await FetchDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
+        const fetchName = async () => {
+            const storedName = await ReactNativeAsyncStorage.getItem('userName');
+            if (storedName) {
+                navigation.navigate('(tabs)', {
+                    screen: 'home'
+                });
+            }
         };
 
-        signInAndFetchData();
-    }, [loading, searchText])
+        fetchName();
+    }, []);
+
+    const onLogIn = async () => {
+        await ReactNativeAsyncStorage.setItem('userName', name);
+        setName('');
+        navigation.navigate('(tabs)', {
+            screen: 'home'
+        });
+    }
 
     return (
-        <List data={data} loading={loading} setLoading={setLoading} setSearchText={setSearchText}></List>
-    )
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <TextInput
+                placeholder="Naudotojo vardas"
+                styles={styles.input}
+                value={name}
+                onChangeText={text => setName(text)}
+            />
+            <Button onPress={onLogIn}></Button>
+        </View>
+    );
 }
 
-export default Home;
+export default Login;

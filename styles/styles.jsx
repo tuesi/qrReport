@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: Color.BUTTON_TEXT_COLOR,
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        textAlign: 'center'
     },
     centeredView: {
         flex: 1,

@@ -25,7 +25,7 @@ const CreateInput = ({ name, notes, setName, setNotes, image }) => {
                 textAlignVertical='top'
                 onChangeText={text => setNotes(text)}
             />
-            <View style={{ height: image ? "25%" : 0 }}>
+            <View style={{ height: image ? "25%" : 0, marginTop: '5%' }}>
                 <ImageViewModal uri={image} />
             </View>
         </View>

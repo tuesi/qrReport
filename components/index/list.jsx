@@ -22,7 +22,7 @@ const List = ({ data, loading, setLoading, setSearchText }) => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={[Styles.safeAreaStyle, { marginTop: 60 }]}>
+            <SafeAreaView style={[Styles.safeAreaStyle, { marginTop: '25%' }]}>
                 <View style={{ width: "90%", alignItems: 'flex-end', justifyContent: 'center', marginBottom: '2%' }}>
                     <SearchBar setSearchText={setSearchText} />
                 </View>

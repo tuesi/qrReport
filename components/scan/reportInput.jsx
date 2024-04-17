@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView, Image } from "react-native";
+import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from "react-native";
 import Styles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
@@ -15,6 +15,7 @@ import GenerateSubString from '../../utils/generateSubString';
 import SetImage from '../common/setImage';
 import ImageViewModal from '../common/imageViewModal';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
+import SaveImage from '../../utils/saveImage';
 
 const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
 
@@ -22,6 +23,7 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
 
+    const { width, height } = Dimensions.get('window');
     const navigation = useNavigation();
 
     const onChange = (date) => {
@@ -40,6 +42,7 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
             const fileName = ImageFileNameGetter(image);
             const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName };
             await AddNewReport(updatedFormData);
+            await SaveImage(image);
             setScanned(false);
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!');
             setFormData(new FormDataModel());
@@ -58,25 +61,27 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
-                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-                                <View style={{ width: '70%', alignItems: 'center' }}>
+                            <View style={width > 500 ? scanStyles.reportContainerLarge : scanStyles.reportContainerSmall}>
+                                <View style={{ width: '100%' }}>
                                     <TextInput
                                         style={Styles.input_disabled}
                                         placeholder="Įrangos pavadinimas"
                                         value={formData.name}
                                         editable={false}
                                     />
-                                    <TextInput
-                                        style={Styles.input_disabled_large}
-                                        placeholder="Papildoma informacija"
-                                        value={formData.notes}
-                                        editable={false}
-                                        multiline={true}
-                                        textAlignVertical='top'
-                                    />
+                                    <View style={{ width: width > 500 ? '80%' : '70%' }}>
+                                        <TextInput
+                                            style={Styles.input_disabled_large}
+                                            placeholder="Papildoma informacija"
+                                            value={formData.notes}
+                                            editable={false}
+                                            multiline={true}
+                                            textAlignVertical='top'
+                                        />
+                                    </View>
                                 </View>
-                                <View style={{ marginLeft: '5%' }}>
-                                    <ImageViewModal uri={deviceImageUrl} size={150} />
+                                <View style={{ marginLeft: width > 500 ? '-18%' : '-25%', marginTop: width < 500 ? '22%' : '' }}>
+                                    <ImageViewModal uri={deviceImageUrl} size={width > 500 ? 100 : 70} />
                                 </View>
                             </View>
                             <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
@@ -106,10 +111,10 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
                                 multiline={true}
                                 textAlignVertical='top'
                             />
-                            <View style={{ height: image ? "25%" : 0 }}>
+                            <View style={{ height: image ? "20%" : 0 }}>
                                 <ImageViewModal uri={image} />
                             </View>
-                            <View style={{ flex: 1, width: '50%' }}>
+                            <View style={{ width: '80%', marginBottom: '10%' }}>
                                 <SetImage image={image} setImage={setImage}></SetImage>
                             </View>
                             <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => { ConfirmAction("Ar tikrai norite registruoti gedimą?", handleAddReport) }} />

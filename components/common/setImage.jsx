@@ -3,8 +3,6 @@ import { Modal, View, StyleSheet, TouchableOpacity } from "react-native";
 import Button from "./button";
 import * as ImagePicker from 'expo-image-picker';
 import * as Color from '../../styles/colors';
-import { SaveImageToStorage } from "../firebase/storage";
-import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 
 const SetImage = ({ image, setImage }) => {
 
@@ -22,8 +20,6 @@ const SetImage = ({ image, setImage }) => {
 
             if (!result.canceled) {
                 setImage(result.assets[0].uri);
-                const fileName = ImageFileNameGetter(result.assets[0].uri);
-                await SaveImageToStorage(result.assets[0].uri, fileName);
                 setModalVisible(false);
             }
         } catch (error) {
@@ -33,7 +29,6 @@ const SetImage = ({ image, setImage }) => {
 
     const pickImage = async () => {
         try {
-            // No permissions request is necessary for launching the image library
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
@@ -43,12 +38,10 @@ const SetImage = ({ image, setImage }) => {
 
             if (!result.canceled) {
                 setImage(result.assets[0].uri);
-                const fileName = ImageFileNameGetter(result.assets[0].uri);
-                await SaveImageToStorage(result.assets[0].uri, fileName);
                 setModalVisible(false);
             }
         } catch (error) {
-
+            console.log(error)
         }
     };
 
