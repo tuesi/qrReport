@@ -134,10 +134,20 @@ export const CompleteReport = async (reportId) => {
     }
 };
 
-export const AddNewUser = async (userData) => {
-    return await addDoc(collection(FIRESTORE_DB, "users"), userData);
+export const AddNewUser = async (userData, username) => {
+    const userRef = collection(FIRESTORE_DB, "users");
+    const checkUserQuery = query(userRef, where("username", "==", username));
+    const querySnapshot = await getDocs(checkUserQuery);
+    if (querySnapshot.empty) {
+        return await addDoc(userRef, userData);
+    }
 };
 
 export const getUsers = async () => {
-    return await getDocs(collection(FIRESTORE_DB, "users"));
+    const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
+    const users = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return { label: data.username, value: data.username };
+    });
+    return users;
 };

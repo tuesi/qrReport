@@ -12,7 +12,7 @@ const User = () => {
     const [name, setName] = useState('');
 
     const onPress = async () => {
-        await ReactNativeAsyncStorage.setItem('userName', '');
+        await ReactNativeAsyncStorage.removeItem('userName');
         navigation.navigate('index');
     }
 
