@@ -6,8 +6,6 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { AddNewUser, getUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
-import SetNotifications from "../components/notifications/setNotifications";
-import { Auth } from "../components/firebase/auth";
 import DropDown from "../components/common/dropDown";
 
 const Login = () => {
@@ -15,7 +13,6 @@ const Login = () => {
     const navigation = useNavigation();
 
     const [selected, setSelected] = useState("");
-    const [defaultUser, setDefaultUser] = useState(null);
     const [isNew, setIsNew] = useState(false);
     const [data, setData] = useState([]);
 
@@ -30,10 +27,7 @@ const Login = () => {
     );
 
     useEffect(() => {
-        console.log('use effect');
         const fetchNames = async () => {
-            //TODO perkelti auth atgal i home kad authentikuotu tik ivedus varda. Ir ten kazkur padaryti ir del notificationu
-            await Auth();
             const storedName = await ReactNativeAsyncStorage.getItem('userName');
             if (storedName) {
                 navigation.navigate('(tabs)', {
@@ -55,7 +49,6 @@ const Login = () => {
         const newItem = { label: newValue, value: newValue };
         setData(prevData => [...prevData, newItem]);
         setIsNew(true);
-        setDefaultUser(newItem);
     };
 
     const onLogIn = async () => {
@@ -75,7 +68,6 @@ const Login = () => {
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <SetNotifications></SetNotifications>
                 <View style={{ width: '90%', alignItems: 'center', justifyContent: 'center', marginBottom: '5%' }}>
                     <DropDown
                         data={data}

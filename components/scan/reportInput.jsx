@@ -43,6 +43,8 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
             const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName };
             await AddNewReport(updatedFormData);
             await SaveImage(image);
+            //TODO send notification
+
             setScanned(false);
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!');
             setFormData(new FormDataModel());

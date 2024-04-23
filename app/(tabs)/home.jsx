@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { FetchDataFromFirestore } from '../../components/firebase/data'
 import List from '../../components/index/list';
 import User from '../../components/common/user';
+import { Auth } from "../../components/firebase/auth";
 
 const Home = () => {
 
@@ -13,6 +14,7 @@ const Home = () => {
 
     useEffect(() => {
         const signInAndFetchData = async () => {
+            await Auth();
             await FetchDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
         };
 
