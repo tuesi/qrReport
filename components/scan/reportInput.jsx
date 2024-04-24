@@ -16,6 +16,7 @@ import SetImage from '../common/setImage';
 import ImageViewModal from '../common/imageViewModal';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 import SaveImage from '../../utils/saveImage';
+import { SendPushNotification } from '../notifications/setNotifications';
 
 const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
 
@@ -43,12 +44,17 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
             const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName };
             await AddNewReport(updatedFormData);
             await SaveImage(image);
-            //TODO send notification
-
-            setScanned(false);
-            Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!');
-            setFormData(new FormDataModel());
-            navigation.navigate('index')
+            //send notification
+            SendPushNotification('Užregistruotas naujas gedimas!', formData.name);
+            Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!', [
+                {
+                    text: 'OK', onPress: () => {
+                        setScanned(false);
+                        setFormData(new FormDataModel());
+                        navigation.navigate('index')
+                    }
+                }
+            ]);
         } catch (e) {
             console.error("Error adding document: ", e);
         }

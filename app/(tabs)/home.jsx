@@ -4,6 +4,7 @@ import { FetchDataFromFirestore } from '../../components/firebase/data'
 import List from '../../components/index/list';
 import User from '../../components/common/user';
 import { Auth } from "../../components/firebase/auth";
+import { SetNotifications } from '../../components/notifications/setNotifications';
 
 const Home = () => {
 
@@ -13,8 +14,17 @@ const Home = () => {
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
-        const signInAndFetchData = async () => {
+        const appInit = async () => {
             await Auth();
+            await SetNotifications();
+        };
+
+        appInit();
+
+    }, [])
+
+    useEffect(() => {
+        const signInAndFetchData = async () => {
             await FetchDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
         };
 

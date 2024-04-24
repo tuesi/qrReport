@@ -3,10 +3,10 @@ import styles from "../styles/styles";
 import { useState, useEffect, useCallback } from "react";
 import Button from "../components/common/button";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { AddNewUser, getUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
 import DropDown from "../components/common/dropDown";
+import { getData, setData } from "../utils/getMemoryObjects";
 
 const Login = () => {
 
@@ -14,13 +14,13 @@ const Login = () => {
 
     const [selected, setSelected] = useState("");
     const [isNew, setIsNew] = useState(false);
-    const [data, setData] = useState([]);
+    const [nameListData, setNameListData] = useState([]);
 
     useFocusEffect(
         useCallback(() => {
             const fetchNames = async () => {
                 const users = await getUsers();
-                setData(users);
+                setNameListData(users);
             }
             fetchNames();
         }, [])
@@ -28,14 +28,14 @@ const Login = () => {
 
     useEffect(() => {
         const fetchNames = async () => {
-            const storedName = await ReactNativeAsyncStorage.getItem('userName');
+            const storedName = await getData('userName');
             if (storedName) {
                 navigation.navigate('(tabs)', {
                     screen: 'home'
                 });
             } else {
                 const users = await getUsers();
-                setData(users);
+                setNameListData(users);
             }
         };
         fetchNames();
@@ -47,13 +47,14 @@ const Login = () => {
 
     const handleAddItem = (newValue) => {
         const newItem = { label: newValue, value: newValue };
-        setData(prevData => [...prevData, newItem]);
+        setNameListData(prevData => [...prevData, newItem]);
         setIsNew(true);
     };
 
     const onLogIn = async () => {
         if (selected !== "") {
-            await ReactNativeAsyncStorage.setItem('userName', selected);
+            //save in memory
+            await setData('userName', selected);
             if (isNew) {
                 const userData = new UserDataModel(selected);
                 await AddNewUser(userData.toPlainObject(), selected);
@@ -70,7 +71,7 @@ const Login = () => {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ width: '90%', alignItems: 'center', justifyContent: 'center', marginBottom: '5%' }}>
                     <DropDown
-                        data={data}
+                        data={nameListData}
                         getSelected={
                             (value) => {
                                 setSelected(value);

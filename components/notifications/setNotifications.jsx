@@ -3,7 +3,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { getNotificationTokens, saveNotificationToken } from '../firebase/notifications';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { storeObject, getObjectData } from '../../utils/getMemoryObjects';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -13,11 +13,9 @@ Notifications.setNotificationHandler({
     }),
 });
 
-export const sendPushNotification = async (title = 'Original Title', body = 'And here is the body!') => {
-
-    const jsonTokenValue = await ReactNativeAsyncStorage.getItem('notifyTokens');
-    const tokens = JSON.parse(jsonTokenValue);
-
+export const SendPushNotification = async (title = 'Original Title', body = 'And here is the body!') => {
+    //TODO Also check it there is new tokens in the db before sending
+    const tokens = await getObjectData('notifyTokens');
     const message = {
         to: tokens,
         sound: 'default',
@@ -85,28 +83,9 @@ const registerForPushNotificationsAsync = async () => {
 }
 
 export const SetNotifications = async () => {
-
-    // const [notification, setNotification] = useState(false);
-    // const responseListener = useRef();
-    // const notificationListener = useRef();
     await registerForPushNotificationsAsync();
-
     const currentTokens = await getNotificationTokens();
-    const jsonTokenValue = JSON.stringify(currentTokens);
-    await ReactNativeAsyncStorage.setItem('notifyTokens', jsonTokenValue);
-
-    // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //     setNotification(notification);
-    // });
-
-    // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //     console.log(response);
-    // });
-
-    return () => {
-        // Notifications.removeNotificationSubscription(notificationListener.current);
-        // Notifications.removeNotificationSubscription(responseListener.current);
-    };
+    await storeObject('notifyTokens', currentTokens);
 }
 
 // const SetNotifications = () => {

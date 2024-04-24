@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from "react";
 import GetInitials from "../../utils/getInitials";
 import { useNavigation } from '@react-navigation/native';
 import * as Color from '../../styles/colors';
+import { getData, removeData } from "../../utils/getMemoryObjects";
 
 const User = () => {
 
@@ -12,13 +12,13 @@ const User = () => {
     const [name, setName] = useState('');
 
     const onPress = async () => {
-        await ReactNativeAsyncStorage.removeItem('userName');
+        removeData('userName');
         navigation.navigate('index');
     }
 
     useEffect(() => {
         const fetchName = async () => {
-            const storedName = await ReactNativeAsyncStorage.getItem('userName');
+            const storedName = getData('userName');
             if (storedName) {
                 setName(GetInitials(storedName));
             }
