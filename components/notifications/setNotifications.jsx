@@ -3,7 +3,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { getNotificationTokens, saveNotificationToken } from '../firebase/notifications';
-import { storeObject, getObjectData } from '../../utils/getMemoryObjects';
+import { storeObject, getObjectData, storeData, getData } from '../../utils/getMemoryObjects';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -16,8 +16,10 @@ Notifications.setNotificationHandler({
 export const SendPushNotification = async (title = 'Original Title', body = 'And here is the body!') => {
     //TODO Also check it there is new tokens in the db before sending
     const tokens = await getObjectData('notifyTokens');
+    const myToken = await getData('myNotificationToken');
+    const sendTokens = tokens.filter(token => token !== myToken);
     const message = {
-        to: tokens,
+        to: sendTokens,
         sound: 'default',
         title: title,
         body: body
@@ -74,6 +76,7 @@ const registerForPushNotificationsAsync = async () => {
                 })
             ).data;
             await saveNotificationToken(pushTokenString);
+            await storeData('myNotificationToken', pushTokenString);
         } catch (e) {
             handleRegistrationError(`${e}`);
         }

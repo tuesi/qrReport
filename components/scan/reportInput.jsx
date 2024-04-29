@@ -40,10 +40,9 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
     const handleAddReport = async () => {
         try {
             const nameSubString = GenerateSubString(formData.name);
-            const fileName = ImageFileNameGetter(image);
-            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName };
+            const fileName = await SaveImage(image);
+            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName ?? '' };
             await AddNewReport(updatedFormData);
-            await SaveImage(image);
             //send notification
             SendPushNotification('Užregistruotas naujas gedimas!', formData.name);
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!', [
@@ -51,7 +50,7 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
                     text: 'OK', onPress: () => {
                         setScanned(false);
                         setFormData(new FormDataModel());
-                        navigation.navigate('index')
+                        navigation.navigate('home')
                     }
                 }
             ]);

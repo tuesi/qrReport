@@ -18,7 +18,7 @@ const User = () => {
 
     useEffect(() => {
         const fetchName = async () => {
-            const storedName = getData('userName');
+            const storedName = await getData('userName');
             if (storedName) {
                 setName(GetInitials(storedName));
             }

@@ -6,7 +6,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { AddNewUser, getUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
 import DropDown from "../components/common/dropDown";
-import { getData, setData } from "../utils/getMemoryObjects";
+import { getData, storeData } from "../utils/getMemoryObjects";
 
 const Login = () => {
 
@@ -54,7 +54,8 @@ const Login = () => {
     const onLogIn = async () => {
         if (selected !== "") {
             //save in memory
-            await setData('userName', selected);
+            console.log(selected);
+            await storeData('userName', selected);
             if (isNew) {
                 const userData = new UserDataModel(selected);
                 await AddNewUser(userData.toPlainObject(), selected);

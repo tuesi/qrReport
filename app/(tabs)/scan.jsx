@@ -22,10 +22,9 @@ const Create = () => {
 
     if (permission && !permission.granted) {
         return (
-            <View className="flex-1 justify-center items-center">
-                <Text>No access to camera</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Button
-                    title="Request Permission"
+                    title="Leisti aplikacijai naudoti kamerą"
                     onPress={() => handleCameraPermission()}
                 />
             </View>

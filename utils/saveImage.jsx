@@ -2,8 +2,11 @@ import { SaveImageToStorage, RemoveImageFromStorage } from "../components/fireba
 import ImageFileNameGetter from "./imageFileNameGetter";
 
 const SaveImage = async (image) => {
-    const fileName = ImageFileNameGetter(image);
-    await SaveImageToStorage(image, fileName);
+    if (image) {
+        const fileName = ImageFileNameGetter(image);
+        await SaveImageToStorage(image, fileName);
+        return fileName;
+    }
 }
 
 export default SaveImage;

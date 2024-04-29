@@ -39,7 +39,7 @@ export const getObjectData = async (key) => {
 
 export const removeData = async (key) => {
     try {
-        await AsyncStorage.removeItem(key)
+        await ReactNativeAsyncStorage.removeItem(key)
     } catch (e) {
         console.log('Error removing data', e);
     }
