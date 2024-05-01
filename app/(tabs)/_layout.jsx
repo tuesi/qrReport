@@ -48,22 +48,22 @@ const Layout = () => {
                 }}
             />
             <Tabs.Screen
-                name="create"
-                options={{
-                    title: 'Nauja įranga',
-                    headerShown: false,
-                    tabBarIcon: ({ color, size }) => {
-                        return <Ionicons name="create-outline" size={size} color={color} />
-                    }
-                }}
-            />
-            <Tabs.Screen
                 name="devices"
                 options={{
                     title: 'Įranga',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="construct-outline" size={size} color={color} />
+                    }
+                }}
+            />
+            <Tabs.Screen
+                name="parts"
+                options={{
+                    title: 'Dalys',
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => {
+                        return <Ionicons name="cog-outline" size={size} color={color} />
                     }
                 }}
             />

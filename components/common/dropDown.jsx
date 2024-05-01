@@ -110,7 +110,7 @@ const DropDown = ({ data, getSelected, newValue, searchPlaceholder = 'Pasirinkit
                                     setTimeout(() => setFilteredData(data), 800)
 
                                 }}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{searchText}</Text>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Sukurti: {searchText}</Text>
                                 </TouchableOpacity>
                         }
                     </ScrollView>

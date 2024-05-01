@@ -17,6 +17,7 @@ import ImageViewModal from '../common/imageViewModal';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 import SaveImage from '../../utils/saveImage';
 import { SendPushNotification } from '../notifications/setNotifications';
+import { getUser } from '../../utils/getMemoryObjects';
 
 const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
 
@@ -39,12 +40,13 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
 
     const handleAddReport = async () => {
         try {
+            const userName = await getUser();
             const nameSubString = GenerateSubString(formData.name);
             const fileName = await SaveImage(image);
-            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName ?? '' };
+            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName ?? '', createdBy: userName };
             await AddNewReport(updatedFormData);
             //send notification
-            SendPushNotification('Užregistruotas naujas gedimas!', formData.name);
+            SendPushNotification(userName + ' užregistravo naują gedimą!', formData.name);
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!', [
                 {
                     text: 'OK', onPress: () => {

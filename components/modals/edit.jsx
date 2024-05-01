@@ -13,7 +13,7 @@ import { GetImageFromStorage } from '../firebase/storage';
 const Edit = ({ setModalVisible, selectedItem }) => {
 
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ['90%'], []);
+    const snapPoints = useMemo(() => ['100%'], []);
     const [deviceImage, setDeviceImage] = useState(null);
     const [reportImage, setReportImage] = useState(null);
 
@@ -60,12 +60,12 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                     opacity={0.5}
                     appearsOnIndex={0}
                     disappearsOnIndex={-1}
-                    style={{ position: 'absolute', top: -200, width: "100%", height: "100%" }}
+                    style={{ position: 'absolute', top: -300, width: "100%", height: "200%" }}
                 />
             )}
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
-            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '50%' }}>
                 <BottomSheetView style={Styles.modalContainer}>
                     <View style={Styles.deviceNameModalContainer}>
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 28 }}>{selectedItem?.name}</Text>
@@ -73,16 +73,16 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                     <View style={Styles.deviceInfoModalContainer}>
                         <Text style={{ ...Styles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
                     </View>
-                    <View style={{ height: deviceImage ? "1%" : 0, zIndex: 10 }}>
-                        <ImageViewModal uri={deviceImage} />
+                    <View style={{ height: deviceImage ? "25%" : 0, zIndex: 10, marginTop: '3%' }}>
+                        <ImageViewModal uri={deviceImage} size={100} />
                     </View>
 
-                    <View style={Styles.reportInfoContainer}>
+                    <View style={[Styles.reportInfoContainer, { marginBottom: reportImage ? '3%' : '10%' }]}>
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 20 }}>Gedimo informacija</Text>
                         <Text style={Styles.secondaryText}>{selectedItem?.message}</Text>
                     </View>
-                    <View style={{ height: reportImage ? "1%" : 0, zIndex: 10 }}>
-                        <ImageViewModal uri={reportImage} />
+                    <View style={{ height: reportImage ? "25%" : 0, zIndex: 10 }}>
+                        <ImageViewModal uri={reportImage} size={100} />
                     </View>
 
                     <View style={Styles.deviceLocationContainer}>
@@ -94,6 +94,12 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Gedimo Data</Text>
                         <Text style={{ ...Styles.dateTextStyle, fontSize: 16 }}>{dateCreated}</Text>
                     </View>
+
+                    <View style={Styles.deviceLocationContainer}>
+                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 18 }}>Sukūrė</Text>
+                        <Text style={Styles.secondaryText}>{selectedItem?.createdBy}</Text>
+                    </View>
+
                     {dateCompleted && (
                         <View style={{ ...Styles.dateRowContainer, width: '70%' }}>
                             <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Įvykdymo data</Text>

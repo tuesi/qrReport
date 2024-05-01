@@ -1,0 +1,49 @@
+import { useState, useEffect, useRef } from 'react';
+import { FetchPartsDataFromFirestore } from '../../../components/firebase/data'
+import ObjectList from '../../../components/common/objectList';
+import { View, SafeAreaView } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Create from './create';
+import Toggle from '../../../components/common/toggle';
+import styles from '../../../styles/styles';
+
+const Devices = () => {
+
+    const [showList, setShowList] = useState(true);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
+
+    useEffect(() => {
+        const signInAndFetchData = async () => {
+            await FetchPartsDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading }));
+        };
+
+        signInAndFetchData();
+    }, [loading])
+
+    toggleScreens = () => {
+        setShowList(previousState => !previousState);
+    }
+
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaView style={[styles.safeAreaStyle, { marginTop: '10%' }]}>
+                <View style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '5%' }}>
+                    <Toggle isActive={!showList} setIsActive={setShowList} />
+                </View>
+                {showList ?
+                    (
+                        <ObjectList data={data} loading={loading} setLoading={setLoading}></ObjectList>
+                    )
+                    :
+                    (
+                        <Create></Create>
+                    )
+                }
+            </SafeAreaView>
+        </GestureHandlerRootView>
+    )
+}
+
+export default Devices;

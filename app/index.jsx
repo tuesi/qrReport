@@ -6,7 +6,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { AddNewUser, getUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
 import DropDown from "../components/common/dropDown";
-import { getData, storeData } from "../utils/getMemoryObjects";
+import { getUser, setUser } from "../utils/getMemoryObjects";
 
 const Login = () => {
 
@@ -28,7 +28,7 @@ const Login = () => {
 
     useEffect(() => {
         const fetchNames = async () => {
-            const storedName = await getData('userName');
+            const storedName = await getUser();
             if (storedName) {
                 navigation.navigate('(tabs)', {
                     screen: 'home'
@@ -54,8 +54,7 @@ const Login = () => {
     const onLogIn = async () => {
         if (selected !== "") {
             //save in memory
-            console.log(selected);
-            await storeData('userName', selected);
+            await setUser(selected);
             if (isNew) {
                 const userData = new UserDataModel(selected);
                 await AddNewUser(userData.toPlainObject(), selected);

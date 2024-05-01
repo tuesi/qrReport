@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import GetInitials from "../../utils/getInitials";
 import { useNavigation } from '@react-navigation/native';
 import * as Color from '../../styles/colors';
-import { getData, removeData } from "../../utils/getMemoryObjects";
+import { getUser, logOut } from "../../utils/getMemoryObjects";
 
 const User = () => {
 
@@ -12,13 +12,13 @@ const User = () => {
     const [name, setName] = useState('');
 
     const onPress = async () => {
-        removeData('userName');
+        await logOut();
         navigation.navigate('index');
     }
 
     useEffect(() => {
         const fetchName = async () => {
-            const storedName = await getData('userName');
+            const storedName = await getUser();
             if (storedName) {
                 setName(GetInitials(storedName));
             }

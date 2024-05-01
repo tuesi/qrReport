@@ -44,3 +44,15 @@ export const removeData = async (key) => {
         console.log('Error removing data', e);
     }
 }
+
+export const getUser = async () => {
+    return await getData('userName');
+}
+
+export const setUser = async (user) => {
+    await storeData('userName', user)
+}
+
+export const logOut = async () => {
+    await removeData('userName')
+}
