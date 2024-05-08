@@ -5,6 +5,7 @@ import List from '../../components/index/list';
 import User from '../../components/common/user';
 import { Auth } from "../../components/firebase/auth";
 import { SetNotifications } from '../../components/notifications/setNotifications';
+import { ActivityIndicator } from 'react-native';
 
 const Home = () => {
 
@@ -35,6 +36,15 @@ const Home = () => {
         <View style={{ flex: 1 }}>
             <User></User>
             <List data={data} loading={loading} setLoading={setLoading} setSearchText={setSearchText}></List>
+            {data.length == 0 && (
+                <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'start'
+                }}>
+                    <ActivityIndicator size="large" />
+                </View>
+            )}
         </View>
     )
 }

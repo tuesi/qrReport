@@ -80,6 +80,7 @@ const Login = () => {
                         newValue={(value) => {
                             handleAddItem(value);
                         }}
+                        addNew={true}
                     ></DropDown>
                 </View>
                 <Button text={'PRISIJUNGTI'} onPress={onLogIn}></Button>

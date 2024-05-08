@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FetchDeviceDataFromFirestore } from '../../../components/firebase/data'
-import ObjectList from '../../../components/common/objectList';
+import DeviceList from '../../../components/devices/deviceList';
 import { View, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Create from './create';
@@ -34,7 +34,7 @@ const Devices = () => {
                 </View>
                 {showList ?
                     (
-                        <ObjectList data={data} loading={loading} setLoading={setLoading}></ObjectList>
+                        <DeviceList data={data} loading={loading} setLoading={setLoading}></DeviceList>
                     )
                     :
                     (

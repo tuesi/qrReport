@@ -17,7 +17,7 @@ const Toggle = ({ isActive, setIsActive }) => {
 
         setTimeout(() => {
             setknobNameValue(isActive ? titles[0] : titles[1])
-        }, 60)
+        }, 200)
 
         // Start the movement animation
         Animated.timing(animatedValue, {
@@ -36,7 +36,7 @@ const Toggle = ({ isActive, setIsActive }) => {
                 }),
                 Animated.timing(opacityValue, {
                     toValue: 1,  // Then fade back in
-                    duration: 125,
+                    duration: 120,
                     useNativeDriver: true
                 })
             ])
@@ -55,13 +55,18 @@ const Toggle = ({ isActive, setIsActive }) => {
 
     return (
         <TouchableWithoutFeedback onPress={toggleSwitch}>
-            <View style={styles.switchContainer}>
+            <LinearGradient
+                style={styles.switchContainer}
+                colors={(['#cfcfcf30', '#ffffff'])}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 1 }}
+            >
                 <Animated.Text style={[styles.sideText, { left: 40, opacity: opacityAnim }]}>{titles[1]}</Animated.Text>
                 <Animated.Text style={[styles.sideText, { left: -40, opacity: opacityAnim }]}>{titles[0]}</Animated.Text>
                 <Animated.View style={[styles.knob, { transform: [{ translateX }] }]}>
                     <Animated.Text style={[styles.knobText, { opacity: opacityAnim }]}>{knobNameValue}</Animated.Text>
                 </Animated.View>
-            </View>
+            </LinearGradient>
         </TouchableWithoutFeedback>
     );
 }
@@ -71,24 +76,20 @@ const styles = StyleSheet.create({
         width: 160,
         height: 45,
         justifyContent: 'center',
-        borderRadius: 20,
-        backgroundColor: '#B9B9B960',
-        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
-        shadowOffset: { width: -2, height: -2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3,
-        elevation: 5,
-        borderWidth: 1,
-        borderColor: '#B9B9B910'
+        borderRadius: 20
     },
     knob: {
         position: 'absolute',
         width: 80,
         height: '100%',
-        backgroundColor: '#81b0ff',
+        backgroundColor: '#a7c8ec',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
     },
     knobText: {
         color: 'white',

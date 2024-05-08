@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import DeviceInfo from '../modals/deviceInfo';
-import DeviceRenderItem from '../devices/DeviceRenderListItem';
+import DeviceRenderItem from './DeviceRenderListItem';
 import Styles from '../../styles/styles';
 
-const ObjectList = ({ data, loading, setLoading }) => {
+const DeviceList = ({ data, loading, setLoading }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -40,4 +40,4 @@ const ObjectList = ({ data, loading, setLoading }) => {
     )
 }
 
-export default ObjectList;
+export default DeviceList;

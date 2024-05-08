@@ -1,5 +1,5 @@
 import { FIRESTORE_DB } from '../../firebaseConfig';
-import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot, deleteDoc, getDocs, where } from 'firebase/firestore';
+import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot, deleteDoc, getDocs, where, setDoc } from 'firebase/firestore';
 
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
 
@@ -92,35 +92,29 @@ export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuer
     return subscribe;
 };
 
-export const FetchPartsDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
+export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot }) => {
+
+    console.log('FETCH DATA');
 
     let reportQuery = query(
         collection(FIRESTORE_DB, "parts"),
+        where("deviceId", "==", deviceId),
         orderBy("created", "desc"),
         limit(pageSize)
     );
 
     if (lastQuerySnapShot) {
+        console.log('LAST QUERY SNAPSHOT ACTIVE');
         reportQuery = query(reportQuery, startAfter(lastQuerySnapShot));
     }
 
-    const subscribe = onSnapshot(reportQuery, (querySnapshot) => {
+    const subscribe = onSnapshot(reportQuery, async (querySnapshot) => {
         const items = querySnapshot.docs.map(doc => ({
             ...doc.data(),
-            id: doc.id,
+            id: doc.id
         }));
 
-        if (lastQuerySnapShot) {
-            setData(prevData => [...prevData, ...items]);
-        } else {
-            setData(items);
-        }
-
-        if (querySnapshot.docs[querySnapshot.docs.length - 1] && lastQuerySnapShot !== querySnapshot.docs[querySnapshot.docs.length - 1]) {
-            setLastQuerySnapshot(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        }
-
-        setLoading(false);
+        setItems({ items: items, lastQuerySnapShot: querySnapshot.docs[querySnapshot.docs.length - 1] });
     });
     return subscribe;
 };
@@ -132,6 +126,15 @@ export const AddNewDevice = async (deviceData) => {
 export const AddNewReport = async (formData) => {
     return await addDoc(collection(FIRESTORE_DB, "reports"), formData);
 };
+
+export const GetAllDevices = async () => {
+    const querySnapshot = await getDocs(collection(FIRESTORE_DB, "devices"), orderBy("created", "desc"));
+    const deviceNames = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return { label: data.name, value: { id: doc.id, name: data.name } };
+    });
+    return deviceNames;
+}
 
 export const GetDeviceInfo = async (deviceId) => {
     const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
@@ -155,12 +158,41 @@ export const DeleteDevice = async (deviceId) => {
     await deleteDoc(deviceDocRef);
 }
 
-export const AddNewPart = async (partData) => {
-    return await addDoc(collection(FIRESTORE_DB, "parts"), partData);
+export const AddNewPart = async (partData, deviceData) => {
+    await addDoc(collection(FIRESTORE_DB, "parts"), partData);
+    return await AddNewPartDevice(deviceData);
 }
 
-export const GetPartInfo = async (partData) => {
-    const partDocRef = doc(FIRESTORE_DB, "parts", partData);
+export const AddNewPartDevice = async (deviceData) => {
+    const docRef = doc(collection(FIRESTORE_DB, 'partDevices'), 'deviceList');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists && docSnap.data()) {
+        console.log('exists');
+        const currentDevices = docSnap.data().deviceMap || {};
+        currentDevices[deviceData.id] = deviceData.name;
+        await updateDoc(docRef, { deviceMap: currentDevices });
+    } else {
+        await setDoc(docRef, { deviceMap: { [deviceData.id]: deviceData.name } });
+    }
+}
+
+export const GetAllPartDevices = async () => {
+    const docRef = doc(collection(FIRESTORE_DB, 'partDevices'), 'deviceList');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const devicesData = docSnap.data().deviceMap;
+        const devices = Object.entries(devicesData).map(([key, value]) => {
+            return { value: key, label: value };
+        });
+        return devices;
+    } else {
+        return [];
+    }
+}
+
+export const GetPartInfo = async (partId) => {
+    const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     return await getDoc(partDocRef);
 };
 
