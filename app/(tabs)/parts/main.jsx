@@ -21,6 +21,7 @@ const Devices = () => {
             try {
                 console.log('try to get');
                 const fetchedSections = await GetAllPartDevices();
+                console.log(fetchedSections);
                 const sectionData = fetchedSections.map(section => ({
                     id: section.value,
                     title: section.label,

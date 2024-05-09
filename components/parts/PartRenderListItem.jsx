@@ -5,15 +5,10 @@ import * as Color from '../../styles/colors';
 import { useState } from 'react';
 
 const PartRenderItem = ({ item }) => {
-
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedItem, setSelectedItem] = useState();
-
     return (
         <View>
             <TouchableOpacity onPress={() => {
-                setSelectedItem(item);
-                setModalVisible(true);
+                console.log('pressed');
             }}>
                 <View style={Styles.listItemContainer}>
                     <View>
@@ -29,13 +24,6 @@ const PartRenderItem = ({ item }) => {
                     </View>
                 </View>
             </TouchableOpacity >
-            {/* TODO change to part info and put this part inside the part and not devices of parts */}
-            {modalVisible && (
-                <DeviceInfo
-                    setModalVisible={setModalVisible}
-                    selectedItem={selectedItem}
-                ></DeviceInfo>
-            )}
         </View>
     );
 }

@@ -1,69 +1,51 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { useEffect, useRef, useState } from 'react';
 import PartRenderItem from './PartRenderListItem';
 import { GetPartsByDeviceId } from '../firebase/data';
 
-const PartDeviceRenderItem = ({ item, selectedItem, setSelectedItem }) => {
-
-    const currentItem = useRef(null);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const [showChildren, setShowChildren] = useState(false);
-    const [selectedItemChild, setSelectedItemChild] = useState();
-    const [previousLastItem, setPreviousLastItem] = useState(null);
-
-    const fetchData = () => {
-        if (data[data.length - 1] == null || previousLastItem !== data[data.length - 1]) {
-            setLoading(true);
-            setPreviousLastItem(data[data.length - 1]);
-        }
-    }
-
-    getDeviceParts = async () => {
-        console.log(selectedItem);
-        console.log(selectedItem.deviceId);
-        if (!showChildren && data.length === 0) {
-            parts = await GetPartsByDeviceId(selectedItem.deviceId);
-            setData(parts);
-        }
-        setShowChildren(value => !value);
-    }
-
+const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection }) => {
     return (
         <View>
             <TouchableOpacity onPress={() => {
-                setSelectedItem(item);
-                getDeviceParts();
+                toggleSection(section.id);
+                if (!expandedSections[section.id]) {  // Only load data if the section is being expanded
+                    setLastSectionId(section.id);
+                    handlePressSection(section.id);
+                }
             }}>
-                <View style={Styles.listItemContainer}>
+                <View style={styles.sectionContainer}>
                     <View>
-                        <View style={Styles.listItemHeader}>
-                            <Text style={Styles.listItemHeaderText}>{item.name}</Text>
-                        </View>
-                        <View style={Styles.listItemInfo}>
-                            <Text style={Styles.listItemInfoText}>warning if any parts low</Text>
-                        </View>
+                        <Text style={Styles.listItemHeaderText}>{section.title}</Text>
+                    </View>
+                    <View>
+                        <Text style={Styles.listItemInfoText}>parts low</Text>
                     </View>
                 </View>
             </TouchableOpacity >
-            {data && showChildren && (
-                <FlatList
-                    style={{ width: "90%", marginBottom: '20%', borderRadius: 20 }}
-                    showsVerticalScrollIndicator={false}
-                    data={data}
-                    horizontal={false}
-                    renderItem={({ item }) => <PartRenderItem item={item} />}
-                    keyExtractor={item => item.id.toString()}
-                    onEndReached={fetchData}
-                    onEndReachedThreshold={0.1}
-                    ListFooterComponent={loading && <Text style={Styles.textStyle}>Loading...</Text>}
-                />
-            )}
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    sectionContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: '5%',
+        minHeight: '30%',
+        width: '100%',
+        marginBottom: '5%',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
+        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.15,
+        shadowRadius: 2,
+        elevation: 5,
+        position: 'relative',
+    },
+})
 
 export default PartDeviceRenderItem;

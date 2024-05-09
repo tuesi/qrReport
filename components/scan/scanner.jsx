@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { View, Alert } from "react-native";
 import scanStyles from './scanStyles';
 import * as Colors from '../../styles/colors';
-import { CameraView } from "expo-camera/next";
+import { CameraView } from "expo-camera";
 import { FormDataModel } from './FormDataModel';
 import { GetDeviceInfo } from '../firebase/data';
 import { QRKEY } from '../../constants';
