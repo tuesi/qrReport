@@ -3,11 +3,14 @@ import { View, TouchableOpacity, Text, SectionList, ActivityIndicator, Button } 
 import PartRenderItem from './PartRenderListItem';
 import PartDeviceRenderItem from './PartDeviceRenderListItem';
 import Styles from '../../styles/styles';
+import PartInfo from '../modals/partInfo';
 
 const PartList = ({ data, loading, handlePressSection }) => {
 
     const [lastSectionId, setLastSectionId] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({
@@ -25,7 +28,7 @@ const PartList = ({ data, loading, handlePressSection }) => {
                         data: expandedSections[section.id] ? section.data : []  // Only pass data if expanded
                     }))}
                     keyExtractor={(item, index) => item.id + index}
-                    renderItem={({ item }) => PartRenderItem({ item })}
+                    renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
                     renderSectionHeader={({ section }) => PartDeviceRenderItem({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
                     ListFooterComponent={() => {
                         if (loading) return <ActivityIndicator size="large" />;
@@ -35,6 +38,12 @@ const PartList = ({ data, loading, handlePressSection }) => {
                     onEndReachedThreshold={0.5}
                     style={{ width: '100%' }}
                 />
+            )}
+            {modalVisible && (
+                <PartInfo
+                    setModalVisible={setModalVisible}
+                    selectedItem={selectedItem}
+                ></PartInfo>
             )}
         </View>
     )

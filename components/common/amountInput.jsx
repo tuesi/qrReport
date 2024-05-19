@@ -7,13 +7,17 @@ const AmountInput = ({ value, getValue }) => {
     };
 
     const decrement = () => {
-        getValue(prevValue => prevValue - 1);
+        getValue(prevValue => { return prevValue > 0 ? prevValue - 1 : 0; });
     };
 
     const handleChange = (text) => {
         const num = Number(text);
         if (!isNaN(num)) {
-            getValue(num);
+            if (num < 0) {
+                getValue(0);
+            } else {
+                getValue(num);
+            }
         }
     };
 

@@ -4,11 +4,14 @@ import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { useState } from 'react';
 
-const PartRenderItem = ({ item }) => {
+const PartRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
     return (
         <View>
             <TouchableOpacity onPress={() => {
-                console.log('pressed');
+                setSelectedItem(item);
+                setModalVisible(true);
+                console.log('set visible');
+                console.log(item);
             }}>
                 <View style={Styles.listItemContainer}>
                     <View>

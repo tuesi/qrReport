@@ -19,12 +19,11 @@ const Devices = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                console.log('try to get');
                 const fetchedSections = await GetAllPartDevices();
-                console.log(fetchedSections);
                 const sectionData = fetchedSections.map(section => ({
                     id: section.value,
-                    title: section.label,
+                    isPartsLow: section.label[1],
+                    title: section.label[0],
                     data: [],
                     initialLoad: false,
                     lastQuerySnapShot: null,
@@ -34,7 +33,6 @@ const Devices = () => {
             } catch (error) {
                 console.log('Failed to fetch device name list', error);
             } finally {
-                console.log('do not load');
                 setLoading(false);
             }
         };
@@ -43,7 +41,6 @@ const Devices = () => {
     }, [])
 
     const handlePressSection = async (sectionId) => {
-        console.log(sectionId);
         const index = data.findIndex(s => s.id === sectionId);
         if (index === -1) return;
         await FetchPartsDataFromFirestore(({ deviceId: sectionId, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: data[index].lastQuerySnapShot }));
@@ -52,10 +49,8 @@ const Devices = () => {
     const updateSectionWithData = ({ items, lastQuerySnapShot }) => {
         if (items.length > 0) {
             const index = data.findIndex(s => s.id === items[0].deviceId);
-            console.log(index);
             if (index === -1) return;
             const newSections = [...data];
-            console.log(lastQuerySnapShot);
             newSections[index] = {
                 ...newSections[index],
                 data: newSections[index].initialLoad ? [...newSections[index].data, ...items] : items,

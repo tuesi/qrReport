@@ -93,9 +93,6 @@ export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuer
 };
 
 export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot }) => {
-
-    console.log('FETCH DATA');
-
     let reportQuery = query(
         collection(FIRESTORE_DB, "parts"),
         where("deviceId", "==", deviceId),
@@ -104,7 +101,6 @@ export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize
     );
 
     if (lastQuerySnapShot) {
-        console.log('LAST QUERY SNAPSHOT ACTIVE');
         reportQuery = query(reportQuery, startAfter(lastQuerySnapShot));
     }
 
@@ -141,12 +137,14 @@ export const GetDeviceInfo = async (deviceId) => {
     return await getDoc(deviceDocRef);
 };
 
+//TODO if image changes delete the old one
 export const UpdateDeviceInfo = async (deviceId, deviceInfo) => {
     const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
     try {
         await updateDoc(deviceDocRef, {
             name: deviceInfo.name,
-            notes: deviceInfo.notes
+            notes: deviceInfo.notes,
+            imageName: deviceInfo.imageName
         });
     } catch (error) {
         console.error("Error updating document: ", error);
@@ -168,12 +166,11 @@ export const AddNewPartDevice = async (deviceData) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists && docSnap.data()) {
-        console.log('exists');
         const currentDevices = docSnap.data().deviceMap || {};
-        currentDevices[deviceData.id] = deviceData.name;
+        currentDevices[deviceData.id] = [deviceData.name, false];
         await updateDoc(docRef, { deviceMap: currentDevices });
     } else {
-        await setDoc(docRef, { deviceMap: { [deviceData.id]: deviceData.name } });
+        await setDoc(docRef, { deviceMap: { [deviceData.id]: [deviceData.name, false] } });
     }
 }
 
@@ -191,17 +188,37 @@ export const GetAllPartDevices = async () => {
     }
 }
 
+export const UpdatePartDevice = async (deviceId, isPartLow) => {
+    const docRef = doc(collection(FIRESTORE_DB, 'partDevices'), 'deviceList');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const devicesData = docSnap.data().deviceMap;
+        devicesData[deviceId][1] = isPartLow;
+        await updateDoc(docRef, { deviceMap: devicesData });
+    }
+}
+
 export const GetPartInfo = async (partId) => {
     const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     return await getDoc(partDocRef);
 };
 
-export const UpdatePartInfo = async (partId, partInfo) => {
+//TODO if image changes delete the old one
+export const UpdatePartInfo = async (partId, partInfo, deviceData) => {
     const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     try {
+        if (partDocRef.amount < partDocRef.minAmount && partInfo.amount > partInfo.minAmount) {
+            UpdatePartDevice(deviceData.id, false);
+        } else if (partDocRef.amount > partDocRef.minAmount && partInfo.amount < partInfo.minAmount) {
+            UpdatePartDevice(deviceData.id, true);
+        }
         await updateDoc(partDocRef, {
             name: partInfo.name,
-            notes: partInfo.notes
+            notes: partInfo.notes,
+            location: partInfo.location,
+            minAmount: partInfo.minAmount,
+            amount: partInfo.amount,
+            imageName: partInfo.imageName
         });
     } catch (error) {
         console.error("Error updating document: ", error);
