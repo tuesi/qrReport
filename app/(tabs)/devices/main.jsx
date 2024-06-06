@@ -3,9 +3,9 @@ import { FetchDeviceDataFromFirestore } from '../../../components/firebase/data'
 import DeviceList from '../../../components/devices/deviceList';
 import { View, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Create from './create';
 import Toggle from '../../../components/common/toggle';
 import styles from '../../../styles/styles';
+import CreateDevice from '../../../components/create/createDevice';
 
 const Devices = () => {
 
@@ -38,7 +38,7 @@ const Devices = () => {
                     )
                     :
                     (
-                        <Create></Create>
+                        <CreateDevice></CreateDevice>
                     )
                 }
             </SafeAreaView>

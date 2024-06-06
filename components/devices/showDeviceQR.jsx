@@ -6,7 +6,7 @@ import Button from "../common/button";
 import SaveTemporaryFile from "../../utils/saveTemporaryFile";
 import deviceStyles from "./deviceStyles";
 import * as Color from '../../styles/colors';
-import { QrDataModel } from "../create/qrDataModel";
+import { QrDataModel } from "../common/qrDataModel";
 import HiddenQr from "../common/hiddenQr";
 import { QRKEY, LOGO_NAME } from '../../constants';
 

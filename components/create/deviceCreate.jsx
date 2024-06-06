@@ -6,7 +6,7 @@ import createStyles from "./createStyles";
 import QRCode from "react-native-qrcode-svg";
 import { AddNewDevice, UpdateDeviceInfo } from "../firebase/data";
 import { DeviceDataModel } from "./deviceDataModel";
-import { QrDataModel } from "./qrDataModel";
+import { QrDataModel } from "../common/qrDataModel";
 import SaveTemporaryFile from "../../utils/saveTemporaryFile";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
@@ -15,7 +15,7 @@ import HiddenQr from "../common/hiddenQr";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import SaveImage from "../../utils/saveImage";
 
-const QR = ({ name, notes, setName, setNotes, image }) => {
+const DeviceCreate = ({ name, notes, setName, setNotes, image }) => {
 
     const createText = 'KURTI ĮRENGINĮ';
     const editText = 'SAUGOTI PAKEITIMUS';
@@ -99,4 +99,4 @@ const QR = ({ name, notes, setName, setNotes, image }) => {
     )
 }
 
-export default QR;
+export default DeviceCreate;

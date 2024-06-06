@@ -9,4 +9,11 @@ const SaveImage = async (image) => {
     }
 }
 
-export default SaveImage;
+const DeleteImage = async (image) => {
+    if (image) {
+        const fileName = ImageFileNameGetter(image);
+        await RemoveImageFromStorage(image, fileName);
+    }
+}
+
+export { SaveImage, DeleteImage };

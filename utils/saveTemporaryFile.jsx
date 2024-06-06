@@ -2,7 +2,7 @@ import * as FileSystem from 'expo-file-system';
 import CheckTemporaryDirectory from './checkTemporaryDirectory';
 import ClearTemporaryDirectory from './clearTemporaryDirecotry';
 
-const SaveTemporaryFile = async ({ svgRef, setFileUri, name }) => {
+const SaveTemporaryFile = async ({ svgRef, name }) => {
     const directoryPath = `${FileSystem.cacheDirectory}QRAPP/`;
     const fileName = 'QR_' + name + '.png';
     const fileUri = `${directoryPath}${fileName}`;
@@ -12,8 +12,8 @@ const SaveTemporaryFile = async ({ svgRef, setFileUri, name }) => {
         await FileSystem.writeAsStringAsync(fileUri, dataURL, {
             encoding: FileSystem.EncodingType.Base64,
         });
-        setFileUri(fileUri);
     });
+    return fileUri;
 }
 
 export default SaveTemporaryFile;

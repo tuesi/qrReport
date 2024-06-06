@@ -157,8 +157,9 @@ export const DeleteDevice = async (deviceId) => {
 }
 
 export const AddNewPart = async (partData, deviceData) => {
-    await addDoc(collection(FIRESTORE_DB, "parts"), partData);
-    return await AddNewPartDevice(deviceData);
+    const partRef = await addDoc(collection(FIRESTORE_DB, "parts"), partData);
+    await AddNewPartDevice(deviceData);
+    return partRef;
 }
 
 export const AddNewPartDevice = async (deviceData) => {
@@ -203,7 +204,6 @@ export const GetPartInfo = async (partId) => {
     return await getDoc(partDocRef);
 };
 
-//TODO if image changes delete the old one
 export const UpdatePartInfo = async (partId, partInfo, deviceData) => {
     const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     try {
