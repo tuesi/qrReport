@@ -89,20 +89,21 @@ const CreatePart = ({ }) => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '100%', alignItems: 'center', justifyContent: 'center' }} style={{ width: '100%' }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '50%', alignItems: 'center', justifyContent: 'start' }} style={{ width: '100%' }}>
                 <View style={createStyles.createInputContainer}>
-                    <DropDown
-                        data={devices}
-                        getSelected={
-                            (value) => {
-                                console.log(value);
-                                setDeviceData(value);
+                    <View style={{ marginBottom: '5%' }}>
+                        <DropDown
+                            data={devices}
+                            getSelected={
+                                (value) => {
+                                    setDeviceData(value);
+                                }
                             }
-                        }
-                        valuePlaceholder="Prietaiso pavadinimas"
-                        searchPlaceholder="Parisinkite preitaisą"
-                        addNew={false}
-                    />
+                            valuePlaceholder="Prietaiso pavadinimas"
+                            searchPlaceholder="Parisinkite preitaisą"
+                            addNew={false}
+                        />
+                    </View>
                     <TextInput
                         style={Styles.input}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
@@ -127,23 +128,23 @@ const CreatePart = ({ }) => {
                         textAlignVertical='top'
                         onChangeText={text => setNotes(text)}
                     />
-                    <View style={{ height: image ? "25%" : 0, marginTop: '5%' }}>
+                    <View style={{ flex: 1, height: image ? "25%" : 0, marginTop: '5%' }}>
                         <ImageViewModal uri={image} />
                     </View>
-                    <View style={{ flex: 1, width: '80%' }}>
+                    <View style={{ flex: 1, width: '80%', marginTop: '5%', marginBottom: '5%' }}>
                         <SetImage image={image} setImage={setImage}></SetImage>
                     </View>
                     <View>
-                        <Text>Likutis</Text>
-                        <AmountInput value={amount} getValue={setAmount}></AmountInput>
+                        <AmountInput name={'Likutis'} value={amount} getValue={setAmount}></AmountInput>
                     </View>
-                    <View>
-                        <Text>Minimalus likutis</Text>
-                        <AmountInput value={minAmount} getValue={setMinAmout}></AmountInput>
+                    <View style={{ marginTop: '5%' }}>
+                        <AmountInput name={'Minimalus likutis'} value={minAmount} getValue={setMinAmout}></AmountInput>
                     </View>
-                    <Button text={docRef ? updateText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={saveNewPart} />
+                    <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'end', marginTop: '5%' }}>
+                        <Button text={docRef ? updateText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={saveNewPart} />
+                    </View>
                     {docRef && (
-                        <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
                             <QR name={name} id={docRef.id}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>

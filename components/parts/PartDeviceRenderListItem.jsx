@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 2,
         elevation: 5,
-        position: 'relative',
+        position: 'relative'
     },
 })
 

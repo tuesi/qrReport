@@ -22,22 +22,23 @@ const PartList = ({ data, loading, handlePressSection }) => {
     return (
         <View style={Styles.container}>
             {data && data.length > 0 && (
-                <SectionList
-                    sections={data.map(section => ({
-                        ...section,
-                        data: expandedSections[section.id] ? section.data : []  // Only pass data if expanded
-                    }))}
-                    keyExtractor={(item, index) => item.id + index}
-                    renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
-                    renderSectionHeader={({ section }) => PartDeviceRenderItem({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
-                    ListFooterComponent={() => {
-                        if (loading) return <ActivityIndicator size="large" />;
-                        return null;
-                    }}
-                    onEndReached={() => handlePressSection(lastSectionId)}
-                    onEndReachedThreshold={0.5}
-                    style={{ width: '100%' }}
-                />
+                <View style={{ flex: 1, width: '100%' }}>
+                    <SectionList
+                        sections={data.map(section => ({
+                            ...section,
+                            data: expandedSections[section.id] ? section.data : []
+                        }))}
+                        keyExtractor={(item, index) => item.id + index}
+                        renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
+                        renderSectionHeader={({ section }) => PartDeviceRenderItem({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
+                        ListFooterComponent={() => {
+                            if (loading) return <ActivityIndicator size="large" />;
+                            return null;
+                        }}
+                        onEndReached={() => handlePressSection(lastSectionId)}
+                        onEndReachedThreshold={0.5}
+                    />
+                </View>
             )}
             {modalVisible && (
                 <PartInfo

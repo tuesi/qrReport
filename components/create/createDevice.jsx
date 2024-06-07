@@ -72,7 +72,7 @@ const CreateDevice = ({ }) => {
 
     return (
         <TouchableWithoutFeedback onPress={handlePressOutside}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150, alignItems: 'center', justifyContent: 'center' }} style={{ width: '100%' }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '50%', alignItems: 'center', justifyContent: 'start' }} style={{ width: '100%' }}>
                 <View style={createStyles.createInputContainer}>
                     <TextInput
                         style={Styles.input}
@@ -90,15 +90,17 @@ const CreateDevice = ({ }) => {
                         textAlignVertical='top'
                         onChangeText={text => setNotes(text)}
                     />
-                    <View style={{ height: image ? "25%" : 0, marginTop: '5%' }}>
+                    <View style={{ flex: 1, height: image ? "25%" : 0, marginTop: '5%' }}>
                         <ImageViewModal uri={image} />
                     </View>
-                    <View style={{ flex: 1, width: '80%' }}>
+                    <View style={{ flex: 1, width: '90%', marginTop: '5%' }}>
                         <SetImage image={image} setImage={setImage}></SetImage>
                     </View>
-                    <Button text={docRef ? updateText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={saveNewDevice} />
+                    <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'end', marginTop: '5%' }}>
+                        <Button text={docRef ? updateText : createText} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={saveNewDevice} />
+                    </View>
                     {docRef && (
-                        <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
                             <QR name={name} id={docRef.id}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>
