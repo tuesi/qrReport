@@ -3,7 +3,6 @@ import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { UpdateDeviceInfo, DeleteDevice } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import ShowDeviceQr from "../devices/showDeviceQR";
@@ -11,6 +10,7 @@ import { PartDataModel } from '../parts/partDataModel';
 import { ConfirmAction } from '../common/confirmAction';
 import ImageViewModal from '../common/imageViewModal';
 import { GetImageFromStorage } from '../firebase/storage';
+import { DeletePart, UpdatePartInfo } from '../firebase/data';
 
 const PartInfo = ({ setModalVisible, selectedItem }) => {
 
@@ -47,7 +47,8 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
     };
 
     const onUpdate = async () => {
-        await UpdateDeviceInfo(selectedItem.id, partData);
+        //TODO get deviceData
+        await UpdatePartInfo(selectedItem.id, partData, deviceData);
         setShowQr(false);
         bottomSheetRef.current.close()
         setModalVisible(false);
@@ -56,7 +57,7 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
     const deleteDevice = async () => {
         setShowQr(false);
         bottomSheetRef.current.close()
-        await DeleteDevice(selectedItem.id);
+        await DeletePart(selectedItem.id);
         setModalVisible(false);
     }
 
@@ -73,7 +74,7 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
                     opacity={0.5}
                     appearsOnIndex={0}
                     disappearsOnIndex={-1}
-                    style={{ position: 'absolute', top: -200, width: "100%", height: "100%" }}
+                    style={{ position: 'absolute', top: -200, width: "100%", height: "130%" }}
                 />
             )}
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
@@ -84,9 +85,17 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
                         <TextInput
                             style={Styles.input}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                            placeholder="Įrangos pavadinimas"
+                            placeholder="Dalies pavadinimas"
                             value={partData?.name}
                             onChangeText={(text) => setPartData({ ...partData, name: text })}
+                        />
+                        <TextInput
+                            style={Styles.input_large}
+                            placeholder="Dalies vieta"
+                            value={partData?.location}
+                            onChangeText={(text) => setPartData({ ...partData, location: text })}
+                            multiline={true}
+                            textAlignVertical='top'
                         />
                         <TextInput
                             style={Styles.input_large}
@@ -97,6 +106,12 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
                             textAlignVertical='top'
                             onChangeText={(text) => setPartData({ ...partData, notes: text })}
                         />
+                        <View>
+                            <AmountInput name={'Likutis'} value={partData?.amount} getValue={(amount) => setPartData({ ...partData, amount: amount })}></AmountInput>
+                        </View>
+                        <View style={{ marginTop: '5%' }}>
+                            <AmountInput name={'Minimalus likutis'} value={partData?.minAmount} getValue={(minAmount) => setPartData({ ...partData, minAmount: minAmount })}></AmountInput>
+                        </View>
                         <View style={{ height: 0, zIndex: 10 }}>
                             <ImageViewModal uri={image} size={100} />
                         </View>

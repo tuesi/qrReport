@@ -225,6 +225,7 @@ export const UpdatePartInfo = async (partId, partInfo, deviceData) => {
     }
 }
 
+//TODO maybe delete device if it has no more parts?
 export const DeletePart = async (partId) => {
     const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     await deleteDoc(partDocRef);

@@ -22,12 +22,13 @@ const ShowDeviceQr = ({ deviceId, deviceName }) => {
         setQRData(jsonData);
     }
 
-    const setSvg = (ref) => {
-        if (ref && ref !== svgRef) {
+    const setSvg = async (ref) => {
+        if (ref && ref !== svgRef.current) {
             svgRef.current = ref;
-            setTimeout(() => {
-                SaveTemporaryFile({ svgRef, setFileUri, name: deviceName });
-            }, 500)
+            setTimeout(async () => {
+                const newFileUri = await SaveTemporaryFile({ svgRef, name: deviceName });
+                setFileUri(newFileUri);
+            }, 1000)
         }
     }
 

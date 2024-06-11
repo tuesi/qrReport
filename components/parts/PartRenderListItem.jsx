@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
-import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
 const PartRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
     return (
@@ -10,8 +10,6 @@ const PartRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
             <TouchableOpacity onPress={() => {
                 setSelectedItem(item);
                 setModalVisible(true);
-                console.log('set visible');
-                console.log(item);
             }}>
                 <View style={Styles.listItemContainer}>
                     <View>
@@ -19,11 +17,13 @@ const PartRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
                             <Text style={Styles.listItemHeaderText}>{item.name}</Text>
                         </View>
                         <View style={Styles.listItemInfo}>
-                            <Text style={Styles.listItemInfoText}>Amount</Text>
+                            <Text style={Styles.listItemInfoText}>{item.amount}</Text>
                         </View>
-                        <View style={Styles.listItemInfo}>
-                            <Text style={Styles.listItemInfoText}>Warning</Text>
-                        </View>
+                        {item.amount < item.minAmount ? (
+                            <Ionicons name="warning-outline" size={24} color="red" />
+                        ) : (
+                            <Text style={Styles.listItemInfoText}></Text>
+                        )}
                     </View>
                 </View>
             </TouchableOpacity >

@@ -40,7 +40,7 @@ const Layout = () => {
             <Tabs.Screen
                 name="scan"
                 options={{
-                    title: 'Kurti',
+                    title: 'Skenuoti',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="qr-code-outline" size={size} color={color} />

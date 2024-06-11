@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TouchableOpacity, Text, SectionList, ActivityIndicator, Button } from 'react-native';
+import { View, SectionList, ActivityIndicator } from 'react-native';
 import PartRenderItem from './PartRenderListItem';
 import PartDeviceRenderItem from './PartDeviceRenderListItem';
 import Styles from '../../styles/styles';
@@ -15,7 +15,7 @@ const PartList = ({ data, loading, handlePressSection }) => {
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({
             ...prev,
-            [sectionId]: !prev[sectionId]  // Toggle the current state
+            [sectionId]: !prev[sectionId]
         }));
     };
 
@@ -37,6 +37,7 @@ const PartList = ({ data, loading, handlePressSection }) => {
                         }}
                         onEndReached={() => handlePressSection(lastSectionId)}
                         onEndReachedThreshold={0.5}
+                        contentContainerStyle={{ paddingBottom: 80 }}
                     />
                 </View>
             )}

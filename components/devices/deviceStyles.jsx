@@ -16,7 +16,7 @@ const deviceStyles = StyleSheet.create({
         marginTop: "5%"
     },
     deviceButtonsContainer: {
-        flex: 2,
+        flex: 1,
         width: '80%',
         alignItems: 'center',
         justifyContent: 'start'

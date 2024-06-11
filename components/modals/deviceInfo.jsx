@@ -73,7 +73,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                     opacity={0.5}
                     appearsOnIndex={0}
                     disappearsOnIndex={-1}
-                    style={{ position: 'absolute', top: -200, width: "100%", height: "100%" }}
+                    style={{ position: 'absolute', top: -200, width: "100%", height: "130%" }}
                 />
             )}
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
@@ -102,7 +102,9 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                         </View>
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
-                                <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name}></ShowDeviceQr>
+                                <View style={{ flex: 1 }}>
+                                    <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name}></ShowDeviceQr>
+                                </View>
                             )}
                             <View style={deviceStyles.deviceButtonsContainer}>
                                 <Button

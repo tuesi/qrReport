@@ -1,9 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Styles from '../../styles/styles';
 import * as Color from '../../styles/colors';
-import { useEffect, useRef, useState } from 'react';
-import PartRenderItem from './PartRenderListItem';
-import { GetPartsByDeviceId } from '../firebase/data';
+import { Ionicons } from '@expo/vector-icons';
 
 const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection }) => {
     return (
@@ -20,7 +18,9 @@ const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLas
                         <Text style={Styles.listItemHeaderText}>{section.title}</Text>
                     </View>
                     <View>
-                        <Text style={Styles.listItemInfoText}>parts low</Text>
+                        {section.isPartsLow && (
+                            <Ionicons name="warning-outline" size={35} color="red" />
+                        )}
                     </View>
                 </View>
             </TouchableOpacity >
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         minHeight: '30%',
         width: '100%',
         marginBottom: '5%',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
         shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
