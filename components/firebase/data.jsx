@@ -204,13 +204,13 @@ export const GetPartInfo = async (partId) => {
     return await getDoc(partDocRef);
 };
 
-export const UpdatePartInfo = async (partId, partInfo, deviceData) => {
+export const UpdatePartInfo = async (partId, partInfo, deviceId) => {
     const partDocRef = doc(FIRESTORE_DB, "parts", partId);
     try {
         if (partDocRef.amount < partDocRef.minAmount && partInfo.amount > partInfo.minAmount) {
-            UpdatePartDevice(deviceData.id, false);
+            UpdatePartDevice(deviceId, false);
         } else if (partDocRef.amount > partDocRef.minAmount && partInfo.amount < partInfo.minAmount) {
-            UpdatePartDevice(deviceData.id, true);
+            UpdatePartDevice(deviceId, true);
         }
         await updateDoc(partDocRef, {
             name: partInfo.name,

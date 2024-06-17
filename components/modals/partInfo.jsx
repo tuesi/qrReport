@@ -1,6 +1,6 @@
 import Styles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
-import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import * as Color from '../../styles/colors';
@@ -11,6 +11,7 @@ import { ConfirmAction } from '../common/confirmAction';
 import ImageViewModal from '../common/imageViewModal';
 import { GetImageFromStorage } from '../firebase/storage';
 import { DeletePart, UpdatePartInfo } from '../firebase/data';
+import AmountInput from '../common/amountInput';
 
 const PartInfo = ({ setModalVisible, selectedItem }) => {
 
@@ -47,8 +48,7 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
     };
 
     const onUpdate = async () => {
-        //TODO get deviceData
-        await UpdatePartInfo(selectedItem.id, partData, deviceData);
+        await UpdatePartInfo(selectedItem.id, partData, selectedItem.deviceId);
         setShowQr(false);
         bottomSheetRef.current.close()
         setModalVisible(false);
@@ -106,11 +106,13 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
                             textAlignVertical='top'
                             onChangeText={(text) => setPartData({ ...partData, notes: text })}
                         />
-                        <View>
-                            <AmountInput name={'Likutis'} value={partData?.amount} getValue={(amount) => setPartData({ ...partData, amount: amount })}></AmountInput>
-                        </View>
-                        <View style={{ marginTop: '5%' }}>
-                            <AmountInput name={'Minimalus likutis'} value={partData?.minAmount} getValue={(minAmount) => setPartData({ ...partData, minAmount: minAmount })}></AmountInput>
+                        <View style={styles.amountInputContainer}>
+                            <View>
+                                <AmountInput name={'Likutis'} value={partData?.amount} getValue={(amount) => setPartData({ ...partData, amount: amount })}></AmountInput>
+                            </View>
+                            <View style={{ marginTop: '5%' }}>
+                                <AmountInput name={'Minimalus likutis'} value={partData?.minAmount} getValue={(minAmount) => setPartData({ ...partData, minAmount: minAmount })}></AmountInput>
+                            </View>
                         </View>
                         <View style={{ height: 0, zIndex: 10 }}>
                             <ImageViewModal uri={image} size={100} />
@@ -140,5 +142,13 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
         </BottomSheet >
     )
 }
+
+const styles = StyleSheet.create({
+    amountInputContainer: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
 
 export default PartInfo;
