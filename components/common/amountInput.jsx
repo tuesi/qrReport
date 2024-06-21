@@ -4,11 +4,13 @@ import * as Color from '../../styles/colors';
 const AmountInput = ({ name, value, getValue }) => {
 
     const increment = () => {
-        getValue(prevValue => prevValue + 1);
+        const newValue = value + 1;
+        getValue(newValue);
     };
 
     const decrement = () => {
-        getValue(prevValue => { return prevValue > 0 ? prevValue - 1 : 0; });
+        const newValue = value > 0 ? value - 1 : 0;
+        getValue(newValue);
     };
 
     const handleChange = (text) => {
