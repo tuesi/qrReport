@@ -3,7 +3,7 @@ import styles from "../styles/styles";
 import { useState, useEffect, useCallback } from "react";
 import Button from "../components/common/button";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { AddNewUser, getUsers } from "../components/firebase/data";
+import { AddNewUser, GetUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
 import DropDown from "../components/common/dropDown";
 import { getUser, setUser } from "../utils/getMemoryObjects";
@@ -19,7 +19,7 @@ const Login = () => {
     useFocusEffect(
         useCallback(() => {
             const fetchNames = async () => {
-                const users = await getUsers();
+                const users = await GetUsers();
                 setNameListData(users);
             }
             fetchNames();
@@ -34,7 +34,7 @@ const Login = () => {
                     screen: 'home'
                 });
             } else {
-                const users = await getUsers();
+                const users = await GetUsers();
                 setNameListData(users);
             }
         };

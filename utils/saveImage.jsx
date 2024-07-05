@@ -5,6 +5,7 @@ const SaveImage = async (image) => {
     if (image) {
         const fileName = ImageFileNameGetter(image);
         await SaveImageToStorage(image, fileName);
+        console.log(fileName);
         return fileName;
     }
 }

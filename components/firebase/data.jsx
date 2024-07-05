@@ -252,7 +252,7 @@ export const AddNewUser = async (userData, username) => {
     }
 };
 
-export const getUsers = async () => {
+export const GetUsers = async () => {
     const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
     const users = querySnapshot.docs.map(doc => {
         const data = doc.data();
@@ -260,3 +260,13 @@ export const getUsers = async () => {
     });
     return users;
 };
+
+export const DeleteUser = async (username) => {
+    const userRef = collection(FIRESTORE_DB, "users");
+    const checkUserQuery = query(userRef, where("username", "==", username));
+    const querySnapshot = await getDocs(checkUserQuery);
+    if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        await deleteDoc(userDoc.ref);
+    }
+}

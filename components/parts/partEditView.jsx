@@ -4,18 +4,18 @@ import { BottomSheetView } from '@gorhom/bottom-sheet';
 import AmountInput from '../common/amountInput';
 import ImageViewModal from '../common/imageViewModal';
 import { ConfirmAction } from '../common/confirmAction';
-import ShowDeviceQr from "../devices/showDeviceQR";
 import Button from "../common/button";
 import Styles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
-import { PartDataModel } from '../parts/partDataModel';
 import { GetImageFromStorage } from '../firebase/storage';
 import { DeletePart, UpdatePartInfo } from '../firebase/data';
+import SetImage from '../common/setImage';
+import { DeleteImage, SaveImage } from '../../utils/saveImage';
+import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 
-const PartEditView = ({ bottomSheetRef, selectedItem, setEdit }) => {
+const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, setEdit }) => {
 
-    const [partData, setPartData] = useState(new PartDataModel(selectedItem.deviceId, selectedItem.name, selectedItem.notes, selectedItem.location, selectedItem.imageName, selectedItem.amount, selectedItem.minAmount));
     const [image, setImage] = useState(null);
 
     useEffect(() => {
@@ -32,23 +32,25 @@ const PartEditView = ({ bottomSheetRef, selectedItem, setEdit }) => {
         fetchData();
     }, []);
 
-    const [showQr, setShowQr] = useState(true);
-
-    const onEdit = () => {
-        setShowQr(false);
-        setEdit(true);
+    const onInfo = () => {
+        setEdit(false);
     }
 
     const onUpdate = async () => {
-        await UpdatePartInfo(selectedItem.id, partData, selectedItem.deviceId);
-        setShowQr(false);
-        bottomSheetRef.current.close()
-
+        const fileName = ImageFileNameGetter(image);
+        let updatedPartData = { ...partData };
+        if (selectedItem.imageName !== fileName) {
+            await DeleteImage(selectedItem.imageName);
+            await SaveImage(image);
+            updatedPartData = { ...updatedPartData, imageName: fileName ? fileName : '' };
+            setPartData(updatedPartData);
+        }
+        await UpdatePartInfo(selectedItem.id, updatedPartData, selectedItem.deviceId);
     }
 
     const deleteDevice = async () => {
-        setShowQr(false);
         bottomSheetRef.current.close()
+        await DeleteImage(image);
         await DeletePart(selectedItem.id);
     }
 
@@ -86,13 +88,13 @@ const PartEditView = ({ bottomSheetRef, selectedItem, setEdit }) => {
                     <AmountInput name={'Minimalus likutis'} value={partData?.minAmount} getValue={(minAmount) => { setPartData({ ...partData, minAmount: minAmount }) }}></AmountInput>
                 </View>
             </View>
-            <View style={{ height: 0, zIndex: 10 }}>
-                <ImageViewModal uri={image} size={100} />
-            </View>
             <View style={deviceStyles.deviceInfoModalButtonContainer}>
-                {showQr && (
-                    <ShowDeviceQr deviceId={selectedItem?.id} deviceName={partData.name}></ShowDeviceQr>
-                )}
+                <View style={{ flex: 1, height: image ? "25%" : 0, marginTop: '5%' }}>
+                    <ImageViewModal uri={image} />
+                </View>
+                <View style={{ flex: 1, width: '80%', marginTop: '5%', marginBottom: '5%' }}>
+                    <SetImage image={image} setImage={setImage}></SetImage>
+                </View>
                 <View style={deviceStyles.deviceButtonsContainer}>
                     <Button
                         onPress={() => { ConfirmAction("Ar tikrai norite išsaugoti pakeitimus?", onUpdate) }}
@@ -106,7 +108,7 @@ const PartEditView = ({ bottomSheetRef, selectedItem, setEdit }) => {
                             color={Color.BUTTON_RED_BACKGROUND_COLOR}
                         />
                     </View>
-                    <Button onPress={() => { onEdit(); }}>EDIT</Button>
+                    <Button text={"INFORMACIJA"} onPress={() => { onInfo(); }} color={Color.BUTTON_BLUE_BACKGROUND_COLOR}></Button>
                 </View>
             </View>
         </BottomSheetView>

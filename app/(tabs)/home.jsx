@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { FetchDataFromFirestore } from '../../components/firebase/data'
 import List from '../../components/index/list';
-import User from '../../components/common/user';
 import { Auth } from "../../components/firebase/auth";
 import { SetNotifications } from '../../components/notifications/setNotifications';
 import { ActivityIndicator } from 'react-native';
@@ -34,7 +33,6 @@ const Home = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <User></User>
             <List data={data} loading={loading} setLoading={setLoading} setSearchText={setSearchText}></List>
             {data.length == 0 && (
                 <View style={{

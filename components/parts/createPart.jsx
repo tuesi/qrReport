@@ -66,13 +66,13 @@ const CreatePart = ({ }) => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
+                if (docRef.doc().image !== fileName) {
+                    await DeleteImage(docRef.doc().image);
+                    await SaveImage(image);
+                }
                 const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);
                 const part = await UpdatePartInfo(docRef.doc().id, newPart.toPlainObject(), deviceData);
                 setDocRef(part);
-                if (docRef.doc().image !== fileName) {
-                    await DeleteImage(image);
-                    await SaveImage(image);
-                }
             } else {
                 const fileName = ImageFileNameGetter(image);
                 const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);

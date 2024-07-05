@@ -20,12 +20,14 @@ const Layout = () => {
                 shadowOffset: { width: 0, height: -2 },
                 shadowOpacity: 0.25,
                 shadowRadius: 5,
-                elevation: 5
+                elevation: 5,
+                paddingHorizontal: 20
             },
             tabBarLabelStyle: {
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: 'bold',
-            },
+                paddingBottom: 5,
+            }
         }}>
             <Tabs.Screen
                 name="home"
@@ -34,16 +36,6 @@ const Layout = () => {
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="home-outline" size={size} color={color} />
-                    }
-                }}
-            />
-            <Tabs.Screen
-                name="scan"
-                options={{
-                    title: 'Skenuoti',
-                    headerShown: false,
-                    tabBarIcon: ({ color, size }) => {
-                        return <Ionicons name="qr-code-outline" size={size} color={color} />
                     }
                 }}
             />
@@ -58,12 +50,32 @@ const Layout = () => {
                 }}
             />
             <Tabs.Screen
+                name="scan"
+                options={{
+                    title: 'Skenuoti',
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => {
+                        return <Ionicons name="qr-code-outline" size={size} color={color} />
+                    }
+                }}
+            />
+            <Tabs.Screen
                 name="parts"
                 options={{
                     title: 'Dalys',
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => {
                         return <Ionicons name="cog-outline" size={size} color={color} />
+                    }
+                }}
+            />
+            <Tabs.Screen
+                name="user"
+                options={{
+                    title: 'Vartotojas',
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => {
+                        return <Ionicons name="person-outline" size={size} color={color} />
                     }
                 }}
             />

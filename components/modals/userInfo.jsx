@@ -1,17 +1,10 @@
-import { ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, Keyboard, TouchableWithoutFeedback, Text } from 'react-native';
 import { useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import * as Color from '../../styles/colors';
-import PartInfoView from '../parts/partInfoView';
-import PartEditView from '../parts/partEditView';
-import { PartDataModel } from '../parts/partDataModel';
 
 
-const PartInfo = ({ setModalVisible, selectedItem }) => {
-
-    const [partData, setPartData] = useState(new PartDataModel(selectedItem.deviceId, selectedItem.name, selectedItem.notes, selectedItem.location, selectedItem.imageName, selectedItem.amount, selectedItem.minAmount));
-
-    const [edit, setEdit] = useState(false);
+const UserInfo = ({ setShowUserInfo }) => {
 
     const bottomSheetRef = useRef(null);
     const snapPoints = useMemo(() => ['90%'], []);
@@ -46,12 +39,11 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    {edit ? <PartEditView partData={partData} setPartData={setPartData} bottomSheetRef={bottomSheetRef} selectedItem={selectedItem} setEdit={setEdit}></PartEditView>
-                        : <PartInfoView partData={partData} setPartData={setPartData} selectedItem={selectedItem} setEdit={setEdit}></PartInfoView>}
+                    <Text>test</Text>
                 </ScrollView>
             </TouchableWithoutFeedback>
         </BottomSheet >
     )
 }
 
-export default PartInfo;
+export default UserInfo;

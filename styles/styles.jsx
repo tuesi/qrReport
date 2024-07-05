@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 100,
         paddingTop: 10,
+        marginBottom: 20,
         fontSize: 18,
         fontWeight: "bold",
         color: Color.TEXT_DISABLED_COLOR,
