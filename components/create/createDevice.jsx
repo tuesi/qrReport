@@ -12,6 +12,7 @@ import SetImage from "../common/setImage";
 import Button from "../common/button";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from "../common/QR";
+import { DEVICE_TYPE } from "../../constants";
 
 const CreateDevice = ({ }) => {
 
@@ -101,7 +102,7 @@ const CreateDevice = ({ }) => {
                     </View>
                     {docRef && (
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
-                            <QR name={name} id={docRef.id}></QR>
+                            <QR name={name} id={docRef.id} type={DEVICE_TYPE}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>
                     )}

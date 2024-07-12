@@ -10,16 +10,14 @@ import Button from '../common/button';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DateStringParser from '../../utils/dateStringParser';
 import { ConfirmAction } from '../common/confirmAction';
-import * as ImagePicker from 'expo-image-picker';
 import GenerateSubString from '../../utils/generateSubString';
 import SetImage from '../common/setImage';
 import ImageViewModal from '../common/imageViewModal';
-import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 import SaveImage from '../../utils/saveImage';
 import { SendPushNotification } from '../notifications/setNotifications';
 import { getUser } from '../../utils/getMemoryObjects';
 
-const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
+const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }) => {
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
@@ -50,7 +48,7 @@ const ReportInput = ({ setScanned, formData, setFormData, deviceImageUrl }) => {
             Alert.alert('Success', 'Gedimas sėkmingai užregistruotas!', [
                 {
                     text: 'OK', onPress: () => {
-                        setScanned(false);
+                        setDeviceScanned(false);
                         setFormData(new FormDataModel());
                         navigation.navigate('home')
                     }

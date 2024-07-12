@@ -14,6 +14,7 @@ import { PartDataModel } from "./partDataModel";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from '../common/QR';
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
+import { PART_TYPE } from "../../constants";
 
 const CreatePart = ({ }) => {
 
@@ -145,7 +146,7 @@ const CreatePart = ({ }) => {
                     </View>
                     {docRef && (
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
-                            <QR name={name} id={docRef.id}></QR>
+                            <QR name={name} id={docRef.id} type={PART_TYPE}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>
                     )}

@@ -10,7 +10,7 @@ import Button from "../common/button";
 import { QRKEY, LOGO_NAME } from '../../constants';
 import HiddenQr from "../common/hiddenQr";
 
-const QR = ({ name, id }) => {
+const QR = ({ name, id, type }) => {
 
     const createText = 'GENERUOTI QR KODĄ';
 
@@ -45,7 +45,7 @@ const QR = ({ name, id }) => {
         }
         try {
             Keyboard.dismiss();
-            let newQrData = new QrDataModel(QRKEY, id);
+            let newQrData = new QrDataModel(QRKEY, id, type);
             const jsonData = JSON.stringify(newQrData);
             setQRData(jsonData);
             const newFileUri = await SaveTemporaryFile({ svgRef, name });

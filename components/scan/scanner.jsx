@@ -7,36 +7,58 @@ import { FormDataModel } from './FormDataModel';
 import { GetDeviceInfo } from '../firebase/data';
 import { QRKEY } from '../../constants';
 import { GetImageFromStorage } from '../firebase/storage';
+import { DEVICE_TYPE, PART_TYPE } from '../../constants';
 
-const Scanner = ({ setScanned, setFormData, setDeviceImageUrl }) => {
+const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImageUrl }) => {
+
+
+    const getDeviceInfo = async (parsedData) => {
+        setDeviceScanned(true);
+        const docSnapshot = await GetDeviceInfo(parsedData.deviceId);
+
+        if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
+            formDataInstance.deviceImageName = data.imageName;
+            const deviceImageUrl = await GetImageFromStorage(data.imageName);
+            setDeviceImageUrl(deviceImageUrl);
+            setFormData(formDataInstance);
+        } else {
+            Alert.alert('Error', 'Scanned QR code does not contain a valid device', [
+                { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
+            ]);
+        }
+    }
+
+    const getPartInfo = async (parsedData) => {
+        setPartScanned(true);
+    }
 
     const handleBarCodeScanned = async ({ data }) => {
-        setScanned(true);
         try {
             const parsedData = JSON.parse(data);
             if (parsedData.tag === QRKEY && parsedData.deviceId) {
-                const docSnapshot = await GetDeviceInfo(parsedData.deviceId);
-
-                if (docSnapshot.exists()) {
-                    const data = docSnapshot.data();
-                    const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
-                    formDataInstance.deviceImageName = data.imageName;
-                    const deviceImageUrl = await GetImageFromStorage(data.imageName);
-                    setDeviceImageUrl(deviceImageUrl);
-                    setFormData(formDataInstance);
-                } else {
-                    Alert.alert('Error', 'Scanned QR code does not contain a valid device', [
-                        { text: 'OK', onPress: () => setScanned(false) }
-                    ]);
+                switch (parsedData.type) {
+                    case DEVICE_TYPE:
+                        getDeviceInfo(parsedData);
+                        break;
+                    case PART_TYPE:
+                        getPartInfo(parsedData);
+                        break;
+                    default:
+                        Alert.alert('Error', 'Scanned QR code is not recognised', [
+                            { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
+                        ]);
+                        break;
                 }
             } else {
                 Alert.alert('Error', 'Scanned QR code is not recognised', [
-                    { text: 'OK', onPress: () => setScanned(false) }
+                    { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
                 ]);
             }
         } catch (error) {
             Alert.alert('Error', 'Error scanning code', [
-                { text: 'OK', onPress: () => setScanned(false) }
+                { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
             ]);
         }
     };

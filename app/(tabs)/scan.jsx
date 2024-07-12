@@ -8,7 +8,8 @@ import { FormDataModel } from '../../components/scan/FormDataModel';
 const Create = () => {
 
     const [permission, requestPermission] = useCameraPermissions();
-    const [scanned, setScanned] = useState(false);
+    const [deviceScanned, setDeviceScanned] = useState(false);
+    const [partScanned, setPartScanned] = useState(false);
     const [formData, setFormData] = useState(new FormDataModel());
     const [deviceImageUrl, setDeviceImageUrl] = useState(null);
 
@@ -31,12 +32,17 @@ const Create = () => {
         );
     }
 
-    if (!scanned) {
+    if (!deviceScanned && !partScanned) {
         return (
-            <Scanner setScanned={setScanned} setFormData={setFormData} setDeviceImageUrl={setDeviceImageUrl}></Scanner>
+            <Scanner setDeviceScanned={setDeviceScanned} setPartScanned={setPartScanned} setFormData={setFormData} setDeviceImageUrl={setDeviceImageUrl}></Scanner>
         )
-    } else {
+    } else if (deviceScanned) {
         return (
+            <ReportInput setDeviceScanned={setDeviceScanned} formData={formData} setFormData={setFormData} deviceImageUrl={deviceImageUrl}></ReportInput>
+        )
+    } else if (partScanned) {
+        return (
+            //TODO create part info view
             <ReportInput setScanned={setScanned} formData={formData} setFormData={setFormData} deviceImageUrl={deviceImageUrl}></ReportInput>
         )
     }
