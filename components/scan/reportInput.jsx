@@ -126,7 +126,7 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                             </View>
                             <Button text={'REGISTRUOTI GEDIMĄ'} color={Color.BUTTON_GREEN_BACKGROUND_COLOR} onPress={() => { ConfirmAction("Ar tikrai norite registruoti gedimą?", handleAddReport) }} />
                             <View>
-                                <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={() => setScanned(false)} />
+                                <Button text={'SKENUOTI IŠ NAUJO'} color={Color.BUTTON_GREY_BACKGROUND_COLOR} onPress={() => setDeviceScanned(false)} />
                             </View>
                         </View>
                     </SafeAreaView>

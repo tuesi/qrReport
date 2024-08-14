@@ -4,6 +4,7 @@ import { useCameraPermissions } from "expo-camera";
 import Scanner from "../../components/scan/scanner";
 import ReportInput from "../../components/scan/reportInput";
 import { FormDataModel } from '../../components/scan/FormDataModel';
+import PartReport from "../../components/scan/partReport";
 
 const Create = () => {
 
@@ -42,8 +43,8 @@ const Create = () => {
         )
     } else if (partScanned) {
         return (
-            //TODO create part info view
-            <ReportInput setScanned={setScanned} formData={formData} setFormData={setFormData} deviceImageUrl={deviceImageUrl}></ReportInput>
+            //TODO finish part report view
+            <PartReport setPartScanned={setPartScanned} formData={formData} deviceImageUrl={deviceImageUrl}></PartReport>
         )
     }
 }
