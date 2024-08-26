@@ -70,7 +70,7 @@ const Devices = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={[styles.safeAreaStyle, { marginTop: '10%' }]}>
                 <View style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '5%' }}>
-                    <Toggle isActive={!showList} setIsActive={setShowList} />
+                    <Toggle isActive={!showList} setIsActive={setShowList} titles={['Dalys', 'Naujas']} />
                 </View>
                 {showList ?
                     (

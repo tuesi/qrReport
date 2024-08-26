@@ -38,12 +38,7 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: Color.TEXT_INPUT_BACKGROUND_COLOR,
-        shadowColor: Color.TEXT_INPUT_SHADOW_COLOR,
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.15,
-        shadowRadius: 2,
-        elevation: 5,
+        backgroundColor: Color.BUTTON_GREY_BACKGROUND_COLOR,
         position: 'relative'
     },
 })

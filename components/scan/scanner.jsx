@@ -4,12 +4,12 @@ import scanStyles from './scanStyles';
 import * as Colors from '../../styles/colors';
 import { CameraView } from "expo-camera";
 import { FormDataModel } from './FormDataModel';
-import { GetDeviceInfo } from '../firebase/data';
+import { GetDeviceInfo, GetPartInfo } from '../firebase/data';
 import { QRKEY } from '../../constants';
 import { GetImageFromStorage } from '../firebase/storage';
 import { DEVICE_TYPE, PART_TYPE } from '../../constants';
 
-const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImageUrl }) => {
+const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImageUrl, setPartImageUrl }) => {
 
 
     const getDeviceInfo = async (parsedData) => {
@@ -32,6 +32,32 @@ const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImage
 
     const getPartInfo = async (parsedData) => {
         setPartScanned(true);
+        const partDocSnapshot = await GetPartInfo(parsedData.deviceId);
+        if (partDocSnapshot.exists()) {
+            const data = partDocSnapshot.data();
+            const deviceDocSnapshot = await GetDeviceInfo(data.deviceId);
+            if (deviceDocSnapshot.exists()) {
+                const deviceData = deviceDocSnapshot.data();
+                const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
+                formDataInstance.deviceImageName = data.imageName;
+                formDataInstance.partDeviceName = deviceData.name;
+                formDataInstance.partDeviceNotes = deviceData.notes;
+                formDataInstance.partDeviceImageName = deviceData.imageName;
+                const partImageUrl = await GetImageFromStorage(data.imageName);
+                const deviceImageUrl = await GetImageFromStorage(data.partDeviceImageName);
+                setPartImageUrl(partImageUrl);
+                setDeviceImageUrl(deviceImageUrl);
+                setFormData(formDataInstance);
+            } else {
+                Alert.alert('Error', 'Part does not have valid device!', [
+                    { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
+                ]);
+            }
+        } else {
+            Alert.alert('Error', 'Scanned QR code does not contain a valid part', [
+                { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
+            ]);
+        }
     }
 
     const handleBarCodeScanned = async ({ data }) => {
@@ -46,6 +72,8 @@ const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImage
                         getPartInfo(parsedData);
                         break;
                     default:
+                        setDeviceScanned(true);
+                        setPartScanned(true);
                         Alert.alert('Error', 'Scanned QR code is not recognised', [
                             { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
                         ]);

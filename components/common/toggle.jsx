@@ -4,11 +4,10 @@ import * as Color from '../../styles/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-const Toggle = ({ isActive, setIsActive }) => {
+const Toggle = ({ isActive, setIsActive, titles }) => {
     const animatedValue = useRef(new Animated.Value(0)).current;
     const opacityValue = useRef(new Animated.Value(1)).current;
 
-    const titles = ['Įranga', 'Naujas'];
     const [knobNameValue, setknobNameValue] = useState(titles[0]);
 
     const toggleSwitch = () => {

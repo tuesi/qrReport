@@ -13,6 +13,7 @@ const Create = () => {
     const [partScanned, setPartScanned] = useState(false);
     const [formData, setFormData] = useState(new FormDataModel());
     const [deviceImageUrl, setDeviceImageUrl] = useState(null);
+    const [partImageUrl, setPartImageUrl] = useState(null);
 
     const handleCameraPermission = () => {
         if (!permission.canAskAgain) {
@@ -35,7 +36,7 @@ const Create = () => {
 
     if (!deviceScanned && !partScanned) {
         return (
-            <Scanner setDeviceScanned={setDeviceScanned} setPartScanned={setPartScanned} setFormData={setFormData} setDeviceImageUrl={setDeviceImageUrl}></Scanner>
+            <Scanner setDeviceScanned={setDeviceScanned} setPartScanned={setPartScanned} setFormData={setFormData} setDeviceImageUrl={setDeviceImageUrl} setPartImageUrl={setPartImageUrl}></Scanner>
         )
     } else if (deviceScanned) {
         return (
@@ -44,7 +45,7 @@ const Create = () => {
     } else if (partScanned) {
         return (
             //TODO finish part report view
-            <PartReport setPartScanned={setPartScanned} formData={formData} deviceImageUrl={deviceImageUrl}></PartReport>
+            <PartReport setPartScanned={setPartScanned} formData={formData} partImageUrl={partImageUrl} deviceImageUrl={deviceImageUrl}></PartReport>
         )
     }
 }

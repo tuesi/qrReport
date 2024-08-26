@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { View, SafeAreaView, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from "react-native";
+import { View, SafeAreaView, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Platform, ScrollView, Dimensions, handlePressOutside } from "react-native";
 import Styles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import Button from '../common/button';
 import ImageViewModal from '../common/imageViewModal';
 
-const PartReport = ({ setPartScanned, formData, deviceImageUrl }) => {
+const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) => {
 
     const { width, height } = Dimensions.get('window');
 
@@ -19,27 +19,44 @@ const PartReport = ({ setPartScanned, formData, deviceImageUrl }) => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
-                            <View style={width > 500 ? scanStyles.reportContainerLarge : scanStyles.reportContainerSmall}>
-                                <View style={{ width: '100%' }}>
+                            <View style={{ width: '100%', marginBottom: '10%' }}>
+                                <View>
+                                    <View style={{ marginBottom: '5%' }}>
+                                        <ImageViewModal uri={deviceImageUrl} size={width > 500 ? 100 : 70} />
+                                    </View>
                                     <TextInput
                                         style={Styles.input_disabled}
                                         placeholder="Įrangos pavadinimas"
+                                        value={formData.partDeviceName}
+                                        editable={false}
+                                    />
+                                    <TextInput
+                                        style={Styles.input_disabled_large}
+                                        placeholder="Įrankos papildoma informacija"
+                                        value={formData.partDeviceNotes}
+                                        editable={false}
+                                        multiline={true}
+                                        textAlignVertical='top'
+                                    />
+                                </View>
+                                <View>
+                                    <View style={{ marginBottom: '5%' }}>
+                                        <ImageViewModal uri={partImageUrl} size={100} />
+                                    </View>
+                                    <TextInput
+                                        style={Styles.input_disabled}
+                                        placeholder="Delatės pavadinimas"
                                         value={formData.name}
                                         editable={false}
                                     />
-                                    <View style={{ width: width > 500 ? '80%' : '70%' }}>
-                                        <TextInput
-                                            style={Styles.input_disabled_large}
-                                            placeholder="Papildoma informacija"
-                                            value={formData.notes}
-                                            editable={false}
-                                            multiline={true}
-                                            textAlignVertical='top'
-                                        />
-                                    </View>
-                                </View>
-                                <View style={{ marginLeft: width > 500 ? '-18%' : '-25%', marginTop: width < 500 ? '22%' : '' }}>
-                                    <ImageViewModal uri={deviceImageUrl} size={width > 500 ? 100 : 70} />
+                                    <TextInput
+                                        style={Styles.input_disabled_large}
+                                        placeholder="Detalės papildoma informacija"
+                                        value={formData.notes}
+                                        editable={false}
+                                        multiline={true}
+                                        textAlignVertical='top'
+                                    />
                                 </View>
                             </View>
                             <View>
