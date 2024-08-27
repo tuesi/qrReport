@@ -13,6 +13,7 @@ import Button from "../common/button";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from "../common/QR";
 import { DEVICE_TYPE } from "../../constants";
+import GenerateSubString from "../../utils/generateSubString";
 
 const CreateDevice = ({ }) => {
 
@@ -48,7 +49,8 @@ const CreateDevice = ({ }) => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
-                const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
+                const nameSubString = GenerateSubString(name);
+                const deviceData = new DeviceDataModel(name, nameSubString, notes, fileName).toPlainObject();
                 const device = await UpdateDeviceInfo(docRef.doc().id, deviceData);
                 setDocRef(device);
                 if (docRef.doc().image !== fileName) {
@@ -59,7 +61,8 @@ const CreateDevice = ({ }) => {
             } else {
                 Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
-                const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
+                const nameSubString = GenerateSubString(name);
+                const deviceData = new DeviceDataModel(name, nameSubString, notes, fileName).toPlainObject();
                 const device = await AddNewDevice(deviceData);
                 setDocRef(device);
                 await SaveImage(image);

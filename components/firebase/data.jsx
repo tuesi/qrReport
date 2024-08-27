@@ -4,7 +4,7 @@ import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, star
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
 
     if (searchText !== '') {
-        let items = await findBySearch(searchText);
+        let items = await findBySearch(searchText, 'reports', "dateCreated");
         setData(items);
         setLastQuerySnapshot(null);
         return;
@@ -42,13 +42,13 @@ export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapS
     return subscribe;
 };
 
-const findBySearch = async (searchText) => {
+const findBySearch = async (searchText, collectionName, orderByField) => {
 
-    //Implement pagination....
+    //TODO Implement pagination....
     let reportQuery = query(
-        collection(FIRESTORE_DB, "reports"),
+        collection(FIRESTORE_DB, collectionName),
         where("subString", "array-contains", searchText.toLowerCase()),
-        orderBy("dateCreated", "desc")
+        orderBy(orderByField, "desc")
     );
 
     const reportsQuerySnapshot = await getDocs(reportQuery);
@@ -59,7 +59,14 @@ const findBySearch = async (searchText) => {
     return items;
 }
 
-export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
+export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
+
+    if (searchText !== '') {
+        let items = await findBySearch(searchText, 'devices', 'created');
+        setData(items);
+        setLastQuerySnapshot(null);
+        return;
+    }
 
     let reportQuery = query(
         collection(FIRESTORE_DB, "devices"),
@@ -92,7 +99,17 @@ export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuer
     return subscribe;
 };
 
-export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot }) => {
+export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot, searchText }) => {
+
+    //TODO what to do with this one?
+
+    // if (searchText !== '') {
+    //     let items = await findBySearch(searchText, 'parts');
+    //     setData(items);
+    //     setLastQuerySnapshot(null);
+    //     return;
+    // }
+
     let reportQuery = query(
         collection(FIRESTORE_DB, "parts"),
         where("deviceId", "==", deviceId),

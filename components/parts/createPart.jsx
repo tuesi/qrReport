@@ -15,6 +15,7 @@ import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from '../common/QR';
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import { PART_TYPE } from "../../constants";
+import GenerateSubString from "../../utils/generateSubString";
 
 const CreatePart = ({ }) => {
 
@@ -71,12 +72,14 @@ const CreatePart = ({ }) => {
                     await DeleteImage(docRef.doc().image);
                     await SaveImage(image);
                 }
-                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);
+                const nameSubString = GenerateSubString(name);
+                const newPart = new PartDataModel(deviceData.id, name, nameSubString, notes, location, fileName, amount, minAmount);
                 const part = await UpdatePartInfo(docRef.doc().id, newPart.toPlainObject(), deviceData);
                 setDocRef(part);
             } else {
                 const fileName = ImageFileNameGetter(image);
-                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);
+                const nameSubString = GenerateSubString(name);
+                const newPart = new PartDataModel(deviceData.id, name, nameSubString, notes, location, fileName, amount, minAmount);
                 const part = await AddNewPart(newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 await SaveImage(image);

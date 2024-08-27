@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toggle from '../../../components/common/toggle';
 import styles from '../../../styles/styles';
 import CreateDevice from '../../../components/create/createDevice';
+import SearchBar from '../../../components/common/searchBar';
 
 const Devices = () => {
 
@@ -13,14 +14,15 @@ const Devices = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         const signInAndFetchData = async () => {
-            await FetchDeviceDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading }));
+            await FetchDeviceDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
         };
 
         signInAndFetchData();
-    }, [loading])
+    }, [loading, searchText])
 
     toggleScreens = () => {
         setShowList(previousState => !previousState);
@@ -31,6 +33,9 @@ const Devices = () => {
             <SafeAreaView style={[styles.safeAreaStyle, { marginTop: '10%' }]}>
                 <View style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '5%' }}>
                     <Toggle isActive={!showList} setIsActive={setShowList} titles={['Įranga', 'Naujas']} />
+                </View>
+                <View style={{ width: "90%", alignItems: 'flex-end', justifyContent: 'center', marginBottom: '2%' }}>
+                    <SearchBar setSearchText={setSearchText} />
                 </View>
                 {showList ?
                     (
