@@ -3,7 +3,8 @@ const GenerateSubString = (text) => {
     let substrings = [];
     for (let i = 0; i < lowerCaseText.length; i++) {
         for (let j = i + 3; j <= lowerCaseText.length; j += 3) {
-            substrings.push(lowerCaseText.substring(i, j));
+            const substring = lowerCaseText.substring(i, j).trim();
+            substrings.push(substring);
         }
     }
     return substrings;

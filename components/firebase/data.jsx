@@ -4,7 +4,7 @@ import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, star
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
 
     if (searchText !== '') {
-        let items = await findBySearch(searchText, 'reports', "dateCreated");
+        let items = await findBySearch(searchText, 'reports', 'dateCreated');
         setData(items);
         setLastQuerySnapshot(null);
         return;
@@ -102,13 +102,11 @@ export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuer
 export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot, searchText }) => {
 
     //TODO what to do with this one?
-
-    // if (searchText !== '') {
-    //     let items = await findBySearch(searchText, 'parts');
-    //     setData(items);
-    //     setLastQuerySnapshot(null);
-    //     return;
-    // }
+    if (searchText !== '' && searchText !== null) {
+        let items = await findBySearch(searchText, 'parts', 'deviceId');
+        setItems({ items: items, lastQuerySnapShot: 0, isSearch: true });
+        return;
+    }
 
     let reportQuery = query(
         collection(FIRESTORE_DB, "parts"),
@@ -127,7 +125,7 @@ export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize
             id: doc.id
         }));
 
-        setItems({ items: items, lastQuerySnapShot: querySnapshot.docs[querySnapshot.docs.length - 1] });
+        setItems({ items: items, lastQuerySnapShot: querySnapshot.docs[querySnapshot.docs.length - 1], isSearch: false });
     });
     return subscribe;
 };
