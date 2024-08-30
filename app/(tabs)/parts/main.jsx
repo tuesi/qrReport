@@ -17,6 +17,8 @@ const Devices = () => {
     const [sectionId, setSectionId] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [sections, setSections] = useState([]);
+    const [searchSections, setSearchSections] = useState([]);
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +39,7 @@ const Devices = () => {
     }, [])
 
 
-    //TODO when searching expand sections with items found
+    //TODO when stoped searching close all opened sections (now if you search again the section just closes because it was opened on first search)
     useEffect(() => {
         const getSeachResults = async () => {
             if (searchText !== '' && searchText !== null) {
@@ -51,7 +53,7 @@ const Devices = () => {
 
     const handlePressSection = async (sectionId) => {
         const index = data.findIndex(s => s.id === sectionId);
-        if (index === -1) return;
+        if (index === -1 || (searchText !== '' && searchText !== null)) return;
         await FetchPartsDataFromFirestore(({ deviceId: sectionId, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: data[index].lastQuerySnapShot, searchText: null }));
     };
 
@@ -64,6 +66,7 @@ const Devices = () => {
             initialLoad: false,
             lastQuerySnapShot: null,
             hasMoreItems: true,
+            isSearch: false
         }));
     }
 
@@ -77,30 +80,35 @@ const Devices = () => {
                     if (index === -1) return;
                     newSections[index] = {
                         ...newSections[index],
-                        data: newSections[index].initialLoad ? [...newSections[index].data, ...items] : items,
-                        initialLoad: true,
-                        lastQuerySnapShot: lastQuerySnapShot
+                        data: items,
+                        initialLoad: false,
+                        lastQuerySnapShot: lastQuerySnapShot,
+                        isSearch: true
                     };
                 });
 
                 //Show only sections with data when searching
                 const filteredSections = newSections.filter(section => section.data.length > 0);
+                //Set sections to be opened when searching
+                const sectionIds = filteredSections.map(section => section.id);
+                setSearchSections(sectionIds);
                 setData(filteredSections);
                 setLoading(false);
                 return;
+            } else {
+                const index = data.findIndex(s => s.id === items[0].deviceId);
+                if (index === -1) return;
+                const newSections = [...data];
+                newSections[index] = {
+                    ...newSections[index],
+                    data: newSections[index].initialLoad ? [...newSections[index].data, ...items] : items,
+                    initialLoad: true,
+                    lastQuerySnapShot: lastQuerySnapShot,
+                    isSearch: false
+                };
+                setData(newSections);
+                setLoading(false);
             }
-
-            const index = data.findIndex(s => s.id === items[0].deviceId);
-            if (index === -1) return;
-            const newSections = [...data];
-            newSections[index] = {
-                ...newSections[index],
-                data: newSections[index].initialLoad ? [...newSections[index].data, ...items] : items,
-                initialLoad: true,
-                lastQuerySnapShot: lastQuerySnapShot
-            };
-            setData(newSections);
-            setLoading(false);
         }
     }
 
@@ -119,7 +127,7 @@ const Devices = () => {
                 </View>
                 {showList ?
                     (
-                        <PartList data={data} loading={loading} setLoading={setLoading} handlePressSection={handlePressSection}></PartList>
+                        <PartList data={data} loading={loading} setLoading={setLoading} handlePressSection={handlePressSection} searchSections={searchSections}></PartList>
                     )
                     :
                     (

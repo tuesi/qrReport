@@ -1,5 +1,5 @@
 export class DeviceDataModel {
-    constructor(name, subString = [], notes, imageName = '') {
+    constructor(name, notes, imageName = '', subString = []) {
         this.name = name.toUpperCase();
         this.subString = subString;
         this.notes = notes;

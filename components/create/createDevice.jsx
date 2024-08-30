@@ -50,7 +50,7 @@ const CreateDevice = ({ }) => {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
                 const nameSubString = GenerateSubString(name);
-                const deviceData = new DeviceDataModel(name, nameSubString, notes, fileName).toPlainObject();
+                const deviceData = new DeviceDataModel(name, notes, fileName, nameSubString).toPlainObject();
                 const device = await UpdateDeviceInfo(docRef.doc().id, deviceData);
                 setDocRef(device);
                 if (docRef.doc().image !== fileName) {
@@ -62,7 +62,7 @@ const CreateDevice = ({ }) => {
                 Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
                 const nameSubString = GenerateSubString(name);
-                const deviceData = new DeviceDataModel(name, nameSubString, notes, fileName).toPlainObject();
+                const deviceData = new DeviceDataModel(name, notes, fileName, nameSubString).toPlainObject();
                 const device = await AddNewDevice(deviceData);
                 setDocRef(device);
                 await SaveImage(image);

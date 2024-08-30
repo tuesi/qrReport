@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, SectionList, ActivityIndicator } from 'react-native';
 import PartRenderItem from './PartRenderListItem';
 import PartDeviceRenderItem from './PartDeviceRenderListItem';
 import Styles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
-const PartList = ({ data, loading, handlePressSection }) => {
+const PartList = ({ data, loading, handlePressSection, searchSections }) => {
 
     const [lastSectionId, setLastSectionId] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+
+    useEffect(() => {
+        if(searchSections.length > 0) {
+            searchSections.forEach(id => {
+                toggleSection(id);
+            })
+        }
+    }, [searchSections])
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({

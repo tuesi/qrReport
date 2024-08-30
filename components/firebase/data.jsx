@@ -101,7 +101,6 @@ export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuer
 
 export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize, lastQuerySnapShot, searchText }) => {
 
-    //TODO what to do with this one?
     if (searchText !== '' && searchText !== null) {
         let items = await findBySearch(searchText, 'parts', 'deviceId');
         setItems({ items: items, lastQuerySnapShot: 0, isSearch: true });

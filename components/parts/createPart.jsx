@@ -68,18 +68,20 @@ const CreatePart = ({ }) => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
+                const nameSubString = GenerateSubString(name);
+                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount, nameSubString);
+                const part = await UpdatePartInfo(docRef.doc().id, newPart.toPlainObject(), deviceData);
+                setDocRef(part);
                 if (docRef.doc().image !== fileName) {
                     await DeleteImage(docRef.doc().image);
                     await SaveImage(image);
                 }
-                const nameSubString = GenerateSubString(name);
-                const newPart = new PartDataModel(deviceData.id, name, nameSubString, notes, location, fileName, amount, minAmount);
-                const part = await UpdatePartInfo(docRef.doc().id, newPart.toPlainObject(), deviceData);
-                setDocRef(part);
+                Alert.alert('Success', 'Sėkmaingai atnaujinta');
             } else {
+                Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
                 const nameSubString = GenerateSubString(name);
-                const newPart = new PartDataModel(deviceData.id, name, nameSubString, notes, location, fileName, amount, minAmount);
+                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount, nameSubString);
                 const part = await AddNewPart(newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 await SaveImage(image);

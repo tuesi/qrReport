@@ -1,5 +1,5 @@
 export class PartDataModel {
-    constructor(deviceId, name = '', subString = [], notes = '', location = '', imageName = '', amount = 0, minAmount = 1) {
+    constructor(deviceId, name = '', notes = '', location = '', imageName = '', amount = 0, minAmount = 1, subString = []) {
         this.deviceId = deviceId
         this.name = name.toUpperCase();
         this.subString = subString;
