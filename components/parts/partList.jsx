@@ -11,14 +11,25 @@ const PartList = ({ data, loading, handlePressSection, searchSections }) => {
     const [expandedSections, setExpandedSections] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [inSearch, setInSearch] = useState(false);
 
     useEffect(() => {
-        if(searchSections.length > 0) {
-            searchSections.forEach(id => {
-                toggleSection(id);
-            })
+        if (searchSections.length > 0) {
+            setSections(true);
+            setInSearch(true);
+        } else if (inSearch) {
+            setSections(false);
+            setInSearch(false);
         }
     }, [searchSections])
+
+    const setSections = (searchState) => {
+        const updatedSections = {};
+        Object.keys(expandedSections).forEach(key => {
+            updatedSections[key] = searchState;
+        });
+        setExpandedSections(updatedSections);
+    }
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({

@@ -18,7 +18,7 @@ const Devices = () => {
     const [searchText, setSearchText] = useState('');
     const [sections, setSections] = useState([]);
     const [searchSections, setSearchSections] = useState([]);
-    
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +45,7 @@ const Devices = () => {
             if (searchText !== '' && searchText !== null) {
                 await FetchPartsDataFromFirestore(({ deviceId: null, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: null, searchText }));
             } else {
+                setSearchSections([]);
                 setData(sections);
             }
         };
@@ -74,13 +75,13 @@ const Devices = () => {
         if (items.length > 0) {
             //when is search i need to only show sections that are in the items
             if (isSearch) {
-                const newSections = sections;
+                const newSections = [...sections];
                 items.forEach(item => {
                     const index = sections.findIndex(s => s.id === item.deviceId);
                     if (index === -1) return;
                     newSections[index] = {
                         ...newSections[index],
-                        data: items,
+                        data: newSections[index].isSearch ? [...newSections[index].data, item] : [item],
                         initialLoad: false,
                         lastQuerySnapShot: lastQuerySnapShot,
                         isSearch: true
@@ -106,6 +107,7 @@ const Devices = () => {
                     lastQuerySnapShot: lastQuerySnapShot,
                     isSearch: false
                 };
+                setSearchSections([]);
                 setData(newSections);
                 setLoading(false);
             }
