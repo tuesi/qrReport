@@ -273,8 +273,7 @@ const styles = StyleSheet.create({
     },
     editModalButtonContainer: {
         width: '100%',
-        alignItems: 'center',
-        marginTop: '5%'
+        alignItems: 'center'
     },
     image: {
         width: 150,

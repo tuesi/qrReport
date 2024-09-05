@@ -41,6 +41,9 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
 
     return (
         <BottomSheetView style={Styles.modalContainer}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: '5%', zIndex: 10 }}>
+                <ImageViewModal uri={image} size={100} />
+            </View>
             <TextInput
                 style={Styles.input_disabled}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
@@ -69,9 +72,6 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
                 <View>
                     <AmountInput name={'Likutis'} value={partData?.amount} getValue={(amount) => changeAmount(amount)}></AmountInput>
                 </View>
-            </View>
-            <View style={{ height: 0, zIndex: 10 }}>
-                <ImageViewModal uri={image} size={100} />
             </View>
             <View style={deviceStyles.deviceInfoModalButtonContainer}>
                 <ShowDeviceQr deviceId={selectedItem?.id} deviceName={partData.name}></ShowDeviceQr>

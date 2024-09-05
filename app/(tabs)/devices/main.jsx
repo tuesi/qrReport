@@ -34,9 +34,11 @@ const Devices = () => {
                 <View style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '5%' }}>
                     <Toggle isActive={!showList} setIsActive={setShowList} titles={['Įranga', 'Naujas']} />
                 </View>
-                <View style={{ width: "90%", alignItems: 'flex-end', justifyContent: 'center', marginBottom: '2%' }}>
-                    <SearchBar setSearchText={setSearchText} />
-                </View>
+                {showList &&
+                    <View style={{ width: "90%", alignItems: 'flex-end', justifyContent: 'center', marginBottom: '2%' }}>
+                        <SearchBar setSearchText={setSearchText} />
+                    </View>
+                }
                 {showList ?
                     (
                         <DeviceList data={data} loading={loading} setLoading={setLoading}></DeviceList>

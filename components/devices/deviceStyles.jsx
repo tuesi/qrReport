@@ -20,12 +20,7 @@ const deviceStyles = StyleSheet.create({
         width: '80%',
         alignItems: 'center',
         justifyContent: 'start'
-    },
-    deviceInfoModalContainer: {
-        justifyContent: 'flex-start',
-        width: '100%',
-        marginBottom: '10%'
-    },
+    }
 })
 
 export default deviceStyles;

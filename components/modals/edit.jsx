@@ -73,7 +73,7 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                     <View style={Styles.deviceInfoModalContainer}>
                         <Text style={{ ...Styles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
                     </View>
-                    <View style={{ height: deviceImage ? "25%" : 0, zIndex: 10, marginTop: '3%' }}>
+                    <View style={{ marginTop: "5%", marginBottom: "5%", zIndex: 10 }}>
                         <ImageViewModal uri={deviceImage} size={100} />
                     </View>
 
