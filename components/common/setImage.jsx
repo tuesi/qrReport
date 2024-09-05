@@ -15,7 +15,7 @@ const SetImage = ({ image, setImage }) => {
                 cameraType: ImagePicker.CameraType.back,
                 allowsEditing: true,
                 aspect: [1, 1],
-                quality: 1
+                quality: 0.5
             });
 
             if (!result.canceled) {
@@ -33,7 +33,7 @@ const SetImage = ({ image, setImage }) => {
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1,
+                quality: 0.5,
             });
 
             if (!result.canceled) {
