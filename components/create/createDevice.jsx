@@ -14,6 +14,7 @@ import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from "../common/QR";
 import { DEVICE_TYPE } from "../../constants";
 import GenerateSubString from "../../utils/generateSubString";
+import TextInputWithLabel from "../common/textInputWithLabel";
 
 const CreateDevice = ({ }) => {
 
@@ -78,17 +79,17 @@ const CreateDevice = ({ }) => {
         <TouchableWithoutFeedback onPress={handlePressOutside}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '50%', alignItems: 'center', justifyContent: 'start' }} style={{ width: '100%' }}>
                 <View style={createStyles.createInputContainer}>
-                    <TextInput
+                    <TextInputWithLabel
+                        labelText="Įrangos pavadinimas"
                         style={Styles.input}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Įrangos pavadinimas"
                         value={name}
                         onChangeText={text => setName(text)}
                     />
-                    <TextInput
+                    <TextInputWithLabel
+                        labelText="Papildoma informacija"
                         style={Styles.input_large}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Papildoma informacija"
                         value={notes}
                         multiline={true}
                         textAlignVertical='top'

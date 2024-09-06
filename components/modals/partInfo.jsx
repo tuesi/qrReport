@@ -9,7 +9,7 @@ import { PartDataModel } from '../parts/partDataModel';
 
 const PartInfo = ({ setModalVisible, selectedItem }) => {
 
-    const [partData, setPartData] = useState(new PartDataModel(selectedItem.deviceId, selectedItem.name, selectedItem.notes, selectedItem.location, selectedItem.imageName, selectedItem.amount, selectedItem.minAmount));
+    const [partData, setPartData] = useState(selectedItem);
 
     const [edit, setEdit] = useState(false);
 
@@ -46,8 +46,8 @@ const PartInfo = ({ setModalVisible, selectedItem }) => {
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    {edit ? <PartEditView partData={partData} setPartData={setPartData} bottomSheetRef={bottomSheetRef} selectedItem={selectedItem} setEdit={setEdit}></PartEditView>
-                        : <PartInfoView partData={partData} setPartData={setPartData} selectedItem={selectedItem} setEdit={setEdit}></PartInfoView>}
+                    {edit ? <PartEditView partData={partData} setPartData={setPartData} bottomSheetRef={bottomSheetRef} selectedItem={partData} setEdit={setEdit}></PartEditView>
+                        : <PartInfoView partData={partData} setPartData={setPartData} selectedItem={partData} setEdit={setEdit}></PartInfoView>}
                 </ScrollView>
             </TouchableWithoutFeedback>
         </BottomSheet >

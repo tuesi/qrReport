@@ -10,14 +10,14 @@ import { QrDataModel } from "../common/qrDataModel";
 import HiddenQr from "../common/hiddenQr";
 import { QRKEY, LOGO_NAME } from '../../constants';
 
-const ShowDeviceQr = ({ deviceId, deviceName }) => {
+const ShowDeviceQr = ({ deviceId, deviceName, type }) => {
 
     const [qrData, setQRData] = useState('');
     const [fileUri, setFileUri] = useState('');
     const svgRef = useRef();
 
     const setQR = () => {
-        let newQrData = new QrDataModel(QRKEY, deviceId);
+        let newQrData = new QrDataModel(QRKEY, deviceId, type);
         const jsonData = JSON.stringify(newQrData);
         setQRData(jsonData);
     }

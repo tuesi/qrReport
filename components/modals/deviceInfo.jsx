@@ -11,6 +11,8 @@ import { DeviceDataModel } from "../create/deviceDataModel";
 import { ConfirmAction } from '../common/confirmAction';
 import ImageViewModal from '../common/imageViewModal';
 import { GetImageFromStorage } from '../firebase/storage';
+import TextInputWithLabel from '../common/textInputWithLabel';
+import { DEVICE_TYPE } from '../../constants';
 
 const DeviceInfo = ({ setModalVisible, selectedItem }) => {
 
@@ -84,17 +86,17 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: '5%', zIndex: 10 }}>
                             <ImageViewModal uri={image} size={100} />
                         </View>
-                        <TextInput
+                        <TextInputWithLabel
                             style={Styles.input}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                            placeholder="Įrangos pavadinimas"
+                            labelText="Įrangos pavadinimas"
                             value={deviceData?.name}
                             onChangeText={(text) => setDeviceData({ ...deviceData, name: text })}
                         />
-                        <TextInput
+                        <TextInputWithLabel
                             style={Styles.input_large}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                            placeholder="Papildoma informacija"
+                            labelText="Papildoma informacija"
                             value={deviceData?.notes}
                             multiline={true}
                             textAlignVertical='top'
@@ -103,7 +105,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
                                 <View style={{ flex: 1 }}>
-                                    <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name}></ShowDeviceQr>
+                                    <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name} type={DEVICE_TYPE}></ShowDeviceQr>
                                 </View>
                             )}
                             <View style={deviceStyles.deviceButtonsContainer}>

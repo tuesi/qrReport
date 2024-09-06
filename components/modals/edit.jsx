@@ -90,22 +90,23 @@ const Edit = ({ setModalVisible, selectedItem }) => {
                         <Text style={Styles.secondaryText}>{selectedItem?.location}</Text>
                     </View>
 
-                    <View style={{ ...Styles.dateRowContainer, width: '70%', marginBottom: '5%' }}>
+                    <View style={{ ...Styles.deviceLocationContainer, width: '70%', marginBottom: '5%' }}>
                         <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Gedimo Data</Text>
-                        <Text style={{ ...Styles.dateTextStyle, fontSize: 16 }}>{dateCreated}</Text>
-                    </View>
-
-                    <View style={Styles.deviceLocationContainer}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 18 }}>Sukūrė</Text>
-                        <Text style={Styles.secondaryText}>{selectedItem?.createdBy}</Text>
+                        <Text style={{ ...Styles.secondaryText, fontSize: 16 }}>{dateCreated}</Text>
                     </View>
 
                     {dateCompleted && (
-                        <View style={{ ...Styles.dateRowContainer, width: '70%' }}>
+                        <View style={{ ...Styles.deviceLocationContainer, width: '70%' }}>
                             <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Įvykdymo data</Text>
-                            <Text style={{ ...Styles.dateTextStyle, fontSize: 16 }}>{dateCompleted}</Text>
+                            <Text style={{ ...Styles.secondaryText, fontSize: 16 }}>{dateCompleted}</Text>
                         </View>
                     )}
+
+                    <View style={Styles.deviceLocationContainer}>
+                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Sukūrė</Text>
+                        <Text style={Styles.secondaryText}>{selectedItem?.createdBy}</Text>
+                    </View>
+
                     {!selectedItem.dateCompleted && (
                         <View style={Styles.editModalButtonContainer}>
                             <Button

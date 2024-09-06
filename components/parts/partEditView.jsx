@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import { BottomSheetView } from '@gorhom/bottom-sheet';
 import AmountInput from '../common/amountInput';
@@ -13,6 +13,7 @@ import { DeletePart, UpdatePartInfo } from '../firebase/data';
 import SetImage from '../common/setImage';
 import { DeleteImage, SaveImage } from '../../utils/saveImage';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
+import TextInputWithLabel from '../common/textInputWithLabel';
 
 const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, setEdit }) => {
 
@@ -39,13 +40,17 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
     const onUpdate = async () => {
         const fileName = ImageFileNameGetter(image);
         let updatedPartData = { ...partData };
-        if (selectedItem.imageName !== fileName) {
+        console.log(fileName);
+        console.log(selectedItem.imageName);
+        console.log(fileName.includes(selectedItem.imageName));
+        if (selectedItem.imageName == '' || !fileName.includes(selectedItem.imageName)) {
             await DeleteImage(selectedItem.imageName);
             await SaveImage(image);
             updatedPartData = { ...updatedPartData, imageName: fileName ? fileName : '' };
             setPartData(updatedPartData);
         }
         await UpdatePartInfo(selectedItem.id, updatedPartData, selectedItem.deviceId);
+        Alert.alert('Success', 'Sėkmaingai atnaujinta');
     }
 
     const deleteDevice = async () => {
@@ -56,25 +61,25 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
 
     return (
         <BottomSheetView style={Styles.modalContainer}>
-            <TextInput
+            <TextInputWithLabel
                 style={Styles.input}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                placeholder="Dalies pavadinimas"
+                labelText="Dalies pavadinimas"
                 value={partData?.name}
                 onChangeText={(text) => setPartData({ ...partData, name: text })}
             />
-            <TextInput
+            <TextInputWithLabel
                 style={Styles.input_large}
-                placeholder="Dalies vieta"
+                labelText="Dalies vieta"
                 value={partData?.location}
                 onChangeText={(text) => setPartData({ ...partData, location: text })}
                 multiline={true}
                 textAlignVertical='top'
             />
-            <TextInput
+            <TextInputWithLabel
                 style={Styles.input_large}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                placeholder="Papildoma informacija"
+                labelText="Papildoma informacija"
                 value={partData?.notes}
                 multiline={true}
                 textAlignVertical='top'
@@ -108,7 +113,7 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
                             color={Color.BUTTON_RED_BACKGROUND_COLOR}
                         />
                     </View>
-                    <Button text={"INFORMACIJA"} onPress={() => { onInfo(); }} color={Color.BUTTON_BLUE_BACKGROUND_COLOR}></Button>
+                    <Button text={"GRĮŽTI"} onPress={() => { onInfo(); }} color={Color.BUTTON_BLUE_BACKGROUND_COLOR}></Button>
                 </View>
             </View>
         </BottomSheetView>

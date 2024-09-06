@@ -16,6 +16,7 @@ import ImageViewModal from '../common/imageViewModal';
 import SaveImage from '../../utils/saveImage';
 import { SendPushNotification } from '../notifications/setNotifications';
 import { getUser } from '../../utils/getMemoryObjects';
+import TextInputWithLabel from '../common/textInputWithLabel';
 
 const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }) => {
 
@@ -68,27 +69,25 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
                     <SafeAreaView style={Styles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
-                            <View style={width > 500 ? scanStyles.reportContainerLarge : scanStyles.reportContainerSmall}>
-                                <View style={{ width: '100%' }}>
-                                    <TextInput
-                                        style={Styles.input_disabled}
-                                        placeholder="Įrangos pavadinimas"
-                                        value={formData.name}
+                            <View style={{ marginBottom: '5%' }}>
+                                <ImageViewModal uri={deviceImageUrl} size={100} />
+                            </View>
+                            <View style={{ width: '100%' }}>
+                                <TextInputWithLabel
+                                    style={Styles.input_disabled}
+                                    labelText="Įrangos pavadinimas"
+                                    value={formData.name}
+                                    editable={false}
+                                />
+                                <View>
+                                    <TextInputWithLabel
+                                        style={Styles.input_disabled_large}
+                                        labelText="Papildoma informacija"
+                                        value={formData.notes}
                                         editable={false}
+                                        multiline={true}
+                                        textAlignVertical='top'
                                     />
-                                    <View style={{ width: width > 500 ? '80%' : '70%' }}>
-                                        <TextInput
-                                            style={Styles.input_disabled_large}
-                                            placeholder="Papildoma informacija"
-                                            value={formData.notes}
-                                            editable={false}
-                                            multiline={true}
-                                            textAlignVertical='top'
-                                        />
-                                    </View>
-                                </View>
-                                <View style={{ marginLeft: width > 500 ? '-18%' : '-25%', marginTop: width < 500 ? '22%' : '' }}>
-                                    <ImageViewModal uri={deviceImageUrl} size={width > 500 ? 100 : 70} />
                                 </View>
                             </View>
                             <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
@@ -102,17 +101,17 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                                 onCancel={() => setShow(false)}
                                 themeVariant="light"
                             />
-                            <TextInput
+                            <TextInputWithLabel
                                 style={Styles.input_large}
-                                placeholder="Įrangos vieta"
+                                labelText="Įrangos vieta"
                                 value={formData.location}
                                 onChangeText={(text) => setFormData({ ...formData, location: text })}
                                 multiline={true}
                                 textAlignVertical='top'
                             />
-                            <TextInput
+                            <TextInputWithLabel
                                 style={Styles.input_large}
-                                placeholder="Gedimo informacija"
+                                labelText="Gedimo informacija"
                                 value={formData.message}
                                 onChangeText={(text) => setFormData({ ...formData, message: text })}
                                 multiline={true}

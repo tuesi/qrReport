@@ -44,7 +44,6 @@ const Create = () => {
         )
     } else if (partScanned) {
         return (
-            //TODO finish part report view
             <PartReport setPartScanned={setPartScanned} formData={formData} partImageUrl={partImageUrl} deviceImageUrl={deviceImageUrl}></PartReport>
         )
     }

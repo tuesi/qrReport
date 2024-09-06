@@ -5,6 +5,7 @@ import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import Button from '../common/button';
 import ImageViewModal from '../common/imageViewModal';
+import TextInputWithLabel from '../common/textInputWithLabel';
 
 const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) => {
 
@@ -22,36 +23,36 @@ const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) 
                             <View style={{ width: '100%', marginBottom: '10%' }}>
                                 <View>
                                     <View style={{ marginBottom: '5%' }}>
-                                        <ImageViewModal uri={deviceImageUrl} size={width > 500 ? 100 : 70} />
+                                        <ImageViewModal uri={deviceImageUrl} size={100} />
                                     </View>
-                                    <TextInput
+                                    <TextInputWithLabel
                                         style={Styles.input_disabled}
-                                        placeholder="Įrangos pavadinimas"
+                                        labelText="Įrangos pavadinimas"
                                         value={formData.partDeviceName}
                                         editable={false}
                                     />
-                                    <TextInput
+                                    <TextInputWithLabel
                                         style={Styles.input_disabled_large}
-                                        placeholder="Įrankos papildoma informacija"
+                                        labelText="Įrankos papildoma informacija"
                                         value={formData.partDeviceNotes}
                                         editable={false}
                                         multiline={true}
                                         textAlignVertical='top'
                                     />
                                 </View>
-                                <View>
+                                <View style={{ marginTop: "5%" }}>
                                     <View style={{ marginBottom: '5%' }}>
                                         <ImageViewModal uri={partImageUrl} size={100} />
                                     </View>
-                                    <TextInput
+                                    <TextInputWithLabel
                                         style={Styles.input_disabled}
-                                        placeholder="Delatės pavadinimas"
+                                        labelText="Delatės pavadinimas"
                                         value={formData.name}
                                         editable={false}
                                     />
-                                    <TextInput
+                                    <TextInputWithLabel
                                         style={Styles.input_disabled_large}
-                                        placeholder="Detalės papildoma informacija"
+                                        labelText="Detalės papildoma informacija"
                                         value={formData.notes}
                                         editable={false}
                                         multiline={true}

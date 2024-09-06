@@ -80,11 +80,15 @@ const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImage
                         break;
                 }
             } else {
+                setDeviceScanned(true);
+                setPartScanned(true);
                 Alert.alert('Error', 'Scanned QR code is not recognised', [
                     { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
                 ]);
             }
         } catch (error) {
+            setDeviceScanned(true);
+            setPartScanned(true);
             Alert.alert('Error', 'Error scanning code', [
                 { text: 'OK', onPress: () => { setDeviceScanned(false); setPartScanned(false); } }
             ]);

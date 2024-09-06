@@ -16,6 +16,7 @@ import QR from '../common/QR';
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import { PART_TYPE } from "../../constants";
 import GenerateSubString from "../../utils/generateSubString";
+import TextInputWithLabel from "../common/textInputWithLabel";
 
 const CreatePart = ({ }) => {
 
@@ -110,25 +111,25 @@ const CreatePart = ({ }) => {
                             addNew={false}
                         />
                     </View>
-                    <TextInput
+                    <TextInputWithLabel
                         style={Styles.input}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Atsarginės dalies pavadinimas"
+                        labelText="Atsarginės dalies pavadinimas"
                         value={name}
                         onChangeText={text => setName(text)}
                     />
-                    <TextInput
+                    <TextInputWithLabel
                         style={Styles.input_large}
-                        placeholder="Įrangos vieta"
+                        labelText="Įrangos vieta"
                         value={location}
                         onChangeText={text => setLocation(text)}
                         multiline={true}
                         textAlignVertical='top'
                     />
-                    <TextInput
+                    <TextInputWithLabel
                         style={Styles.input_large}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
-                        placeholder="Papildoma informacija"
+                        labelText="Papildoma informacija"
                         value={notes}
                         multiline={true}
                         textAlignVertical='top'
