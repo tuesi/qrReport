@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -11,18 +11,18 @@ const PartRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
                 setSelectedItem(item);
                 setModalVisible(true);
             }}>
-                <View style={Styles.listItemContainer}>
+                <View style={GlobalStyles.listItemContainer}>
                     <View>
-                        <View style={Styles.listItemHeader}>
-                            <Text style={Styles.listItemHeaderText}>{item.name}</Text>
+                        <View style={GlobalStyles.listItemHeader}>
+                            <Text style={GlobalStyles.listItemHeaderText}>{item.name}</Text>
                         </View>
-                        <View style={Styles.listItemInfo}>
-                            <Text style={Styles.listItemInfoText}>{item.amount}</Text>
+                        <View style={GlobalStyles.listItemInfo}>
+                            <Text style={GlobalStyles.listItemInfoText}>{item.amount}</Text>
                         </View>
                         {item.amount < item.minAmount ? (
                             <Ionicons name="warning-outline" size={24} color="red" />
                         ) : (
-                            <Text style={Styles.listItemInfoText}></Text>
+                            <Text style={GlobalStyles.listItemInfoText}></Text>
                         )}
                     </View>
                 </View>

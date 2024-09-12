@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -15,7 +15,7 @@ const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLas
             }}>
                 <View style={styles.sectionContainer}>
                     <View>
-                        <Text style={Styles.listItemHeaderText}>{section.title}</Text>
+                        <Text style={GlobalStyles.listItemHeaderText}>{section.title}</Text>
                     </View>
                     <View>
                         {section.isPartsLow && (

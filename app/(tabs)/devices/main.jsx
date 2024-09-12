@@ -4,7 +4,7 @@ import DeviceList from '../../../components/devices/deviceList';
 import { View, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toggle from '../../../components/common/toggle';
-import styles from '../../../styles/styles';
+import GlobalStyles from '../../../styles/styles';
 import CreateDevice from '../../../components/create/createDevice';
 import SearchBar from '../../../components/common/searchBar';
 
@@ -30,7 +30,7 @@ const Devices = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={[styles.safeAreaStyle, { marginTop: '10%' }]}>
+            <SafeAreaView style={[GlobalStyles.safeAreaStyle, { marginTop: '10%' }]}>
                 <View style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '5%' }}>
                     <Toggle isActive={!showList} setIsActive={setShowList} titles={['Įranga', 'Naujas']} />
                 </View>

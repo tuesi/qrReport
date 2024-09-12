@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import * as Color from "./colors";
 
-const styles = StyleSheet.create({
+const GlobalStyles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
@@ -298,6 +298,14 @@ const styles = StyleSheet.create({
         paddingTop: '5%',
         marginBottom: '5%'
     },
+    textContainer: {
+        margin: "2%"
+    },
+    textStyle: {
+        fontWeight: "bold",
+        fontSize: "12px",
+        color: "grey"
+    }
 });
 
-export default styles;
+export default GlobalStyles;

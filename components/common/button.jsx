@@ -1,10 +1,10 @@
 import { Text, TouchableOpacity } from 'react-native';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 
 const Button = ({ text, color, onPress }) => {
     return (
-        <TouchableOpacity style={[Styles.buttonStyle, { backgroundColor: color }]} onPress={onPress}>
-            <Text style={Styles.buttonText}>{text}</Text>
+        <TouchableOpacity style={[GlobalStyles.buttonStyle, { backgroundColor: color }]} onPress={onPress}>
+            <Text style={GlobalStyles.buttonText}>{text}</Text>
         </TouchableOpacity>
     )
 }

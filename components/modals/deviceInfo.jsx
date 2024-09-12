@@ -1,4 +1,4 @@
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -82,19 +82,19 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
         >
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    <BottomSheetView style={Styles.modalContainer}>
+                    <BottomSheetView style={GlobalStyles.modalContainer}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: '5%', zIndex: 10 }}>
                             <ImageViewModal uri={image} size={100} />
                         </View>
                         <TextInputWithLabel
-                            style={Styles.input}
+                            style={GlobalStyles.input}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                             labelText="Įrangos pavadinimas"
                             value={deviceData?.name}
                             onChangeText={(text) => setDeviceData({ ...deviceData, name: text })}
                         />
                         <TextInputWithLabel
-                            style={Styles.input_large}
+                            style={GlobalStyles.input_large}
                             placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                             labelText="Papildoma informacija"
                             value={deviceData?.notes}

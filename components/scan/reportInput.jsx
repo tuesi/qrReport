@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, SafeAreaView, Alert, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from "react-native";
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
@@ -67,21 +67,21 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
             style={{ flex: 1 }}>
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    <SafeAreaView style={Styles.safeAreaStyle}>
+                    <SafeAreaView style={GlobalStyles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
                             <View style={{ marginBottom: '5%' }}>
                                 <ImageViewModal uri={deviceImageUrl} size={100} />
                             </View>
                             <View style={{ width: '100%' }}>
                                 <TextInputWithLabel
-                                    style={Styles.input_disabled}
+                                    style={GlobalStyles.input_disabled}
                                     labelText="Įrangos pavadinimas"
                                     value={formData.name}
                                     editable={false}
                                 />
                                 <View>
                                     <TextInputWithLabel
-                                        style={Styles.input_disabled_large}
+                                        style={GlobalStyles.input_disabled_large}
                                         labelText="Papildoma informacija"
                                         value={formData.notes}
                                         editable={false}
@@ -90,8 +90,8 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                                     />
                                 </View>
                             </View>
-                            <TouchableOpacity onPress={() => setShow(true)} style={Styles.date_input}>
-                                <Text style={Styles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
+                            <TouchableOpacity onPress={() => setShow(true)} style={GlobalStyles.date_input}>
+                                <Text style={GlobalStyles.textStyle}>Gedimo data: {DateStringParser(date)}</Text>
                             </TouchableOpacity>
                             <DateTimePickerModal
                                 isVisible={show}
@@ -102,7 +102,7 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                                 themeVariant="light"
                             />
                             <TextInputWithLabel
-                                style={Styles.input_large}
+                                style={GlobalStyles.input_large}
                                 labelText="Įrangos vieta"
                                 value={formData.location}
                                 onChangeText={(text) => setFormData({ ...formData, location: text })}
@@ -110,7 +110,7 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                                 textAlignVertical='top'
                             />
                             <TextInputWithLabel
-                                style={Styles.input_large}
+                                style={GlobalStyles.input_large}
                                 labelText="Gedimo informacija"
                                 value={formData.message}
                                 onChangeText={(text) => setFormData({ ...formData, message: text })}

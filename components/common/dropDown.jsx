@@ -2,8 +2,9 @@ import { View, StyleSheet, TextInput, TouchableOpacity, Animated, ScrollView, Te
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useRef, useEffect } from "react";
 import * as Color from '../../styles/colors';
+import GlobalStyles from "../../styles/styles";
 
-const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo vardas', searchPlaceholder = 'Pasirinkite vartotoja', notFoundText = 'not found', addNew }) => {
+const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo vardas', searchPlaceholder = 'Pasirinkite vartotoja', notFoundText = 'not found', addNew, labelText }) => {
 
     const [selectedval, setSelectedVal] = useState("");
     const [filteredData, setFilteredData] = useState(data);
@@ -38,6 +39,11 @@ const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo v
 
     return (
         <View style={{ width: '100%' }}>
+            {labelText ? (
+                <View style={GlobalStyles.textContainer}>
+                    <Text style={GlobalStyles.textStyle}>{labelText}</Text>
+                </View>
+            ) : null}
             {
                 (dropdown)
                     ?
@@ -103,9 +109,9 @@ const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo v
                                 })
                                 :
                                 <TouchableOpacity style={[styles.option]} onPress={() => {
-                                    getSelected(searchText)
-                                    setSelectedVal(searchText)
-                                    newValue(searchText);
+                                    addNew ? getSelected(searchText) : getSelected('');
+                                    addNew ? setSelectedVal(searchText) : setSelectedVal('');
+                                    addNew ? newValue(searchText) : null;
                                     slideup()
                                     setTimeout(() => setFilteredData(data), 800)
 
@@ -116,7 +122,7 @@ const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo v
                     </ScrollView>
                 </Animated.View>
             }
-        </View>
+        </View >
     )
 }
 

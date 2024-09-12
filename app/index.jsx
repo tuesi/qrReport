@@ -1,5 +1,4 @@
-import { View, TextInput, Keyboard, TouchableWithoutFeedback, StyleSheet, Alert } from "react-native";
-import styles from "../styles/styles";
+import { View, Keyboard, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import Button from "../components/common/button";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';

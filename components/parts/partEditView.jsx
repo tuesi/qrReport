@@ -5,7 +5,7 @@ import AmountInput from '../common/amountInput';
 import ImageViewModal from '../common/imageViewModal';
 import { ConfirmAction } from '../common/confirmAction';
 import Button from "../common/button";
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
 import { GetImageFromStorage } from '../firebase/storage';
@@ -60,16 +60,16 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
     }
 
     return (
-        <BottomSheetView style={Styles.modalContainer}>
+        <BottomSheetView style={GlobalStyles.modalContainer}>
             <TextInputWithLabel
-                style={Styles.input}
+                style={GlobalStyles.input}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                 labelText="Dalies pavadinimas"
                 value={partData?.name}
                 onChangeText={(text) => setPartData({ ...partData, name: text })}
             />
             <TextInputWithLabel
-                style={Styles.input_large}
+                style={GlobalStyles.input_large}
                 labelText="Dalies vieta"
                 value={partData?.location}
                 onChangeText={(text) => setPartData({ ...partData, location: text })}
@@ -77,7 +77,7 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
                 textAlignVertical='top'
             />
             <TextInputWithLabel
-                style={Styles.input_large}
+                style={GlobalStyles.input_large}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                 labelText="Papildoma informacija"
                 value={partData?.notes}

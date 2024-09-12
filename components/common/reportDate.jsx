@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { View, Text } from "react-native"
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 
 const ReportDate = ({ date, color, completed, maxLateDays }) => {
@@ -21,8 +21,8 @@ const ReportDate = ({ date, color, completed, maxLateDays }) => {
     }, [])
 
     return (
-        <View style={[Styles.backgroundCircle, { backgroundColor: newColor }]}>
-            <Text style={Styles.dateTextStyle}>{date}</Text>
+        <View style={[GlobalStyles.backgroundCircle, { backgroundColor: newColor }]}>
+            <Text style={GlobalStyles.dateTextStyle}>{date}</Text>
         </View>
     )
 }

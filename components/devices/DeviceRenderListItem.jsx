@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 
 const DeviceRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
@@ -12,17 +12,17 @@ const DeviceRenderItem = ({ item, setSelectedItem, setModalVisible }) => {
             setSelectedItem(item);
             setModalVisible(true);
         }}>
-            <View style={Styles.listItemContainer}>
+            <View style={GlobalStyles.listItemContainer}>
                 <View>
-                    <View style={Styles.listItemHeader}>
-                        <Text style={Styles.listItemHeaderText}>{item.name}</Text>
+                    <View style={GlobalStyles.listItemHeader}>
+                        <Text style={GlobalStyles.listItemHeaderText}>{item.name}</Text>
                     </View>
-                    <View style={Styles.listItemInfo}>
-                        <Text style={Styles.listItemInfoText}>{item.notes}</Text>
+                    <View style={GlobalStyles.listItemInfo}>
+                        <Text style={GlobalStyles.listItemInfoText}>{item.notes}</Text>
                     </View>
-                    <View style={Styles.dateRowContainer}>
-                        <Text style={Styles.listItemInfoText}>Sukurta</Text>
-                        <Text style={Styles.listItemInfoText}>{dateCreated}</Text>
+                    <View style={GlobalStyles.dateRowContainer}>
+                        <Text style={GlobalStyles.listItemInfoText}>Sukurta</Text>
+                        <Text style={GlobalStyles.listItemInfoText}>{dateCreated}</Text>
                     </View>
                 </View>
             </View>

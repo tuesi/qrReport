@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { View, SafeAreaView, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Platform, ScrollView, Dimensions, handlePressOutside } from "react-native";
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import Button from '../common/button';
@@ -18,7 +17,7 @@ const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) 
             style={{ flex: 1 }}>
             <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}>
-                    <SafeAreaView style={Styles.safeAreaStyle}>
+                    <SafeAreaView style={GlobalStyles.safeAreaStyle}>
                         <View style={scanStyles.scanInputContainer}>
                             <View style={{ width: '100%', marginBottom: '10%' }}>
                                 <View>
@@ -26,13 +25,13 @@ const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) 
                                         <ImageViewModal uri={deviceImageUrl} size={100} />
                                     </View>
                                     <TextInputWithLabel
-                                        style={Styles.input_disabled}
+                                        style={GlobalStyles.input_disabled}
                                         labelText="Įrangos pavadinimas"
                                         value={formData.partDeviceName}
                                         editable={false}
                                     />
                                     <TextInputWithLabel
-                                        style={Styles.input_disabled_large}
+                                        style={GlobalStyles.input_disabled_large}
                                         labelText="Įrankos papildoma informacija"
                                         value={formData.partDeviceNotes}
                                         editable={false}
@@ -45,13 +44,13 @@ const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) 
                                         <ImageViewModal uri={partImageUrl} size={100} />
                                     </View>
                                     <TextInputWithLabel
-                                        style={Styles.input_disabled}
+                                        style={GlobalStyles.input_disabled}
                                         labelText="Delatės pavadinimas"
                                         value={formData.name}
                                         editable={false}
                                     />
                                     <TextInputWithLabel
-                                        style={Styles.input_disabled_large}
+                                        style={GlobalStyles.input_disabled_large}
                                         labelText="Detalės papildoma informacija"
                                         value={formData.notes}
                                         editable={false}

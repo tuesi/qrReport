@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, SectionList, ActivityIndicator } from 'react-native';
 import PartRenderItem from './PartRenderListItem';
 import PartDeviceRenderItem from './PartDeviceRenderListItem';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
 const PartList = ({ data, loading, handlePressSection, searchSections }) => {
@@ -39,7 +39,7 @@ const PartList = ({ data, loading, handlePressSection, searchSections }) => {
     };
 
     return (
-        <View style={Styles.container}>
+        <View style={GlobalStyles.container}>
             {data && data.length > 0 && (
                 <View style={{ flex: 1, width: '100%' }}>
                     <SectionList

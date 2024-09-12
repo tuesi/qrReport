@@ -1,6 +1,6 @@
 import { View, TextInput, TouchableWithoutFeedback, ScrollView, Text, Keyboard, Alert } from "react-native";
 import * as MediaLibrary from 'expo-media-library';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import createStyles from "../create/createStyles";
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
@@ -109,17 +109,18 @@ const CreatePart = ({ }) => {
                             valuePlaceholder="Prietaiso pavadinimas"
                             searchPlaceholder="Parisinkite preitaisą"
                             addNew={false}
+                            labelText="Prietaiso pavadinimas"
                         />
                     </View>
                     <TextInputWithLabel
-                        style={Styles.input}
+                        style={GlobalStyles.input}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                         labelText="Atsarginės dalies pavadinimas"
                         value={name}
                         onChangeText={text => setName(text)}
                     />
                     <TextInputWithLabel
-                        style={Styles.input_large}
+                        style={GlobalStyles.input_large}
                         labelText="Įrangos vieta"
                         value={location}
                         onChangeText={text => setLocation(text)}
@@ -127,7 +128,7 @@ const CreatePart = ({ }) => {
                         textAlignVertical='top'
                     />
                     <TextInputWithLabel
-                        style={Styles.input_large}
+                        style={GlobalStyles.input_large}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                         labelText="Papildoma informacija"
                         value={notes}

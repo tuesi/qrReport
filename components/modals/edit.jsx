@@ -1,4 +1,4 @@
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import { Text, View, ScrollView } from 'react-native';
 import React, { useMemo, useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
@@ -66,49 +66,49 @@ const Edit = ({ setModalVisible, selectedItem }) => {
             handleStyle={{ backgroundColor: Color.SECONDARY_BUTTON_COLOR, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}
         >
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: '50%' }}>
-                <BottomSheetView style={Styles.modalContainer}>
-                    <View style={Styles.deviceNameModalContainer}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 28 }}>{selectedItem?.name}</Text>
+                <BottomSheetView style={GlobalStyles.modalContainer}>
+                    <View style={GlobalStyles.deviceNameModalContainer}>
+                        <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 28 }}>{selectedItem?.name}</Text>
                     </View>
-                    <View style={Styles.deviceInfoModalContainer}>
-                        <Text style={{ ...Styles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
+                    <View style={GlobalStyles.deviceInfoModalContainer}>
+                        <Text style={{ ...GlobalStyles.notesTextColor, fontSize: 16 }}>{selectedItem?.notes}</Text>
                     </View>
                     <View style={{ marginTop: "5%", marginBottom: "5%", zIndex: 10 }}>
                         <ImageViewModal uri={deviceImage} size={100} />
                     </View>
 
-                    <View style={[Styles.reportInfoContainer, { marginBottom: reportImage ? '3%' : '10%' }]}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 20 }}>Gedimo informacija</Text>
-                        <Text style={Styles.secondaryText}>{selectedItem?.message}</Text>
+                    <View style={[GlobalStyles.reportInfoContainer, { marginBottom: reportImage ? '3%' : '10%' }]}>
+                        <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 20 }}>Gedimo informacija</Text>
+                        <Text style={GlobalStyles.secondaryText}>{selectedItem?.message}</Text>
                     </View>
                     <View style={{ height: reportImage ? "25%" : 0, zIndex: 10 }}>
                         <ImageViewModal uri={reportImage} size={100} />
                     </View>
 
-                    <View style={Styles.deviceLocationContainer}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 18 }}>Įrangos vieta</Text>
-                        <Text style={Styles.secondaryText}>{selectedItem?.location}</Text>
+                    <View style={GlobalStyles.deviceLocationContainer}>
+                        <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 18 }}>Įrangos vieta</Text>
+                        <Text style={GlobalStyles.secondaryText}>{selectedItem?.location}</Text>
                     </View>
 
-                    <View style={{ ...Styles.deviceLocationContainer, width: '70%', marginBottom: '5%' }}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Gedimo Data</Text>
-                        <Text style={{ ...Styles.secondaryText, fontSize: 16 }}>{dateCreated}</Text>
+                    <View style={{ ...GlobalStyles.deviceLocationContainer, width: '70%', marginBottom: '5%' }}>
+                        <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 16 }}>Gedimo Data</Text>
+                        <Text style={{ ...GlobalStyles.secondaryText, fontSize: 16 }}>{dateCreated}</Text>
                     </View>
 
                     {dateCompleted && (
-                        <View style={{ ...Styles.deviceLocationContainer, width: '70%' }}>
-                            <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Įvykdymo data</Text>
-                            <Text style={{ ...Styles.secondaryText, fontSize: 16 }}>{dateCompleted}</Text>
+                        <View style={{ ...GlobalStyles.deviceLocationContainer, width: '70%' }}>
+                            <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 16 }}>Įvykdymo data</Text>
+                            <Text style={{ ...GlobalStyles.secondaryText, fontSize: 16 }}>{dateCompleted}</Text>
                         </View>
                     )}
 
-                    <View style={Styles.deviceLocationContainer}>
-                        <Text style={{ ...Styles.listItemHeaderText, fontSize: 16 }}>Sukūrė</Text>
-                        <Text style={Styles.secondaryText}>{selectedItem?.createdBy}</Text>
+                    <View style={GlobalStyles.deviceLocationContainer}>
+                        <Text style={{ ...GlobalStyles.listItemHeaderText, fontSize: 16 }}>Sukūrė</Text>
+                        <Text style={GlobalStyles.secondaryText}>{selectedItem?.createdBy}</Text>
                     </View>
 
                     {!selectedItem.dateCompleted && (
-                        <View style={Styles.editModalButtonContainer}>
+                        <View style={GlobalStyles.editModalButtonContainer}>
                             <Button
                                 onPress={() => { ConfirmAction("Ar tikrai norite pažymėti atlikta?", onPressHandler) }}
                                 text="Pažymėti atlikta"

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateStringParser from '../../utils/dateStringParser';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import ReportDate from '../common/reportDate';
 import * as Color from '../../styles/colors';
 
@@ -12,16 +12,16 @@ const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
             setSelectedItem(item);
             setModalVisible(true);
         }}>
-            <View style={Styles.listItemContainer}>
+            <View style={GlobalStyles.listItemContainer}>
                 <View style={{ flex: 10 }}>
-                    <View style={Styles.listItemHeader}>
-                        <Text style={Styles.listItemHeaderText}>{item.name}</Text>
+                    <View style={GlobalStyles.listItemHeader}>
+                        <Text style={GlobalStyles.listItemHeaderText}>{item.name}</Text>
                     </View>
-                    <View style={Styles.listItemInfo}>
-                        <Text style={Styles.listItemInfoText}>{item.message}</Text>
+                    <View style={GlobalStyles.listItemInfo}>
+                        <Text style={GlobalStyles.listItemInfoText}>{item.message}</Text>
                     </View>
-                    <View style={Styles.listItemLocation}>
-                        <Text style={Styles.listItemLocationText}>{item.location}</Text>
+                    <View style={GlobalStyles.listItemLocation}>
+                        <Text style={GlobalStyles.listItemLocationText}>{item.location}</Text>
                     </View>
                 </View>
                 <View style={{
@@ -30,13 +30,13 @@ const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
                     justifyContent: 'flex-end'
                 }}>
                     {dateCompleted && (
-                        <View style={[Styles.dateRowContainer, { marginBottom: 5 }]}>
-                            <Text style={Styles.labelStyle}>Įvykdymo data</Text>
+                        <View style={[GlobalStyles.dateRowContainer, { marginBottom: 5 }]}>
+                            <Text style={GlobalStyles.labelStyle}>Įvykdymo data</Text>
                             <ReportDate date={dateCreated} color={Color.REPORT_DATE_COMPLETE_COLOR}></ReportDate>
                         </View>
                     )}
-                    <View style={Styles.dateRowContainer}>
-                        <Text style={Styles.labelStyle}>Gedimo Data</Text>
+                    <View style={GlobalStyles.dateRowContainer}>
+                        <Text style={GlobalStyles.labelStyle}>Gedimo Data</Text>
                         <ReportDate date={dateCreated} color={Color.REPORT_DATE_NEW_COLOR} completed={!!dateCompleted} maxLateDays={5}></ReportDate>
                     </View>
                 </View>

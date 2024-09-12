@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, TextInput, TouchableWithoutFeedback, ScrollView, Keyboard, Alert } from "react-native";
 import * as MediaLibrary from 'expo-media-library';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import createStyles from "./createStyles";
 import * as Color from '../../styles/colors';
 import ImageViewModal from "../common/imageViewModal";
@@ -81,14 +81,14 @@ const CreateDevice = ({ }) => {
                 <View style={createStyles.createInputContainer}>
                     <TextInputWithLabel
                         labelText="Įrangos pavadinimas"
-                        style={Styles.input}
+                        style={GlobalStyles.input}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                         value={name}
                         onChangeText={text => setName(text)}
                     />
                     <TextInputWithLabel
                         labelText="Papildoma informacija"
-                        style={Styles.input_large}
+                        style={GlobalStyles.input_large}
                         placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                         value={notes}
                         multiline={true}

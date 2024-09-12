@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as Sharing from 'expo-sharing';
 import { View, Alert, Keyboard } from "react-native";
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import QRCode from "react-native-qrcode-svg";
 import { QrDataModel } from "./qrDataModel";
 import SaveTemporaryFile from "../../utils/saveTemporaryFile";
@@ -57,12 +57,12 @@ const QR = ({ name, id, type }) => {
     };
 
     return (
-        <View style={Styles.createQRContainer}>
+        <View style={GlobalStyles.createQRContainer}>
             {qrData ? (
-                <View style={Styles.showQrContainer}>
+                <View style={GlobalStyles.showQrContainer}>
                     <QRCode value={qrData} size={150} logoSize={35} logo={LOGO_NAME} />
                     {fileUri && (
-                        <View style={Styles.topGap}>
+                        <View style={GlobalStyles.topGap}>
                             <Button text={'SAUGOTI QR KODĄ'} color={Color.BUTTON_BLUE_BACKGROUND_COLOR} onPress={shareCode} />
                         </View>
                     )}

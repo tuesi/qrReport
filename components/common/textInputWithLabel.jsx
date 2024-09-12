@@ -1,11 +1,12 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
+import GlobalStyles from "../../styles/styles";
 
 const TextInputWithLabel = ({ labelText, ...props }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={styles.textStyle}>{labelText}</Text>
+            <View style={GlobalStyles.textContainer}>
+                <Text style={GlobalStyles.textStyle}>{labelText}</Text>
             </View>
             <TextInput
                 {...props}
@@ -22,14 +23,6 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "start",
         justifyContent: "center"
-    },
-    textContainer: {
-        margin: "2%"
-    },
-    textStyle: {
-        fontWeight: "bold",
-        fontSize: "12px",
-        color: "grey"
     }
 })
 

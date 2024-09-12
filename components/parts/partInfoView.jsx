@@ -5,7 +5,7 @@ import AmountInput from '../common/amountInput';
 import ImageViewModal from '../common/imageViewModal';
 import ShowDeviceQr from "../devices/showDeviceQR";
 import Button from "../common/button";
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
 import { GetImageFromStorage } from '../firebase/storage';
@@ -42,19 +42,19 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
     }
 
     return (
-        <BottomSheetView style={Styles.modalContainer}>
+        <BottomSheetView style={GlobalStyles.modalContainer}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: '5%', zIndex: 10 }}>
                 <ImageViewModal uri={image} size={100} />
             </View>
             <TextInputWithLabel
-                style={Styles.input_disabled}
+                style={GlobalStyles.input_disabled}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                 labelText="Dalies pavadinimas"
                 value={partData?.name}
                 editable={false}
             />
             <TextInputWithLabel
-                style={Styles.input_disabled_large}
+                style={GlobalStyles.input_disabled_large}
                 labelText="Dalies vieta"
                 value={partData?.location}
                 multiline={true}
@@ -62,7 +62,7 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
                 textAlignVertical='top'
             />
             <TextInputWithLabel
-                style={Styles.input_disabled_large}
+                style={GlobalStyles.input_disabled_large}
                 placeholderTextColor={Color.TEXT_INPUT_HINT_COLOR}
                 labelText="Papildoma informacija"
                 value={partData?.notes}

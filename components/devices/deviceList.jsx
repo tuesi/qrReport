@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import DeviceInfo from '../modals/deviceInfo';
 import DeviceRenderItem from './DeviceRenderListItem';
-import Styles from '../../styles/styles';
+import GlobalStyles from '../../styles/styles';
 
 const DeviceList = ({ data, loading, setLoading }) => {
 
@@ -18,7 +18,7 @@ const DeviceList = ({ data, loading, setLoading }) => {
     }
 
     return (
-        <View style={Styles.container}>
+        <View style={GlobalStyles.container}>
             <FlatList
                 style={{ width: "90%", marginBottom: '20%', borderRadius: 20 }}
                 showsVerticalScrollIndicator={false}
@@ -28,7 +28,7 @@ const DeviceList = ({ data, loading, setLoading }) => {
                 keyExtractor={item => item.id.toString()}
                 onEndReached={fetchData}
                 onEndReachedThreshold={0.1}
-                ListFooterComponent={loading && <Text style={Styles.textStyle}>Loading...</Text>}
+                ListFooterComponent={loading && <Text style={GlobalStyles.textStyle}>Loading...</Text>}
             />
             {modalVisible && (
                 <DeviceInfo
