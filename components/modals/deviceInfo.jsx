@@ -13,6 +13,9 @@ import ImageViewModal from '../common/imageViewModal';
 import { GetImageFromStorage } from '../firebase/storage';
 import TextInputWithLabel from '../common/textInputWithLabel';
 import { DEVICE_TYPE } from '../../constants';
+import SetImage from '../common/setImage';
+import { DeleteImage, SaveImage } from '../../utils/saveImage';
+import ImageFileNameGetter from '../../utils/imageFileNameGetter';
 
 const DeviceInfo = ({ setModalVisible, selectedItem }) => {
 
@@ -25,7 +28,6 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                 const imageUrl = await GetImageFromStorage(selectedItem.imageName);
                 setImage(imageUrl);
             } catch (error) {
-                // Handle error
                 console.error('Error fetching image:', error);
             }
         };
@@ -49,7 +51,14 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
     };
 
     const onUpdate = async () => {
-        await UpdateDeviceInfo(selectedItem.id, deviceData);
+        const fileName = ImageFileNameGetter(image);
+        if (selectedItem.imageName == '' || !fileName.includes(selectedItem.imageName)) {
+            await DeleteImage(selectedItem.imageName);
+            await SaveImage(image);
+            updatedDeviceData = { ...deviceData, imageName: fileName ? fileName : '' };
+            setDeviceData(updatedDeviceData);
+        }
+        await UpdateDeviceInfo(selectedItem.id, updatedDeviceData);
         setShowQr(false);
         bottomSheetRef.current.close()
         setModalVisible(false);
@@ -59,6 +68,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
         setShowQr(false);
         bottomSheetRef.current.close()
         await DeleteDevice(selectedItem.id);
+        await DeleteImage(image);
         setModalVisible(false);
     }
 
@@ -85,6 +95,9 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                     <BottomSheetView style={GlobalStyles.modalContainer}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: '5%', zIndex: 10 }}>
                             <ImageViewModal uri={image} size={100} />
+                        </View>
+                        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                            <SetImage image={image} setImage={setImage}></SetImage>
                         </View>
                         <TextInputWithLabel
                             style={GlobalStyles.input}

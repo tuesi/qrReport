@@ -40,9 +40,6 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
     const onUpdate = async () => {
         const fileName = ImageFileNameGetter(image);
         let updatedPartData = { ...partData };
-        console.log(fileName);
-        console.log(selectedItem.imageName);
-        console.log(fileName.includes(selectedItem.imageName));
         if (selectedItem.imageName == '' || !fileName.includes(selectedItem.imageName)) {
             await DeleteImage(selectedItem.imageName);
             await SaveImage(image);
