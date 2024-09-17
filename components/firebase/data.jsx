@@ -1,14 +1,15 @@
 import { FIRESTORE_DB } from '../../firebaseConfig';
 import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, startAfter, onSnapshot, deleteDoc, getDocs, where, setDoc } from 'firebase/firestore';
 
-export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
 
-    if (searchText !== '') {
-        let items = await findBySearch(searchText, 'reports', 'dateCreated');
-        setData(items);
-        setLastQuerySnapshot(null);
-        return;
-    }
+//TODO implement this function and create the same for others
+
+export const FetchSearchDataFromFirestore = async ({ setSearchData, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, searchText }) => {
+    let items = await findBySearch(searchText, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, 'reports', 'dateCreated');
+    setSearchData(items);
+}
+
+export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
 
     let reportQuery = query(
         collection(FIRESTORE_DB, "reports"),
@@ -42,21 +43,36 @@ export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapS
     return subscribe;
 };
 
-const findBySearch = async (searchText, collectionName, orderByField) => {
+const findBySearch = async (searchText, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, collectionName, orderByField) => {
 
-    //TODO Implement pagination....
+    //TODO Check if pagination implementation works
     let reportQuery = query(
         collection(FIRESTORE_DB, collectionName),
         where("subString", "array-contains", searchText.toLowerCase()),
-        orderBy(orderByField, "desc")
+        orderBy(orderByField, "desc"),
+        limit(pageSize)
     );
 
+    //If not the first page start after the last fetched item
+    if (lastSearchQuerySnapShot) {
+        reportQuery = query(reportQuery, startAfter(lastSearchQuerySnapShot));
+    }
+
+
+    //Get data
     const reportsQuerySnapshot = await getDocs(reportQuery);
     const items = reportsQuerySnapshot.docs.map(doc => ({
         ...doc.data(),
         id: doc.id,
     }));
-    return items;
+
+
+    //Save the last doc snapshot if its not the last
+    if (reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1] && lastQuerySnapShot !== reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1]) {
+        setLastSearchQuerySnapshot(reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1]);
+    }
+
+    return lastQuerySnapShot ? [...prevData, ...items] : items;
 }
 
 export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
