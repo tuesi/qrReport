@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { FetchDeviceDataFromFirestore, FetchSearchDataFromFirestore } from '../../../components/firebase/data'
+import { useState, useEffect } from 'react';
+import { FetchDeviceDataFromFirestore } from '../../../components/firebase/data'
 import DeviceList from '../../../components/devices/deviceList';
 import { View, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -12,28 +12,19 @@ const Devices = () => {
 
     const [showList, setShowList] = useState(true);
     const [data, setData] = useState([]);
-    const [searchData, setSearchData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
-    const [lastSearchQuerySnapShot, setLastSearchQuerySnapshot] = useState(null);
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
-            await FetchDeviceDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading }));
+            await FetchDeviceDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
         };
 
         fetchData();
-    }, [loading])
+    }, [loading, searchText])
 
-    //TODO check if works and add another to display searchData
-    useEffect(() => {
-        const fetchSearchData = async () => {
-            await FetchSearchDataFromFirestore(({ setSearchData, pageSize: 10, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, searchText }));
-        };
 
-        fetchSearchData();
-    }, [searchText])
 
     toggleScreens = () => {
         setShowList(previousState => !previousState);

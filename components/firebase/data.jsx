@@ -5,8 +5,12 @@ import { collection, query, orderBy, addDoc, doc, updateDoc, getDoc, limit, star
 //TODO implement this function and create the same for others
 
 export const FetchSearchDataFromFirestore = async ({ setSearchData, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, searchText }) => {
-    let items = await findBySearch(searchText, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, 'reports', 'dateCreated');
-    setSearchData(items);
+    let searchItems = await findBySearch(searchText, pageSize, lastSearchQuerySnapShot, setLastSearchQuerySnapshot, 'reports', 'dateCreated');
+    if (lastSearchQuerySnapShot) {
+        setSearchData(prevData => [...prevData, ...searchItems]);
+    } else {
+        setSearchData(searchItems);
+    }
 }
 
 export const FetchDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading }) => {
@@ -68,11 +72,11 @@ const findBySearch = async (searchText, pageSize, lastSearchQuerySnapShot, setLa
 
 
     //Save the last doc snapshot if its not the last
-    if (reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1] && lastQuerySnapShot !== reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1]) {
+    if (reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1] && lastSearchQuerySnapShot !== reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1]) {
         setLastSearchQuerySnapshot(reportsQuerySnapshot.docs[reportsQuerySnapshot.docs.length - 1]);
     }
 
-    return lastQuerySnapShot ? [...prevData, ...items] : items;
+    return items;
 }
 
 export const FetchDeviceDataFromFirestore = async ({ setData, pageSize, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }) => {
