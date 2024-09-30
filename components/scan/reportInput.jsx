@@ -5,26 +5,28 @@ import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
 import { useNavigation } from '@react-navigation/native';
-import { AddNewReport } from '../firebase/data';
 import Button from '../common/button';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DateStringParser from '../../utils/dateStringParser';
 import { ConfirmAction } from '../common/confirmAction';
-import GenerateSubString from '../../utils/generateSubString';
 import SetImage from '../common/setImage';
 import ImageViewModal from '../common/imageViewModal';
-import SaveImage from '../../utils/saveImage';
+import { SaveImage } from '../../utils/saveImage';
 import { SendPushNotification } from '../notifications/setNotifications';
 import { getUser } from '../../utils/getMemoryObjects';
 import TextInputWithLabel from '../common/textInputWithLabel';
+import { AddNewReport } from '../api/reports';
+import { useDispatch } from 'react-redux';
+import { reportUpdateAction } from '../../store';
 
 const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }) => {
+
+    const dispatch = useDispatch();
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
 
-    const { width, height } = Dimensions.get('window');
     const navigation = useNavigation();
 
     const onChange = (date) => {
@@ -40,9 +42,8 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
     const handleAddReport = async () => {
         try {
             const userName = await getUser();
-            const nameSubString = GenerateSubString(formData.name);
             const fileName = await SaveImage(image);
-            const updatedFormData = { ...formData, subString: nameSubString, imageName: fileName ?? '', createdBy: userName };
+            const updatedFormData = { ...formData, imageName: fileName ?? '', createdBy: userName };
             await AddNewReport(updatedFormData);
             //send notification
             SendPushNotification(userName + ' užregistravo naują gedimą!', formData.name);
@@ -51,6 +52,7 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                     text: 'OK', onPress: () => {
                         setDeviceScanned(false);
                         setFormData(new FormDataModel());
+                        dispatch(reportUpdateAction());
                         navigation.navigate('home')
                     }
                 }

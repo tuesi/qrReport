@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { GetAllPartDevices, FetchPartsDataFromFirestore } from '../../../components/firebase/data'
+import { FetchPartsDataFromFirestore } from '../../../components/firebase/data'
 import PartList from '../../../components/parts/partList';
 import { View, SafeAreaView, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -7,6 +7,7 @@ import CreatePart from '../../../components/parts/createPart';
 import Toggle from '../../../components/common/toggle';
 import GlobalStyles from '../../../styles/styles';
 import SearchBar from '../../../components/common/searchBar';
+import { GetAllPartDevices } from '../../../components/api/parts';
 
 const Devices = () => {
 

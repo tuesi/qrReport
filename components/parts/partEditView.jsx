@@ -46,14 +46,14 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
             updatedPartData = { ...updatedPartData, imageName: fileName ? fileName : '' };
             setPartData(updatedPartData);
         }
-        await UpdatePartInfo(selectedItem.id, updatedPartData, selectedItem.deviceId);
+        await UpdatePartInfo(selectedItem._id, updatedPartData, selectedItem.deviceId);
         Alert.alert('Success', 'Sėkmaingai atnaujinta');
     }
 
     const deleteDevice = async () => {
         bottomSheetRef.current.close()
         await DeleteImage(image);
-        await DeletePart(selectedItem.id);
+        await DeletePart(selectedItem._id);
     }
 
     return (

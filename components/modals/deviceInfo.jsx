@@ -3,7 +3,7 @@ import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { UpdateDeviceInfo, DeleteDevice } from '../firebase/data';
+import { DeleteDevice } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import ShowDeviceQr from "../devices/showDeviceQR";
@@ -16,8 +16,9 @@ import { DEVICE_TYPE } from '../../constants';
 import SetImage from '../common/setImage';
 import { DeleteImage, SaveImage } from '../../utils/saveImage';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
+import { UpdateDeviceInfo } from '../api/devices';
 
-const DeviceInfo = ({ setModalVisible, selectedItem }) => {
+const DeviceInfo = ({ setModalVisible, selectedItem, updateListData }) => {
 
     const [deviceData, setDeviceData] = useState(new DeviceDataModel(selectedItem.name, selectedItem.notes, selectedItem.imageName));
     const [image, setImage] = useState(null);
@@ -58,8 +59,9 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
             updatedDeviceData = { ...deviceData, imageName: fileName ? fileName : '' };
             setDeviceData(updatedDeviceData);
         }
-        await UpdateDeviceInfo(selectedItem.id, updatedDeviceData);
+        await UpdateDeviceInfo(selectedItem._id, updatedDeviceData);
         setShowQr(false);
+        updateListData();
         bottomSheetRef.current.close()
         setModalVisible(false);
     }
@@ -67,7 +69,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
     const deleteDevice = async () => {
         setShowQr(false);
         bottomSheetRef.current.close()
-        await DeleteDevice(selectedItem.id);
+        await DeleteDevice(selectedItem._id);
         await DeleteImage(image);
         setModalVisible(false);
     }
@@ -118,7 +120,7 @@ const DeviceInfo = ({ setModalVisible, selectedItem }) => {
                         <View style={deviceStyles.deviceInfoModalButtonContainer}>
                             {showQr && (
                                 <View style={{ flex: 1 }}>
-                                    <ShowDeviceQr deviceId={selectedItem?.id} deviceName={deviceData.name} type={DEVICE_TYPE}></ShowDeviceQr>
+                                    <ShowDeviceQr deviceId={selectedItem?._id} deviceName={deviceData.name} type={DEVICE_TYPE}></ShowDeviceQr>
                                 </View>
                             )}
                             <View style={deviceStyles.deviceButtonsContainer}>

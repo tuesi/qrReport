@@ -6,17 +6,17 @@ import createStyles from "./createStyles";
 import * as Color from '../../styles/colors';
 import ImageViewModal from "../common/imageViewModal";
 import { DeviceDataModel } from "./deviceDataModel";
-import { AddNewDevice } from "../firebase/data";
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import SetImage from "../common/setImage";
 import Button from "../common/button";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from "../common/QR";
 import { DEVICE_TYPE } from "../../constants";
-import GenerateSubString from "../../utils/generateSubString";
 import TextInputWithLabel from "../common/textInputWithLabel";
+import { AddNewDevice } from "../api/devices";
+import { UpdateDeviceInfo } from "../api/devices";
 
-const CreateDevice = ({ }) => {
+const CreateDevice = ({ updateListData }) => {
 
     const createText = 'SUKURTI';
     const updateText = 'ATNAUJINTI';
@@ -46,27 +46,28 @@ const CreateDevice = ({ }) => {
         setDocRef(null);
     }
 
+
     const saveNewDevice = async () => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
-                const nameSubString = GenerateSubString(name);
-                const deviceData = new DeviceDataModel(name, notes, fileName, nameSubString).toPlainObject();
-                const device = await UpdateDeviceInfo(docRef.doc().id, deviceData);
+                const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
+                const device = await UpdateDeviceInfo(docRef.doc()._id, deviceData);
                 setDocRef(device);
                 if (docRef.doc().image !== fileName) {
                     await DeleteImage(image);
                     await SaveImage(image);
                 }
+                updateListData();
                 Alert.alert('Success', 'Sėkmaingai atnaujinta');
             } else {
                 Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
-                const nameSubString = GenerateSubString(name);
-                const deviceData = new DeviceDataModel(name, notes, fileName, nameSubString).toPlainObject();
+                const deviceData = new DeviceDataModel(name, notes, fileName).toPlainObject();
                 const device = await AddNewDevice(deviceData);
                 setDocRef(device);
                 await SaveImage(image);
+                updateListData();
                 Alert.alert('Success', 'Sėkmingai sukurta!');
             }
         } catch (e) {
@@ -106,7 +107,7 @@ const CreateDevice = ({ }) => {
                     </View>
                     {docRef && (
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
-                            <QR name={name} id={docRef.id} type={DEVICE_TYPE}></QR>
+                            <QR name={name} id={docRef._id} type={DEVICE_TYPE}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>
                     )}

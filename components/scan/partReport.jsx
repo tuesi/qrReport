@@ -1,4 +1,4 @@
-import { View, SafeAreaView, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Platform, ScrollView, Dimensions, handlePressOutside } from "react-native";
+import { View, SafeAreaView, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView, handlePressOutside } from "react-native";
 import GlobalStyles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
@@ -7,8 +7,6 @@ import ImageViewModal from '../common/imageViewModal';
 import TextInputWithLabel from '../common/textInputWithLabel';
 
 const PartReport = ({ setPartScanned, formData, partImageUrl, deviceImageUrl }) => {
-
-    const { width, height } = Dimensions.get('window');
 
     return (
         <KeyboardAvoidingView

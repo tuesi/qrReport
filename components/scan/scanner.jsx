@@ -4,20 +4,21 @@ import scanStyles from './scanStyles';
 import * as Colors from '../../styles/colors';
 import { CameraView } from "expo-camera";
 import { FormDataModel } from './FormDataModel';
-import { GetDeviceInfo, GetPartInfo } from '../firebase/data';
+import { GetPartInfo } from '../firebase/data';
 import { QRKEY } from '../../constants';
 import { GetImageFromStorage } from '../firebase/storage';
 import { DEVICE_TYPE, PART_TYPE } from '../../constants';
+import { GetDeviceInfo } from '../api/devices';
 
 const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImageUrl, setPartImageUrl }) => {
 
 
     const getDeviceInfo = async (parsedData) => {
         setDeviceScanned(true);
-        const docSnapshot = await GetDeviceInfo(parsedData.deviceId);
+        const deviceInfo = await GetDeviceInfo(parsedData.deviceId);
 
-        if (docSnapshot.exists()) {
-            const data = docSnapshot.data();
+        if (deviceInfo) {
+            const data = deviceInfo;
             const formDataInstance = new FormDataModel(parsedData.deviceId, data.name, data.notes);
             formDataInstance.deviceImageName = data.imageName;
             const deviceImageUrl = await GetImageFromStorage(data.imageName);
@@ -63,6 +64,7 @@ const Scanner = ({ setDeviceScanned, setPartScanned, setFormData, setDeviceImage
     const handleBarCodeScanned = async ({ data }) => {
         try {
             const parsedData = JSON.parse(data);
+            console.log(parsedData);
             if (parsedData.tag === QRKEY && parsedData.deviceId) {
                 switch (parsedData.type) {
                     case DEVICE_TYPE:

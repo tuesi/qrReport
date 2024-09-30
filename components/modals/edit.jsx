@@ -3,14 +3,14 @@ import { Text, View, ScrollView } from 'react-native';
 import React, { useMemo, useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import DateStringParser from '../../utils/dateStringParser';
-import { CompleteReport } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import { ConfirmAction } from '../common/confirmAction';
 import ImageViewModal from '../common/imageViewModal';
 import { GetImageFromStorage } from '../firebase/storage';
+import { CompleteReport } from '../api/reports';
 
-const Edit = ({ setModalVisible, selectedItem }) => {
+const Edit = ({ setModalVisible, selectedItem, updateListData }) => {
 
     const bottomSheetRef = useRef(null);
     const snapPoints = useMemo(() => ['100%'], []);
@@ -40,11 +40,12 @@ const Edit = ({ setModalVisible, selectedItem }) => {
     };
 
     const onPressHandler = async () => {
-        await CompleteReport(selectedItem.id);
+        await CompleteReport(selectedItem._id);
+        updateListData();
         bottomSheetRef.current.close()
     }
 
-    const dateCreated = DateStringParser(selectedItem.dateCreated);
+    const dateCreated = DateStringParser(selectedItem.created);
     const dateCompleted = DateStringParser(selectedItem.dateCompleted);
 
     return (

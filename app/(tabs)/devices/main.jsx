@@ -7,6 +7,7 @@ import Toggle from '../../../components/common/toggle';
 import GlobalStyles from '../../../styles/styles';
 import CreateDevice from '../../../components/create/createDevice';
 import SearchBar from '../../../components/common/searchBar';
+import { GetDevices } from '../../../components/api/devices';
 
 const Devices = () => {
 
@@ -16,13 +17,14 @@ const Devices = () => {
     const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
     const [searchText, setSearchText] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await FetchDeviceDataFromFirestore(({ setData, pageSize: 10, lastQuerySnapShot, setLastQuerySnapshot, setLoading, searchText }));
-        };
+    const fetchData = async () => {
+        const data = await GetDevices();
+        setData(data);
+    };
 
+    useEffect(() => {
         fetchData();
-    }, [loading, searchText])
+    }, [])
 
 
 
@@ -43,11 +45,11 @@ const Devices = () => {
                 }
                 {showList ?
                     (
-                        <DeviceList data={data} loading={loading} setLoading={setLoading}></DeviceList>
+                        <DeviceList data={data} loading={loading} setLoading={setLoading} updateListData={fetchData}></DeviceList>
                     )
                     :
                     (
-                        <CreateDevice></CreateDevice>
+                        <CreateDevice updateListData={fetchData}></CreateDevice>
                     )
                 }
             </SafeAreaView>

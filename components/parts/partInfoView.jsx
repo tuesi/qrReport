@@ -33,7 +33,7 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
 
     const changeAmount = async (amount) => {
         let newPartData = { ...partData, amount: amount };
-        await UpdatePartInfo(selectedItem.id, newPartData, selectedItem.deviceId);
+        await UpdatePartInfo(selectedItem._id, newPartData, selectedItem.deviceId);
         setPartData(newPartData);
     }
 
@@ -76,7 +76,7 @@ const PartInfoView = ({ partData, setPartData, selectedItem, setEdit }) => {
                 </View>
             </View>
             <View style={deviceStyles.deviceInfoModalButtonContainer}>
-                <ShowDeviceQr deviceId={selectedItem?.id} deviceName={partData.name} type={PART_TYPE}></ShowDeviceQr>
+                <ShowDeviceQr deviceId={selectedItem?._id} deviceName={partData.name} type={PART_TYPE}></ShowDeviceQr>
                 <View style={deviceStyles.deviceButtonsContainer}>
                     <Button text={"REDAGUOTI"} onPress={() => { onEdit(); }} color={Color.BUTTON_BLUE_BACKGROUND_COLOR}></Button>
                 </View>

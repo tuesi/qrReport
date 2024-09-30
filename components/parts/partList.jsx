@@ -47,7 +47,7 @@ const PartList = ({ data, loading, handlePressSection, searchSections }) => {
                             ...section,
                             data: expandedSections[section.id] ? section.data : []
                         }))}
-                        keyExtractor={(item, index) => item.id + index}
+                        keyExtractor={(item, index) => item._id + index}
                         renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
                         renderSectionHeader={({ section }) => PartDeviceRenderItem({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
                         ListFooterComponent={() => {

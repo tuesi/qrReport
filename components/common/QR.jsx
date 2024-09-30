@@ -20,6 +20,7 @@ const QR = ({ name, id, type }) => {
     const svgRef = useRef();
 
     useEffect(() => {
+        console.log(id);
         if (id) {
             setQRData('');
             setFileUri('');

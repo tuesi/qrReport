@@ -4,7 +4,7 @@ import DeviceInfo from '../modals/deviceInfo';
 import DeviceRenderItem from './DeviceRenderListItem';
 import GlobalStyles from '../../styles/styles';
 
-const DeviceList = ({ data, loading, setLoading }) => {
+const DeviceList = ({ data, loading, setLoading, updateListData }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -25,7 +25,7 @@ const DeviceList = ({ data, loading, setLoading }) => {
                 data={data}
                 horizontal={false}
                 renderItem={({ item }) => DeviceRenderItem({ item, setSelectedItem, setModalVisible })}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item._id.toString()}
                 onEndReached={fetchData}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={loading && <Text style={GlobalStyles.textStyle}>Loading...</Text>}
@@ -34,6 +34,7 @@ const DeviceList = ({ data, loading, setLoading }) => {
                 <DeviceInfo
                     setModalVisible={setModalVisible}
                     selectedItem={selectedItem}
+                    updateListData={updateListData}
                 ></DeviceInfo>
             )}
         </View>

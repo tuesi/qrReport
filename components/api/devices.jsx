@@ -1,0 +1,42 @@
+import { API_URL } from '@env';
+import axios from "axios";
+
+const routeName = 'devices';
+
+export const GetDevices = async () => {
+    try {
+        const response = await axios.get(API_URL + routeName);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching devices:', error);
+    }
+}
+
+export const AddNewDevice = async (deviceData) => {
+    try {
+        const response = await axios.post(API_URL + routeName, deviceData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating device:', error);
+    }
+}
+
+export const GetDeviceInfo = async (deviceId) => {
+    try {
+        const response = await axios.get(`${API_URL}${routeName}/byId`, {
+            params: { deviceId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching devices:', error);
+    }
+}
+
+export const UpdateDeviceInfo = async (deviceId, deviceData) => {
+    try {
+        const response = await axios.patch(`${API_URL}${routeName}/${deviceId}`, deviceData);
+        return response.data;
+    } catch (error) {
+        console.error('Error saving device data:', error);
+    }
+}

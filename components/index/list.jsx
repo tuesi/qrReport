@@ -7,7 +7,7 @@ import GlobalStyles from '../../styles/styles';
 import * as Colors from '../../styles/colors';
 import SearchBar from '../common/searchBar';
 
-const List = ({ data, loading, setLoading, setSearchText }) => {
+const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefreshing, updateListData }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -18,6 +18,10 @@ const List = ({ data, loading, setLoading, setSearchText }) => {
             setLoading(true);
             setPreviousLastItem(data[data.length - 1]);
         }
+    }
+
+    const handleRefresh = async () => {
+        setRefreshing(true);
     }
 
     return (
@@ -33,17 +37,21 @@ const List = ({ data, loading, setLoading, setSearchText }) => {
                         data={data}
                         horizontal={false}
                         renderItem={({ item }) => RenderItem({ item, setSelectedItem, setModalVisible })}
-                        keyExtractor={item => item.id.toString()}
+                        keyExtractor={item => item._id.toString()}
                         onEndReached={fetchData}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={loading && <Text style={GlobalStyles.textStyle}>Loading...</Text>}
                         initialNumToRender={5}
                         maxToRenderPerBatch={5}
+
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
                     />
                     {modalVisible && (
                         <Edit
                             setModalVisible={setModalVisible}
                             selectedItem={selectedItem}
+                            updateListData={updateListData}
                         ></Edit>
                     )}
                 </View>

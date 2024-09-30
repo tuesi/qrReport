@@ -5,7 +5,7 @@ import ReportDate from '../common/reportDate';
 import * as Color from '../../styles/colors';
 
 const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
-    const dateCreated = DateStringParser(item.dateCreated);
+    const dateCreated = DateStringParser(item.created);
     const dateCompleted = DateStringParser(item.dateCompleted);
     return (
         <TouchableOpacity onPress={() => {
@@ -32,7 +32,7 @@ const RenderItem = ({ item, setSelectedItem, setModalVisible }) => {
                     {dateCompleted && (
                         <View style={[GlobalStyles.dateRowContainer, { marginBottom: 5 }]}>
                             <Text style={GlobalStyles.labelStyle}>Įvykdymo data</Text>
-                            <ReportDate date={dateCreated} color={Color.REPORT_DATE_COMPLETE_COLOR}></ReportDate>
+                            <ReportDate date={dateCompleted} color={Color.REPORT_DATE_COMPLETE_COLOR}></ReportDate>
                         </View>
                     )}
                     <View style={GlobalStyles.dateRowContainer}>

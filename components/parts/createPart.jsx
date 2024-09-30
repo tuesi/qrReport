@@ -9,14 +9,14 @@ import DropDown from "../common/dropDown";
 import { useEffect, useState } from "react";
 import AmountInput from "../common/amountInput";
 import SetImage from "../common/setImage";
-import { GetAllDevices, AddNewPart } from "../firebase/data";
 import { PartDataModel } from "./partDataModel";
 import ImageFileNameGetter from "../../utils/imageFileNameGetter";
 import QR from '../common/QR';
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import { PART_TYPE } from "../../constants";
-import GenerateSubString from "../../utils/generateSubString";
 import TextInputWithLabel from "../common/textInputWithLabel";
+import { GetDevices } from "../api/devices";
+import { AddNewPart } from "../api/parts";
 
 const CreatePart = ({ }) => {
 
@@ -24,8 +24,8 @@ const CreatePart = ({ }) => {
     const updateText = 'ATNAUJINTI';
 
     useEffect(() => {
-        getDeviceNames = async () => {
-            const deviceNames = await GetAllDevices();
+        const getDeviceNames = async () => {
+            const deviceNames = await GetDevices();
             setDevices(deviceNames);
         }
         getDeviceNames();
@@ -69,9 +69,8 @@ const CreatePart = ({ }) => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
-                const nameSubString = GenerateSubString(name);
-                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount, nameSubString);
-                const part = await UpdatePartInfo(docRef.doc().id, newPart.toPlainObject(), deviceData);
+                const newPart = new PartDataModel(deviceData._id, name, notes, location, fileName, amount, minAmount);
+                const part = await UpdatePartInfo(docRef.doc()._id, newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 if (docRef.doc().image !== fileName) {
                     await DeleteImage(docRef.doc().image);
@@ -81,8 +80,7 @@ const CreatePart = ({ }) => {
             } else {
                 Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
-                const nameSubString = GenerateSubString(name);
-                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount, nameSubString);
+                const newPart = new PartDataModel(deviceData._id, name, notes, location, fileName, amount, minAmount);
                 const part = await AddNewPart(newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 await SaveImage(image);
@@ -153,7 +151,7 @@ const CreatePart = ({ }) => {
                     </View>
                     {docRef && (
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'end' }}>
-                            <QR name={name} id={docRef.id} type={PART_TYPE}></QR>
+                            <QR name={name} id={docRef._id} type={PART_TYPE}></QR>
                             <Button text={"KURTI NAUJĄ"} color={Color.BUTTON_RED_BACKGROUND_COLOR} onPress={clear}></Button>
                         </View>
                     )}

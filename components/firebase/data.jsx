@@ -151,7 +151,7 @@ export const FetchPartsDataFromFirestore = async ({ deviceId, setItems, pageSize
 
 export const AddNewDevice = async (deviceData) => {
     return await addDoc(collection(FIRESTORE_DB, "devices"), deviceData);
-};;
+};
 
 export const AddNewReport = async (formData) => {
     return await addDoc(collection(FIRESTORE_DB, "reports"), formData);
@@ -171,7 +171,6 @@ export const GetDeviceInfo = async (deviceId) => {
     return await getDoc(deviceDocRef);
 };
 
-//TODO if image changes delete the old one
 export const UpdateDeviceInfo = async (deviceId, deviceInfo) => {
     const deviceDocRef = doc(FIRESTORE_DB, "devices", deviceId);
     try {
