@@ -1,37 +1,23 @@
 import { View, Keyboard, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import Button from "../components/common/button";
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { AddNewUser, GetUsers } from "../components/firebase/data";
 import { UserDataModel } from "../components/login/userDataModel";
 import DropDown from "../components/common/dropDown";
 import { getUser, setUser } from "../utils/getMemoryObjects";
+import { router } from "expo-router";
 
 const Login = () => {
-
-    const navigation = useNavigation();
 
     const [selected, setSelected] = useState("");
     const [isNew, setIsNew] = useState(false);
     const [nameListData, setNameListData] = useState([]);
 
-    useFocusEffect(
-        useCallback(() => {
-            const fetchNames = async () => {
-                const users = await GetUsers();
-                setNameListData(users);
-            }
-            fetchNames();
-        }, [])
-    );
-
     useEffect(() => {
         const fetchNames = async () => {
             const storedName = await getUser();
             if (storedName) {
-                navigation.navigate('(tabs)', {
-                    screen: 'home'
-                });
+                router.replace("/home");
             } else {
                 const users = await GetUsers();
                 setNameListData(users);
@@ -59,9 +45,7 @@ const Login = () => {
                 await AddNewUser(userData.toPlainObject(), selected);
             }
             setIsNew(false);
-            navigation.navigate('(tabs)', {
-                screen: 'home'
-            });
+            router.replace("/home");
         }
     }
 

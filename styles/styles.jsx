@@ -303,7 +303,7 @@ const GlobalStyles = StyleSheet.create({
     },
     textStyle: {
         fontWeight: "bold",
-        fontSize: "12px",
+        fontSize: 12,
         color: "grey"
     }
 });

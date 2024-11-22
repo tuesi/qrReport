@@ -29,7 +29,10 @@ export const AddNewPart = async (partData, deviceData) => {
 export const GetAllPartDevices = async () => {
     try {
         const response = await axios.get(`${API_URL}${partDevicesRouteName}`);
-        return response.data;
+        const devices = Object.entries(response.data).map(([key, value]) => {
+            return { value: key, label: value };
+        });
+        return devices;
     } catch (error) {
         console.error('Error getting part devices:', error);
     }

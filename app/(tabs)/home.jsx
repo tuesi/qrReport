@@ -35,9 +35,8 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
-        console.log('useEffect');
         fetchData();
-        dispatch(reportTriggerReset);
+        dispatch(reportTriggerReset());
     }, [refreshing, triggerUpdate])
 
     return (

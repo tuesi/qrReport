@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import * as Color from "../../styles/colors";
 import { logOut, getUser } from "../../utils/getMemoryObjects";
-import { useNavigation } from '@react-navigation/native';
 import { DeleteUser } from "../../components/firebase/data";
 import Button from "../../components/common/button";
 import { ConfirmAction } from "../../components/common/confirmAction";
+import { router } from "expo-router";
 
 const User = () => {
 
     const [name, setName] = useState('');
-    const navigation = useNavigation();
 
     useEffect(() => {
         const fetchName = async () => {
@@ -25,13 +24,13 @@ const User = () => {
 
     logoutUser = async () => {
         await logOut();
-        navigation.navigate('index');
+        router.replace("/");
     }
 
     deleteCurrentUser = async () => {
         await DeleteUser(name);
         await logOut();
-        navigation.navigate('index');
+        router.replace("/");
     }
 
     return (

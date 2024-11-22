@@ -4,7 +4,6 @@ import GlobalStyles from '../../styles/styles';
 import scanStyles from './scanStyles';
 import * as Color from '../../styles/colors';
 import { FormDataModel } from './FormDataModel';
-import { useNavigation } from '@react-navigation/native';
 import Button from '../common/button';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DateStringParser from '../../utils/dateStringParser';
@@ -18,6 +17,7 @@ import TextInputWithLabel from '../common/textInputWithLabel';
 import { AddNewReport } from '../api/reports';
 import { useDispatch } from 'react-redux';
 import { reportUpdateAction } from '../../store';
+import { router } from "expo-router";
 
 const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }) => {
 
@@ -26,8 +26,6 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
-
-    const navigation = useNavigation();
 
     const onChange = (date) => {
         setDate(date);
@@ -53,7 +51,7 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                         setDeviceScanned(false);
                         setFormData(new FormDataModel());
                         dispatch(reportUpdateAction());
-                        navigation.navigate('home')
+                        router.replace("/home");
                     }
                 }
             ]);

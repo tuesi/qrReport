@@ -6,7 +6,10 @@ const routeName = 'devices';
 export const GetDevices = async () => {
     try {
         const response = await axios.get(API_URL + routeName);
-        return response.data;
+        const deviceNames = response.data.map(device => {
+            return { label: device.name, value: { id: device._id, name: device.name } };
+        });
+        return deviceNames;
     } catch (error) {
         console.error('Error fetching devices:', error);
     }
