@@ -4,17 +4,21 @@ import DeviceInfo from '../modals/deviceInfo';
 import DeviceRenderItem from './DeviceRenderListItem';
 import GlobalStyles from '../../styles/styles';
 
-const DeviceList = ({ data, loading, setLoading, updateListData }) => {
+const DeviceList = ({ data, loading, setLoading, updateListData, refreshing, setRefreshing, setLastCreatedDate }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [previousLastItem, setPreviousLastItem] = useState(null);
 
     const fetchData = () => {
-        if (data[data.length - 1] == null || previousLastItem !== data[data.length - 1]) {
+        if (data.length > 0) {
             setLoading(true);
-            setPreviousLastItem(data[data.length - 1]);
+            setLastCreatedDate(data[data.length - 1].created);
         }
+    }
+
+    const handleRefresh = async () => {
+        setLastCreatedDate(null);
+        setRefreshing(true);
     }
 
     return (
@@ -29,6 +33,9 @@ const DeviceList = ({ data, loading, setLoading, updateListData }) => {
                 onEndReached={fetchData}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={loading && <Text style={GlobalStyles.textStyle}>Loading...</Text>}
+
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
             />
             {modalVisible && (
                 <DeviceInfo

@@ -16,17 +16,27 @@ const Devices = () => {
     const [loading, setLoading] = useState(false);
     const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
+    const [lastCreatedDate, setLastCreatedDate] = useState(null);
 
-    const fetchData = async () => {
-        const data = await GetDevices();
-        setData(data);
+    const fetchData = async (lastCreatedDate) => {
+        const data = await GetDevices(lastCreatedDate);
+        if (data.length > 0) {
+            setData(currentData => lastCreatedDate ? [...currentData, ...data] : data);
+        }
+        setRefreshing(false);
     };
 
     useEffect(() => {
-        fetchData();
-    }, [])
+        setLastCreatedDate(null);
+        fetchData(null);
+    }, [refreshing])
 
-
+    useEffect(() => {
+        if (lastCreatedDate !== null) {
+            fetchData(lastCreatedDate);
+        }
+    }, [lastCreatedDate])
 
     toggleScreens = () => {
         setShowList(previousState => !previousState);
@@ -45,7 +55,15 @@ const Devices = () => {
                 }
                 {showList ?
                     (
-                        <DeviceList data={data} loading={loading} setLoading={setLoading} updateListData={fetchData}></DeviceList>
+                        <DeviceList
+                            data={data}
+                            loading={loading}
+                            setLoading={setLoading}
+                            updateListData={fetchData}
+                            refreshing={refreshing}
+                            setRefreshing={setRefreshing}
+                            setLastCreatedDate={setLastCreatedDate}
+                        ></DeviceList>
                     )
                     :
                     (

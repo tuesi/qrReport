@@ -17,10 +17,13 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [refreshing, setRefreshing] = useState(false);
+    const [lastCreatedDate, setLastCreatedDate] = useState(null);
 
-    const fetchData = async () => {
-        const data = await GetReports();
-        setData(data);
+    const fetchData = async (lastCreatedDate) => {
+        const data = await GetReports(lastCreatedDate);
+        if (data.length > 0) {
+            setData(currentData => lastCreatedDate ? [...currentData, ...data] : data);
+        }
         setRefreshing(false);
     };
 
@@ -29,19 +32,33 @@ const Home = () => {
             await Auth();
             await SetNotifications();
         };
-
         appInit();
-
     }, [])
 
     useEffect(() => {
-        fetchData();
+        setLastCreatedDate(null);
+        fetchData(null);
         dispatch(reportTriggerReset());
     }, [refreshing, triggerUpdate])
 
+    useEffect(() => {
+        if (lastCreatedDate !== null) {
+            fetchData(lastCreatedDate);
+        }
+    }, [lastCreatedDate])
+
     return (
         <View style={{ flex: 1 }}>
-            <List data={data} loading={loading} setLoading={setLoading} setSearchText={setSearchText} refreshing={refreshing} setRefreshing={setRefreshing} updateListData={fetchData}></List>
+            <List
+                data={data}
+                loading={loading}
+                setLoading={setLoading}
+                setSearchText={setSearchText}
+                refreshing={refreshing}
+                setRefreshing={setRefreshing}
+                setLastCreatedDate={setLastCreatedDate}
+                updateListData={fetchData}>
+            </List>
             {!data || data.length == 0 && (
                 <View style={{
                     flex: 1,

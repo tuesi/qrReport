@@ -7,20 +7,20 @@ import GlobalStyles from '../../styles/styles';
 import * as Colors from '../../styles/colors';
 import SearchBar from '../common/searchBar';
 
-const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefreshing, updateListData }) => {
+const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefreshing, setLastCreatedDate, updateListData }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [previousLastItem, setPreviousLastItem] = useState(null);
 
     const fetchData = () => {
-        if (data[data.length - 1] == null || previousLastItem !== data[data.length - 1]) {
+        if (data.length > 0) {
             setLoading(true);
-            setPreviousLastItem(data[data.length - 1]);
+            setLastCreatedDate(data[data.length - 1].created);
         }
     }
 
     const handleRefresh = async () => {
+        setLastCreatedDate(null);
         setRefreshing(true);
     }
 
@@ -41,8 +41,8 @@ const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefresh
                         onEndReached={fetchData}
                         onEndReachedThreshold={0.1}
                         ListFooterComponent={loading && <Text style={GlobalStyles.textStyle}>Loading...</Text>}
-                        initialNumToRender={5}
-                        maxToRenderPerBatch={5}
+                        initialNumToRender={10}
+                        maxToRenderPerBatch={10}
 
                         refreshing={refreshing}
                         onRefresh={handleRefresh}

@@ -3,7 +3,20 @@ import axios from "axios";
 
 const routeName = 'devices';
 
-export const GetDevices = async () => {
+export const GetDevices = async (lastCreatedDate) => {
+    try {
+        const response = await axios.get(API_URL + routeName, {
+            params: {
+                lastCreatedDate: lastCreatedDate
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching devices:', error);
+    }
+}
+
+export const GetDeviceList = async () => {
     try {
         const response = await axios.get(API_URL + routeName);
         const deviceNames = response.data.map(device => {

@@ -15,7 +15,7 @@ import QR from '../common/QR';
 import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import { PART_TYPE } from "../../constants";
 import TextInputWithLabel from "../common/textInputWithLabel";
-import { GetDevices } from "../api/devices";
+import { GetDeviceList } from "../api/devices";
 import { AddNewPart } from "../api/parts";
 
 const CreatePart = ({ }) => {
@@ -25,7 +25,7 @@ const CreatePart = ({ }) => {
 
     useEffect(() => {
         const getDeviceNames = async () => {
-            const deviceNames = await GetDevices();
+            const deviceNames = await GetDeviceList();
             setDevices(deviceNames);
         }
         getDeviceNames();
@@ -69,7 +69,7 @@ const CreatePart = ({ }) => {
         try {
             if (docRef) {
                 const fileName = ImageFileNameGetter(image);
-                const newPart = new PartDataModel(deviceData._id, name, notes, location, fileName, amount, minAmount);
+                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);
                 const part = await UpdatePartInfo(docRef.doc()._id, newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 if (docRef.doc().image !== fileName) {
@@ -80,7 +80,7 @@ const CreatePart = ({ }) => {
             } else {
                 Keyboard.dismiss();
                 const fileName = ImageFileNameGetter(image);
-                const newPart = new PartDataModel(deviceData._id, name, notes, location, fileName, amount, minAmount);
+                const newPart = new PartDataModel(deviceData.id, name, notes, location, fileName, amount, minAmount);
                 const part = await AddNewPart(newPart.toPlainObject(), deviceData);
                 setDocRef(part);
                 await SaveImage(image);

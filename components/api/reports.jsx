@@ -3,9 +3,13 @@ import axios from "axios";
 
 const routeName = 'reports';
 
-export const GetReports = async () => {
+export const GetReports = async (lastCreatedDate) => {
     try {
-        const response = await axios.get(API_URL + routeName);
+        const response = await axios.get(API_URL + routeName, {
+            params: {
+                lastCreatedDate: lastCreatedDate
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Error fetching devices:', error);

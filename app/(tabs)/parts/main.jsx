@@ -7,7 +7,7 @@ import CreatePart from '../../../components/parts/createPart';
 import Toggle from '../../../components/common/toggle';
 import GlobalStyles from '../../../styles/styles';
 import SearchBar from '../../../components/common/searchBar';
-import { GetAllPartDevices } from '../../../components/api/parts';
+import { GetAllPartDevices, GetParts } from '../../../components/api/parts';
 
 const Devices = () => {
 
@@ -19,6 +19,7 @@ const Devices = () => {
     const [searchText, setSearchText] = useState('');
     const [sections, setSections] = useState([]);
     const [searchSections, setSearchSections] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
 
     useEffect(() => {
@@ -27,43 +28,45 @@ const Devices = () => {
             try {
                 const fetchedSections = await GetAllPartDevices();
                 const sectionData = fillAvailableSections(fetchedSections);
+                console.log(sectionData);
                 setSections(sectionData);
                 setData(sectionData);
             } catch (error) {
                 console.log('Failed to fetch device name list', error);
             } finally {
                 setLoading(false);
+                setRefreshing(false);
             }
         };
-
         fetchData();
-    }, [])
+    }, [refreshing])
 
 
     //TODO when stoped searching close all opened sections (now if you search again the section just closes because it was opened on first search)
-    useEffect(() => {
-        const getSeachResults = async () => {
-            if (searchText !== '' && searchText !== null) {
-                await FetchPartsDataFromFirestore(({ deviceId: null, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: null, searchText }));
-            } else {
-                setSearchSections([]);
-                setData(sections);
-            }
-        };
-        getSeachResults();
-    }, [searchText])
+    // useEffect(() => {
+    //     const getSeachResults = async () => {
+    //         if (searchText !== '' && searchText !== null) {
+    //             await FetchPartsDataFromFirestore(({ deviceId: null, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: null, searchText }));
+    //         } else {
+    //             setSearchSections([]);
+    //             setData(sections);
+    //         }
+    //     };
+    //     getSeachResults();
+    // }, [searchText])
 
     const handlePressSection = async (sectionId) => {
         const index = data.findIndex(s => s.id === sectionId);
         if (index === -1 || (searchText !== '' && searchText !== null)) return;
-        await FetchPartsDataFromFirestore(({ deviceId: sectionId, setItems: updateSectionWithData, setData, pageSize: 10, lastQuerySnapShot: data[index].lastQuerySnapShot, searchText: null }));
+        const partData = await GetParts(sectionId);
+        updateSectionWithData(partData, null, true);
     };
 
     const fillAvailableSections = (fetchedSections) => {
         return fetchedSections.map(section => ({
             id: section.value,
-            isPartsLow: section.label[1],
-            title: section.label[0],
+            isPartsLow: section.label.hasLowAmount,
+            title: section.label.name,
             data: [],
             initialLoad: false,
             lastQuerySnapShot: null,
@@ -72,7 +75,7 @@ const Devices = () => {
         }));
     }
 
-    const updateSectionWithData = ({ items, lastQuerySnapShot, isSearch }) => {
+    const updateSectionWithData = (items, lastQuerySnapShot, isSearch) => {
         if (items.length > 0) {
             //when is search i need to only show sections that are in the items
             if (isSearch) {
@@ -132,7 +135,15 @@ const Devices = () => {
                 }
                 {showList ?
                     (
-                        <PartList data={data} loading={loading} setLoading={setLoading} handlePressSection={handlePressSection} searchSections={searchSections}></PartList>
+                        <PartList
+                            data={data}
+                            loading={loading}
+                            setLoading={setLoading}
+                            handlePressSection={handlePressSection}
+                            searchSections={searchSections}
+                            refreshing={refreshing}
+                            setRefreshing={setRefreshing}>
+                        </PartList>
                     )
                     :
                     (

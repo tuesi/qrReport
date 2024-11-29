@@ -5,13 +5,15 @@ import PartDeviceRenderItem from './PartDeviceRenderListItem';
 import GlobalStyles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
-const PartList = ({ data, loading, handlePressSection, searchSections }) => {
+const PartList = ({ data, loading, handlePressSection, searchSections, refreshing, setRefreshing }) => {
 
     const [lastSectionId, setLastSectionId] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [inSearch, setInSearch] = useState(false);
+    const [contentHeight, setContentHeight] = useState(0);
+    const [flatListHeight, setFlatListHeight] = useState(0);
 
     useEffect(() => {
         if (searchSections.length > 0) {
@@ -38,6 +40,10 @@ const PartList = ({ data, loading, handlePressSection, searchSections }) => {
         }));
     };
 
+    const handleRefresh = async () => {
+        setRefreshing(true);
+    }
+
     return (
         <View style={GlobalStyles.container}>
             {data && data.length > 0 && (
@@ -54,9 +60,22 @@ const PartList = ({ data, loading, handlePressSection, searchSections }) => {
                             if (loading) return <ActivityIndicator size="large" />;
                             return null;
                         }}
-                        onEndReached={() => handlePressSection(lastSectionId)}
+                        onEndReached={() => {
+                            if (contentHeight > flatListHeight) {
+                                console.log('only update when scrolling');
+                            }
+                        }}
                         onEndReachedThreshold={0.5}
                         contentContainerStyle={{ paddingBottom: 80 }}
+
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+
+                        onContentSizeChange={(contentWidth, contentHeight) => setContentHeight(contentHeight)}
+                        onLayout={({ nativeEvent }) => {
+                            const { height } = nativeEvent.layout;
+                            setFlatListHeight(height);
+                        }}
                     />
                 </View>
             )}

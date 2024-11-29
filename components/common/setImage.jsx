@@ -30,7 +30,7 @@ const SetImage = ({ image, setImage }) => {
     const pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaType,
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 0.5,
