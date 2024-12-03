@@ -4,9 +4,15 @@ import axios from "axios";
 const partRouteName = 'parts';
 const partDevicesRouteName = 'part-devices';
 
-export const GetParts = async (deviceId) => {
+//TODO test pagination
+export const GetParts = async (deviceId, lastCreatedDate) => {
     try {
-        const response = await axios.get(`${API_URL}${partRouteName}/${deviceId}`);
+        const response = await axios.get(`${API_URL}${partRouteName}`, {
+            params: {
+                deviceId: deviceId,
+                lastCreatedDate: lastCreatedDate
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Error fetching parts:', error);
@@ -39,3 +45,21 @@ export const GetAllPartDevices = async () => {
         console.error('Error getting part devices:', error);
     }
 }
+
+
+//TODO test part update
+export const UpdatePartInfo = async (partId, partData, deviceId) => {
+    try {
+        const requestData = {
+            partId,
+            partData,
+            deviceId
+        };
+        const response = await axios.patch(`${API_URL}${partRouteName}`, requestData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating part:', error);
+    }
+}
+
+//TODO add delete part

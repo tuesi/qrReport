@@ -9,7 +9,8 @@ import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
 import { GetImageFromStorage } from '../firebase/storage';
-import { DeletePart, UpdatePartInfo } from '../firebase/data';
+import { DeletePart } from '../firebase/data';
+import { UpdatePartInfo } from '../api/parts';
 import SetImage from '../common/setImage';
 import { DeleteImage, SaveImage } from '../../utils/saveImage';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
@@ -41,8 +42,8 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
         const fileName = ImageFileNameGetter(image);
         let updatedPartData = { ...partData };
         if (selectedItem.imageName == '' || !fileName.includes(selectedItem.imageName)) {
-            await DeleteImage(selectedItem.imageName);
-            await SaveImage(image);
+            //await DeleteImage(selectedItem.imageName);
+            //await SaveImage(image);
             updatedPartData = { ...updatedPartData, imageName: fileName ? fileName : '' };
             setPartData(updatedPartData);
         }

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import * as Color from '../../styles/colors';
 import GlobalStyles from "../../styles/styles";
 
-const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo vardas', searchPlaceholder = 'Pasirinkite vartotoja', notFoundText = 'not found', addNew, labelText }) => {
+const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo vardas', searchPlaceholder = 'Pasirinkite vartotoja', notFoundText = 'not found', addNew, labelText, resetRef }) => {
 
     const [selectedval, setSelectedVal] = useState("");
     const [filteredData, setFilteredData] = useState(data);
@@ -15,8 +15,20 @@ const DropDown = ({ data, getSelected, newValue, valuePlaceholder = 'Vartotojo v
     const animatedvalue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        if (resetRef) {
+            resetRef.current = resetDropDown;
+        }
+    }, [resetRef]);
+
+    useEffect(() => {
         setTimeout(() => { setFilteredData(data) }, 800);
     }, [data])
+
+    const resetDropDown = () => {
+        setSelectedVal("");
+        setSearchText("");
+        slideup();
+    };
 
     const slidedown = () => {
         setDropdown(true)

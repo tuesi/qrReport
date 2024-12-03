@@ -56,3 +56,5 @@ export const UpdateDeviceInfo = async (deviceId, deviceData) => {
         console.error('Error saving device data:', error);
     }
 }
+
+//TODO add delete device

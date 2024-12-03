@@ -9,7 +9,7 @@ import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
 import { GetImageFromStorage } from '../firebase/storage';
-import { UpdatePartInfo } from '../firebase/data';
+import { UpdatePartInfo } from '../api/parts';
 import TextInputWithLabel from '../common/textInputWithLabel';
 import { PART_TYPE } from '../../constants';
 

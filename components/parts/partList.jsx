@@ -5,10 +5,9 @@ import PartDeviceRenderItem from './PartDeviceRenderListItem';
 import GlobalStyles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
-const PartList = ({ data, loading, handlePressSection, searchSections, refreshing, setRefreshing }) => {
+const PartList = ({ data, loading, handlePressSection, searchSections, refreshing, setRefreshing, expandedSections, setExpandedSections, changeExpandedSections }) => {
 
     const [lastSectionId, setLastSectionId] = useState(null);
-    const [expandedSections, setExpandedSections] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [inSearch, setInSearch] = useState(false);
@@ -17,21 +16,13 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
 
     useEffect(() => {
         if (searchSections.length > 0) {
-            setSections(true);
+            changeExpandedSections(true);
             setInSearch(true);
         } else if (inSearch) {
-            setSections(false);
+            changeExpandedSections(false);
             setInSearch(false);
         }
     }, [searchSections])
-
-    const setSections = (searchState) => {
-        const updatedSections = {};
-        Object.keys(expandedSections).forEach(key => {
-            updatedSections[key] = searchState;
-        });
-        setExpandedSections(updatedSections);
-    }
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({
@@ -61,8 +52,8 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
                             return null;
                         }}
                         onEndReached={() => {
-                            if (contentHeight > flatListHeight) {
-                                console.log('only update when scrolling');
+                            if (contentHeight > flatListHeight && expandedSections[lastSectionId]) {
+                                handlePressSection(lastSectionId, true);
                             }
                         }}
                         onEndReachedThreshold={0.5}

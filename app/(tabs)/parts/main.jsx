@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { FetchPartsDataFromFirestore } from '../../../components/firebase/data'
 import PartList from '../../../components/parts/partList';
 import { View, SafeAreaView, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,16 +10,14 @@ import { GetAllPartDevices, GetParts } from '../../../components/api/parts';
 
 const Devices = () => {
 
+    const [expandedSections, setExpandedSections] = useState({});
     const [showList, setShowList] = useState(true);
     const [data, setData] = useState([]);
-    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [sectionId, setSectionId] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [sections, setSections] = useState([]);
     const [searchSections, setSearchSections] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,9 +25,9 @@ const Devices = () => {
             try {
                 const fetchedSections = await GetAllPartDevices();
                 const sectionData = fillAvailableSections(fetchedSections);
-                console.log(sectionData);
                 setSections(sectionData);
                 setData(sectionData);
+                changeExpandedSections(false);
             } catch (error) {
                 console.log('Failed to fetch device name list', error);
             } finally {
@@ -55,11 +52,22 @@ const Devices = () => {
     //     getSeachResults();
     // }, [searchText])
 
-    const handlePressSection = async (sectionId) => {
+    const changeExpandedSections = (state) => {
+        const updatedSections = {};
+        Object.keys(expandedSections).forEach(key => {
+            updatedSections[key] = state;
+        });
+        setExpandedSections(updatedSections);
+    }
+
+    const handlePressSection = async (sectionId, loadMore) => {
         const index = data.findIndex(s => s.id === sectionId);
         if (index === -1 || (searchText !== '' && searchText !== null)) return;
-        const partData = await GetParts(sectionId);
-        updateSectionWithData(partData, null, true);
+
+        if (!loadMore && data[index].data.length > 0) return;
+
+        const partData = await GetParts(sectionId, data[index].lastCreatedDate);
+        updateSectionWithData(partData, partData[partData.length - 1].created, false);
     };
 
     const fillAvailableSections = (fetchedSections) => {
@@ -68,14 +76,13 @@ const Devices = () => {
             isPartsLow: section.label.hasLowAmount,
             title: section.label.name,
             data: [],
-            initialLoad: false,
-            lastQuerySnapShot: null,
+            lastCreatedDate: null,
             hasMoreItems: true,
             isSearch: false
         }));
     }
 
-    const updateSectionWithData = (items, lastQuerySnapShot, isSearch) => {
+    const updateSectionWithData = (items, lastCreatedDate, isSearch) => {
         if (items.length > 0) {
             //when is search i need to only show sections that are in the items
             if (isSearch) {
@@ -86,8 +93,7 @@ const Devices = () => {
                     newSections[index] = {
                         ...newSections[index],
                         data: newSections[index].isSearch ? [...newSections[index].data, item] : [item],
-                        initialLoad: false,
-                        lastQuerySnapShot: lastQuerySnapShot,
+                        lastCreatedDate: lastCreatedDate,
                         isSearch: true
                     };
                 });
@@ -106,9 +112,8 @@ const Devices = () => {
                 const newSections = [...data];
                 newSections[index] = {
                     ...newSections[index],
-                    data: newSections[index].initialLoad ? [...newSections[index].data, ...items] : items,
-                    initialLoad: true,
-                    lastQuerySnapShot: lastQuerySnapShot,
+                    data: newSections[index].lastCreatedDate ? [...newSections[index].data, ...items] : items,
+                    lastCreatedDate: lastCreatedDate,
                     isSearch: false
                 };
                 setSearchSections([]);
@@ -142,7 +147,12 @@ const Devices = () => {
                             handlePressSection={handlePressSection}
                             searchSections={searchSections}
                             refreshing={refreshing}
-                            setRefreshing={setRefreshing}>
+                            setRefreshing={setRefreshing}
+                            setSections={setSections}
+                            expandedSections={expandedSections}
+                            setExpandedSections={setExpandedSections}
+                            changeExpandedSections={changeExpandedSections}
+                        >
                         </PartList>
                     )
                     :

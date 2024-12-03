@@ -6,7 +6,7 @@ import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import ImageViewModal from "../common/imageViewModal";
 import DropDown from "../common/dropDown";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AmountInput from "../common/amountInput";
 import SetImage from "../common/setImage";
 import { PartDataModel } from "./partDataModel";
@@ -16,7 +16,7 @@ import { DeleteImage, SaveImage } from "../../utils/saveImage";
 import { PART_TYPE } from "../../constants";
 import TextInputWithLabel from "../common/textInputWithLabel";
 import { GetDeviceList } from "../api/devices";
-import { AddNewPart } from "../api/parts";
+import { AddNewPart, UpdatePartInfo } from "../api/parts";
 
 const CreatePart = ({ }) => {
 
@@ -41,8 +41,12 @@ const CreatePart = ({ }) => {
     const [amount, setAmount] = useState(0);
     const [minAmount, setMinAmout] = useState(0);
     const [docRef, setDocRef] = useState(null);
+    const dropdownResetRef = useRef();
 
     const clear = () => {
+        if (dropdownResetRef.current) {
+            dropdownResetRef.current();
+        }
         setName('');
         setNotes('');
         setLocation('');
@@ -108,6 +112,7 @@ const CreatePart = ({ }) => {
                             searchPlaceholder="Parisinkite preitaisą"
                             addNew={false}
                             labelText="Prietaiso pavadinimas"
+                            resetRef={dropdownResetRef}
                         />
                     </View>
                     <TextInputWithLabel

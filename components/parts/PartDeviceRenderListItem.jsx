@@ -9,8 +9,8 @@ const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLas
             <TouchableOpacity onPress={() => {
                 toggleSection(section.id);
                 if (!expandedSections[section.id]) {  // Only load data if the section is being expanded
-                    setLastSectionId(section.id);
                     handlePressSection(section.id);
+                    setLastSectionId(section.id);
                 }
             }}>
                 <View style={styles.sectionContainer}>

@@ -14,7 +14,6 @@ const Devices = () => {
     const [showList, setShowList] = useState(true);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [lastQuerySnapShot, setLastQuerySnapshot] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [refreshing, setRefreshing] = useState(false);
     const [lastCreatedDate, setLastCreatedDate] = useState(null);
