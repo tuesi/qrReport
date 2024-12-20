@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { View, SectionList, ActivityIndicator } from 'react-native';
+import { View, SectionList, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
 import PartRenderItem from './PartRenderListItem';
-import PartDeviceRenderItem from './PartDeviceRenderListItem';
+import PartSectionHeader from './PartSectionHeader';
 import GlobalStyles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
@@ -35,46 +35,37 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
         setRefreshing(true);
     }
 
+    const renderSectionContent = (section) => {
+        if (!expandedSections[section.id]) return null;
+
+        return (
+            <FlatList
+                data={section.data}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
+                onEndReached={() => handlePressSection(section.id, true)}
+                onEndReachedThreshold={0.5}
+            />
+        );
+    }
+
     return (
         <View style={GlobalStyles.container}>
             {data && data.length > 0 && (
                 <View style={{ flex: 1, width: '100%' }}>
-                    <SectionList
-                        sections={data.map(section => ({
-                            ...section,
-                            data: expandedSections[section.id] ? section.data : []
-                        }))}
-                        keyExtractor={(item, index) => item._id + index}
-                        renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
-                        renderSectionHeader={({ section }) => PartDeviceRenderItem({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
-                        ListFooterComponent={() => {
-                            if (loading) return <ActivityIndicator size="large" />;
-                            return null;
-                        }}
-                        onEndReached={() => {
-                            if (contentHeight > flatListHeight && expandedSections[lastSectionId]) {
-                                handlePressSection(lastSectionId, true);
-                            }
-                        }}
-                        onEndReachedThreshold={0.5}
-                        contentContainerStyle={{ paddingBottom: 80 }}
-
+                    <FlatList
+                        data={data}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item: section }) => (
+                            <View>
+                                {PartSectionHeader({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
+                                {renderSectionContent(section)}
+                            </View>
+                        )}
                         refreshing={refreshing}
                         onRefresh={handleRefresh}
-
-                        onContentSizeChange={(contentWidth, contentHeight) => setContentHeight(contentHeight)}
-                        onLayout={({ nativeEvent }) => {
-                            const { height } = nativeEvent.layout;
-                            setFlatListHeight(height);
-                        }}
                     />
                 </View>
-            )}
-            {modalVisible && (
-                <PartInfo
-                    setModalVisible={setModalVisible}
-                    selectedItem={selectedItem}
-                ></PartInfo>
             )}
         </View>
     )

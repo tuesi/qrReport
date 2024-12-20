@@ -3,7 +3,7 @@ import GlobalStyles from '../../styles/styles';
 import * as Color from '../../styles/colors';
 import { Ionicons } from '@expo/vector-icons';
 
-const PartDeviceRenderItem = ({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection }) => {
+const PartSectionHeader = ({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection }) => {
     return (
         <View>
             <TouchableOpacity onPress={() => {
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PartDeviceRenderItem;
+export default PartSectionHeader;
