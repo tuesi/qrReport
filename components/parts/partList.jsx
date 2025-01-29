@@ -5,7 +5,7 @@ import PartSectionHeader from './PartSectionHeader';
 import GlobalStyles from '../../styles/styles';
 import PartInfo from '../modals/partInfo';
 
-const PartList = ({ data, loading, handlePressSection, searchSections, refreshing, setRefreshing, expandedSections, setExpandedSections, changeExpandedSections }) => {
+const PartList = ({ partData, loading, handlePressSection, searchSections, refreshing, setRefreshing, expandedSections, setExpandedSections, changeExpandedSections }) => {
 
     const [lastSectionId, setLastSectionId] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -13,6 +13,7 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
     const [inSearch, setInSearch] = useState(false);
     const [contentHeight, setContentHeight] = useState(0);
     const [flatListHeight, setFlatListHeight] = useState(0);
+    const [stickyHeaderIndices, setStickyHeaderIndices] = useState([]);
 
     useEffect(() => {
         if (searchSections.length > 0) {
@@ -23,6 +24,15 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
             setInSearch(false);
         }
     }, [searchSections])
+
+    useEffect(() => {
+        const parsedData = parseData(partData);
+        const headerIndices = parsedData.reduce((acc, item, index) => {
+            if (item.title && expandedSections[item.id]) acc.push(index);
+            return acc;
+        }, []);
+        setStickyHeaderIndices(headerIndices);
+    }, [partData, parseData, expandedSections]);
 
     const toggleSection = (sectionId) => {
         setExpandedSections(prev => ({
@@ -35,35 +45,46 @@ const PartList = ({ data, loading, handlePressSection, searchSections, refreshin
         setRefreshing(true);
     }
 
-    const renderSectionContent = (section) => {
-        if (!expandedSections[section.id]) return null;
+    const renderSectionContent = ({ section }) => {
+        if (!expandedSections[section.deviceId]) return null;
 
         return (
             <FlatList
                 data={section.data}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => PartRenderItem({ item, setSelectedItem, setModalVisible })}
-                onEndReached={() => handlePressSection(section.id, true)}
+                onEndReached={() => { handlePressSection(section.deviceId, true); console.log('end reached'); }}
                 onEndReachedThreshold={0.5}
             />
         );
     }
 
+    const renderItems = ({ item }) => {
+        if (item.id) {
+            return PartSectionHeader({ section: item, toggleSection, expandedSections, setLastSectionId, handlePressSection })
+        }
+        return renderSectionContent({ section: item });
+    }
+
+    const parseData = (partData) => {
+        const parsed = partData.flatMap((item) => {
+            const { data: itemData, id, ...rest } = item;
+            return [{ id, ...rest }, { _id: `subItem-${id}`, deviceId: id, data: itemData || [] }];
+        });
+        return parsed;
+    };
+
     return (
         <View style={GlobalStyles.container}>
-            {data && data.length > 0 && (
+            {partData && partData.length > 0 && (
                 <View style={{ flex: 1, width: '100%' }}>
                     <FlatList
-                        data={data}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item: section }) => (
-                            <View>
-                                {PartSectionHeader({ section, toggleSection, expandedSections, setLastSectionId, handlePressSection })}
-                                {renderSectionContent(section)}
-                            </View>
-                        )}
+                        data={parseData(partData)}
+                        keyExtractor={(item) => item.id || item._id}
+                        renderItem={renderItems}
                         refreshing={refreshing}
                         onRefresh={handleRefresh}
+                        stickyHeaderIndices={stickyHeaderIndices}
                     />
                 </View>
             )}

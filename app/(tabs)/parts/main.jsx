@@ -141,7 +141,7 @@ const Devices = () => {
                 {showList ?
                     (
                         <PartList
-                            data={data}
+                            partData={data}
                             loading={loading}
                             setLoading={setLoading}
                             handlePressSection={handlePressSection}

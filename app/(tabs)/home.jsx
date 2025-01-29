@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import List from '../../components/index/list';
-import { Auth } from "../../components/firebase/auth";
 import { SetNotifications } from '../../components/notifications/setNotifications';
 import { ActivityIndicator } from 'react-native';
 import { GetReports } from '../../components/api/reports';
@@ -29,7 +28,7 @@ const Home = () => {
 
     useEffect(() => {
         const appInit = async () => {
-            await Auth();
+            //await Auth();
             await SetNotifications();
         };
         appInit();
