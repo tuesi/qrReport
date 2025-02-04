@@ -4,7 +4,6 @@ import axios from "axios";
 const partRouteName = 'parts';
 const partDevicesRouteName = 'part-devices';
 
-//TODO test pagination
 export const GetParts = async (deviceId, lastCreatedDate) => {
     try {
         const response = await axios.get(`${API_URL}${partRouteName}`, {
@@ -46,8 +45,6 @@ export const GetAllPartDevices = async () => {
     }
 }
 
-
-//TODO test part update
 export const UpdatePartInfo = async (partId, partData, deviceId) => {
     try {
         const requestData = {
@@ -62,4 +59,12 @@ export const UpdatePartInfo = async (partId, partData, deviceId) => {
     }
 }
 
-//TODO add delete part
+//TODO update list after part delete
+export const DeletePart = async (partId) => {
+    try {
+        const response = await axios.delete(`${API_URL}${partRouteName}/${partId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting part:', error);
+    }
+}

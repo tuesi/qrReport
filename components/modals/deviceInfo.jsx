@@ -3,7 +3,6 @@ import deviceStyles from '../devices/deviceStyles';
 import { ScrollView, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { DeleteDevice } from '../firebase/data';
 import * as Color from '../../styles/colors';
 import Button from "../common/button";
 import ShowDeviceQr from "../devices/showDeviceQR";
@@ -16,7 +15,7 @@ import { DEVICE_TYPE } from '../../constants';
 import SetImage from '../common/setImage';
 import { DeleteImage, SaveImage } from '../../utils/saveImage';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
-import { UpdateDeviceInfo } from '../api/devices';
+import { UpdateDeviceInfo, DeleteDevice } from '../api/devices';
 
 const DeviceInfo = ({ setModalVisible, selectedItem, updateListData }) => {
 

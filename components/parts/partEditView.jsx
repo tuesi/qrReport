@@ -9,8 +9,7 @@ import GlobalStyles from '../../styles/styles';
 import deviceStyles from '../devices/deviceStyles';
 import * as Color from '../../styles/colors';
 import { GetImageFromStorage } from '../firebase/storage';
-import { DeletePart } from '../firebase/data';
-import { UpdatePartInfo } from '../api/parts';
+import { UpdatePartInfo, DeletePart } from '../api/parts';
 import SetImage from '../common/setImage';
 import { DeleteImage, SaveImage } from '../../utils/saveImage';
 import ImageFileNameGetter from '../../utils/imageFileNameGetter';
@@ -51,7 +50,7 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
         Alert.alert('Success', 'Sėkmaingai atnaujinta');
     }
 
-    const deleteDevice = async () => {
+    const deletePart = async () => {
         bottomSheetRef.current.close()
         await DeleteImage(image);
         await DeletePart(selectedItem._id);
@@ -106,7 +105,7 @@ const PartEditView = ({ partData, setPartData, bottomSheetRef, selectedItem, set
                     />
                     <View style={{ alignItems: 'center', width: "50%" }}>
                         <Button
-                            onPress={() => { ConfirmAction("Ar tikrai norite ištrinti įrangos duomenis?", deleteDevice) }}
+                            onPress={() => { ConfirmAction("Ar tikrai norite ištrinti duomenis?", deletePart) }}
                             text="IŠTRINTI"
                             color={Color.BUTTON_RED_BACKGROUND_COLOR}
                         />

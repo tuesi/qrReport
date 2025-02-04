@@ -57,4 +57,12 @@ export const UpdateDeviceInfo = async (deviceId, deviceData) => {
     }
 }
 
-//TODO add delete device
+//TODO test deletion
+export const DeleteDevice = async (deviceId) => {
+    try {
+        const response = await axios.delete(`${API_URL}${routeName}/${deviceId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting device:', error);
+    }
+}

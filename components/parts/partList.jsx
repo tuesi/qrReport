@@ -11,8 +11,6 @@ const PartList = ({ partData, loading, handlePressSection, searchSections, refre
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [inSearch, setInSearch] = useState(false);
-    const [contentHeight, setContentHeight] = useState(0);
-    const [flatListHeight, setFlatListHeight] = useState(0);
     const [stickyHeaderIndices, setStickyHeaderIndices] = useState([]);
 
     useEffect(() => {
@@ -86,6 +84,12 @@ const PartList = ({ partData, loading, handlePressSection, searchSections, refre
                         onRefresh={handleRefresh}
                         stickyHeaderIndices={stickyHeaderIndices}
                     />
+                    {modalVisible && (
+                        <PartInfo
+                            setModalVisible={setModalVisible}
+                            selectedItem={selectedItem}
+                        ></PartInfo>
+                    )}
                 </View>
             )}
         </View>
