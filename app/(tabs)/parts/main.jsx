@@ -7,12 +7,15 @@ import Toggle from '../../../components/common/toggle';
 import GlobalStyles from '../../../styles/styles';
 import SearchBar from '../../../components/common/searchBar';
 import { GetAllPartDevices, GetParts } from '../../../components/api/parts';
+import { GetItemUpdates, DisconnectSockets } from '../../socket/sockets';
+import { PART_SOCKET_NAME } from '../../../constants';
 
 const Devices = () => {
 
     const [expandedSections, setExpandedSections] = useState({});
     const [showList, setShowList] = useState(true);
     const [data, setData] = useState([]);
+    const partsRef = useRef(data);
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [sections, setSections] = useState([]);
@@ -37,6 +40,19 @@ const Devices = () => {
         };
         fetchData();
     }, [refreshing])
+
+    useEffect(() => {
+        GetItemUpdates(partsRef.current, setData, PART_SOCKET_NAME);
+
+        return () => {
+            DisconnectSockets();
+        };
+
+    }, [])
+
+    useEffect(() => {
+        partsRef.current = data; //Keep ref updated without re-rendering
+    }, [data]);
 
 
     //TODO when stoped searching close all opened sections (now if you search again the section just closes because it was opened on first search)

@@ -1,18 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import List from '../../components/index/list';
 import { SetNotifications } from '../../components/notifications/setNotifications';
 import { ActivityIndicator } from 'react-native';
 import { GetReports } from '../../components/api/reports';
-import { useSelector, useDispatch } from 'react-redux';
-import { reportTriggerReset } from '../../store';
+import { GetItemUpdates, DisconnectSockets } from '../socket/sockets';
+import { REPORT_SOCKET_NAME } from '../../constants';
 
 const Home = () => {
-
-    const dispatch = useDispatch();
-    const triggerUpdate = useSelector((state) => state.report.triggerUpdate);
-
     const [data, setData] = useState([]);
+    const reportsRef = useRef(data);
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [refreshing, setRefreshing] = useState(false);
@@ -32,12 +29,18 @@ const Home = () => {
             await SetNotifications();
         };
         appInit();
+
+        GetItemUpdates(reportsRef.current, setData, REPORT_SOCKET_NAME);
+
+        return () => {
+            DisconnectSockets();
+        };
+
     }, [])
 
     useEffect(() => {
         setLastCreatedDate(null);
         fetchData(null);
-        dispatch(reportTriggerReset());
     }, [refreshing, triggerUpdate])
 
     useEffect(() => {
@@ -45,6 +48,10 @@ const Home = () => {
             fetchData(lastCreatedDate);
         }
     }, [lastCreatedDate])
+
+    useEffect(() => {
+        reportsRef.current = data; //Keep ref updated without re-rendering
+    }, [data]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -55,8 +62,7 @@ const Home = () => {
                 setSearchText={setSearchText}
                 refreshing={refreshing}
                 setRefreshing={setRefreshing}
-                setLastCreatedDate={setLastCreatedDate}
-                updateListData={fetchData}>
+                setLastCreatedDate={setLastCreatedDate}>
             </List>
             {!data || data.length == 0 && (
                 <View style={{

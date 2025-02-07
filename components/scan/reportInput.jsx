@@ -15,13 +15,9 @@ import { SendPushNotification } from '../notifications/setNotifications';
 import { getUser } from '../../utils/getMemoryObjects';
 import TextInputWithLabel from '../common/textInputWithLabel';
 import { AddNewReport } from '../api/reports';
-import { useDispatch } from 'react-redux';
-import { reportUpdateAction } from '../../store';
 import { router } from "expo-router";
 
 const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }) => {
-
-    const dispatch = useDispatch();
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
@@ -50,7 +46,6 @@ const ReportInput = ({ setDeviceScanned, formData, setFormData, deviceImageUrl }
                     text: 'OK', onPress: () => {
                         setDeviceScanned(false);
                         setFormData(new FormDataModel());
-                        dispatch(reportUpdateAction());
                         router.replace("/home");
                     }
                 }

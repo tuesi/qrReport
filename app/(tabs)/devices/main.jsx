@@ -8,11 +8,14 @@ import GlobalStyles from '../../../styles/styles';
 import CreateDevice from '../../../components/create/createDevice';
 import SearchBar from '../../../components/common/searchBar';
 import { GetDevices } from '../../../components/api/devices';
+import { GetItemUpdates, DisconnectSockets } from '../../socket/sockets';
+import { DEVICE_SOCKET_NAME } from '../../../constants';
 
 const Devices = () => {
 
     const [showList, setShowList] = useState(true);
     const [data, setData] = useState([]);
+    const devicesRef = useRef(data);
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [refreshing, setRefreshing] = useState(false);
@@ -36,6 +39,19 @@ const Devices = () => {
             fetchData(lastCreatedDate);
         }
     }, [lastCreatedDate])
+
+    useEffect(() => {
+        GetItemUpdates(devicesRef.current, setData, DEVICE_SOCKET_NAME);
+
+        return () => {
+            DisconnectSockets();
+        };
+
+    }, [])
+
+    useEffect(() => {
+        devicesRef.current = data; //Keep ref updated without re-rendering
+    }, [data]);
 
     toggleScreens = () => {
         setShowList(previousState => !previousState);

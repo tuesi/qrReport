@@ -7,7 +7,7 @@ import GlobalStyles from '../../styles/styles';
 import * as Colors from '../../styles/colors';
 import SearchBar from '../common/searchBar';
 
-const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefreshing, setLastCreatedDate, updateListData }) => {
+const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefreshing, setLastCreatedDate }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -51,7 +51,6 @@ const List = ({ data, loading, setLoading, setSearchText, refreshing, setRefresh
                         <Edit
                             setModalVisible={setModalVisible}
                             selectedItem={selectedItem}
-                            updateListData={updateListData}
                         ></Edit>
                     )}
                 </View>
